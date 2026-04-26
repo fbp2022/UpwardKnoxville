@@ -1,24 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg: #050816;
-  --bg-secondary: #0d1326;
-  --card: rgba(255, 255, 255, 0.05);
+  --bg: #f4f8fc;
+  --bg-secondary: #ffffff;
 
-  --text: #f5f7ff;
-  --text-muted: #b7bfd3;
+  --card: #ffffff;
 
-  --border: rgba(255, 255, 255, 0.08);
+  --text: #10233d;
+  --text-muted: #5d6f85;
 
-  --primary: #d4af37;
-  --primary-hover: #f1cb55;
+  --border: rgba(16, 35, 61, 0.08);
 
-  --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  --primary: #4f78a8;
+  --primary-hover: #3f6796;
+
+  --shadow: 0 12px 30px rgba(52, 89, 130, 0.10);
 
   --radius: 20px;
   --transition: 0.25s ease;
 }
-
 * {
   margin: 0;
   padding: 0;
