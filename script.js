@@ -3,17 +3,28 @@ const navLinks = document.getElementById('navLinks');
 
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
+    navLinks.classList.toggle('active');
   });
 }
 
-document.querySelectorAll('#navLinks a').forEach((link) => {
+/* =========================
+   FOOTER YEAR
+========================= */
+
+const yearElement = document.getElementById('year');
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
+
+/* =========================
+   CLOSE MOBILE MENU
+========================= */
+
+const mobileLinks = document.querySelectorAll('.nav-links a');
+
+mobileLinks.forEach(link => {
   link.addEventListener('click', () => {
-    navLinks?.classList.remove('open');
+    navLinks.classList.remove('active');
   });
 });
-
-const year = document.getElementById('year');
-if (year) {
-  year.textContent = new Date().getFullYear();
-}
