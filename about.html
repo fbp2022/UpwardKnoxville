@@ -3,58 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            warmbg: '#f7f8fb',
+            warmcard: '#ffffff',
+            ink: '#1f2937',
+            muted: '#4b5563',
+            accent: '#3f6f9f',
+            accentdark: '#315a82',
+            line: '#d9e2ec'
+          },
+          maxWidth: {
+            read: '56rem'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background: #f7f8fb;
+      color: #1f2937;
+      line-height: 1.8;
+    }
+    .readable h1,
+    .readable h2,
+    .readable h3 {
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+    .readable p {
+      margin-bottom: 1rem;
+      color: #374151;
+    }
+    .readable p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
   <title>About Upward Knoxville</title>
   <meta name="description" content="Learn what Upward Knoxville is and why we gather." />
-  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <header class="site-header">
-    <div class="navbar">
-      <a class="brand" href="index.html">
-        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" />
+<body class="antialiased">
+  <header class="sticky top-0 z-30 border-b border-line bg-white/95 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-6 lg:px-8">
+      <a href="index.html" class="flex items-center gap-3 text-sm font-semibold text-ink sm:text-base">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="h-11 w-11 rounded-full border border-line object-cover" />
         <span>Upward Knoxville</span>
       </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Open navigation">&#9776;</button>
-      <nav class="nav-links" id="navLinks">
-        <a href="index.html">Home</a>
-        <a href="about.html" class="active">About Upward Knoxville</a>
-        <a href="beliefs.html">What We Believe</a>
-        <a href="teaching.html">Verse-by-Verse Teaching</a>
-        <a href="connect.html">Connect & Community</a>
-        <a href="contact.html">Contact</a>
+
+      <button id="menuButton" class="inline-flex items-center rounded-md border border-line px-3 py-2 text-sm font-medium text-ink md:hidden" aria-label="Toggle navigation">Menu</button>
+
+      <nav id="menu" class="absolute left-0 right-0 top-full hidden border-b border-line bg-white px-5 py-3 md:static md:block md:border-0 md:bg-transparent md:p-0">
+        <ul class="flex flex-col gap-3 text-sm font-medium text-muted md:flex-row md:items-center md:gap-6">
+          <li><a class="hover:text-ink" href="index.html">Home</a></li>
+          <li><a class="hover:text-ink" href="about.html">About Upward Knoxville</a></li>
+          <li><a class="hover:text-ink" href="beliefs.html">What We Believe</a></li>
+          <li><a class="hover:text-ink" href="teaching.html">Verse-by-Verse Teaching</a></li>
+          <li><a class="hover:text-ink" href="connect.html">Connect & Community</a></li>
+          <li><a class="hover:text-ink" href="contact.html">Contact</a></li>
+        </ul>
       </nav>
     </div>
   </header>
 
-  <main class="section">
-    <div class="container">
-      <p class="kicker">About Us</p>
-      <h1>We are neighbors trying to follow Jesus together.</h1>
-      <div class="card">
+  <main class="readable px-5 pb-8 pt-10 sm:px-6 sm:pt-12 lg:px-8">
+    <div class="mx-auto max-w-read space-y-7">
+      <section class="rounded-2xl border border-line bg-white p-6 shadow-sm sm:p-8">
+        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">About Us</p>
+        <h1 class="mb-5 text-3xl font-bold text-ink sm:text-4xl">We are neighbors trying to follow Jesus together.</h1>
         <p>Upward Knoxville is a Christ-centered fellowship for Knoxville and all the surrounding communities. We come from different backgrounds and different seasons of life, but we share one desire: to know Jesus better and follow Him faithfully.</p>
         <p>We gather around the Bible, prayer, and honest conversation. We are not trying to build a brand. We are trying to build each other up in Christ.</p>
         <p>We believe growth takes time. That is why we study Scripture slowly and carefully, verse by verse, so the meaning stays rooted in God's Word and not in our opinions.</p>
-      </div>
+      </section>
+
+      <section class="grid gap-6 md:grid-cols-2">
+        <article class="rounded-2xl border border-line bg-white p-6 shadow-sm">
+          <h2 class="mb-4 text-2xl font-semibold text-ink">Our heartbeat</h2>
+          <p>We want to encourage one another, pass along biblical wisdom, and offer practical help for everyday life. Some days that means deep study. Some days it means prayer and just being there for each other.</p>
+        </article>
+        <article class="rounded-2xl border border-line bg-white p-6 shadow-sm">
+          <h2 class="mb-4 text-2xl font-semibold text-ink">Listeners are welcome</h2>
+          <p>If you are quiet, unsure, or just tired, you are still fully welcome. You can listen, take it in, and go at your own pace. There is no pressure to perform, share, or speak before you are ready.</p>
+        </article>
+      </section>
     </div>
   </main>
-
-  <section class="section">
-    <div class="container grid-2">
-      <article class="card">
-        <h2>Our heartbeat</h2>
-        <p>We want to encourage one another, pass along biblical wisdom, and offer practical help for everyday life. Some days that means deep study. Some days it means prayer and just being there for each other.</p>
-      </article>
-      <article class="card">
-        <h2>Listeners are welcome</h2>
-        <p>If you are quiet, unsure, or just tired, you are still fully welcome. You can listen, take it in, and go at your own pace. There is no pressure to perform, share, or speak before you are ready.</p>
-      </article>
+  <footer class="mt-10 border-t border-line bg-white">
+    <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-6 text-sm text-muted sm:px-6 lg:px-8 md:flex-row md:items-center md:justify-between">
+      <p>&copy; <span id="year"></span> Upward Knoxville. All rights reserved.</p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a class="hover:text-ink" href="beliefs.html">Beliefs</a>
+        <a class="hover:text-ink" href="teaching.html">Teaching</a>
+        <a class="hover:text-ink" href="connect.html">Community</a>
+        <a class="hover:text-ink" href="contact.html">Contact</a>
+      </div>
     </div>
-  </section>
-
-  <footer class="site-footer">
-    <div class="container">&copy; <span id="year"></span> Upward Knoxville. All rights reserved.</div>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
+
