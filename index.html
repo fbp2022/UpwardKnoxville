@@ -8,19 +8,21 @@
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
   <link rel="manifest" href="images/site.webmanifest" />
   <link rel="shortcut icon" href="images/favicon.ico" />
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            warmbg: '#f7f8fb',
-            warmcard: '#ffffff',
-            ink: '#1f2937',
-            muted: '#4b5563',
-            accent: '#3f6f9f',
-            accentdark: '#315a82',
-            line: '#d9e2ec'
+            warmbg: 'var(--bg)',
+            warmcard: 'var(--surface)',
+            ink: 'var(--text)',
+            muted: 'var(--muted)',
+            accent: 'var(--accent)',
+            accentdark: 'var(--accent-hover)',
+            line: 'var(--border)'
           },
           maxWidth: {
             read: '56rem'
@@ -29,32 +31,11 @@
       }
     };
   </script>
-  <style>
-    html { scroll-behavior: smooth; }
-    body {
-      background: #f7f8fb;
-      color: #1f2937;
-      line-height: 1.8;
-    }
-    .readable h1,
-    .readable h2,
-    .readable h3 {
-      line-height: 1.3;
-      letter-spacing: -0.01em;
-    }
-    .readable p {
-      margin-bottom: 1rem;
-      color: #374151;
-    }
-    .readable p:last-child {
-      margin-bottom: 0;
-    }
-  </style>
   <title>Upward Knoxville | Home</title>
   <meta name="description" content="A warm, Christ-centered fellowship for Knoxville and nearby communities." />
 </head>
 <body class="antialiased">
-  <header class="sticky top-0 z-30 border-b border-line bg-white/95 backdrop-blur">
+  <header class="header-surface sticky top-0 z-30 border-b border-line">
     <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-6 lg:px-8">
       <a href="index.html" class="flex items-center gap-3 text-sm font-semibold text-ink sm:text-base">
         <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="h-11 w-11 rounded-full border border-line object-cover" />
@@ -63,13 +44,23 @@
 
       <button id="menuButton" class="inline-flex items-center rounded-md border border-line px-3 py-2 text-sm font-medium text-ink md:hidden" aria-label="Toggle navigation">Menu</button>
 
-      <nav id="menu" class="absolute left-0 right-0 top-full hidden border-b border-line bg-white px-5 py-3 md:static md:block md:border-0 md:bg-transparent md:p-0">
+      <nav id="menu" class="absolute left-0 right-0 top-full hidden border-b border-line bg-warmcard px-5 py-3 md:static md:block md:border-0 md:bg-transparent md:p-0">
         <ul class="flex flex-col gap-3 text-sm font-medium text-muted md:flex-row md:items-center md:gap-6">
           <li><a class="hover:text-ink" href="index.html">Home</a></li>
           <li><a class="hover:text-ink" href="about.html">About Upward Knoxville</a></li>
           <li><a class="hover:text-ink" href="beliefs.html">What We Believe</a></li>
           <li><a class="hover:text-ink" href="teaching.html">Verse-by-Verse Teaching</a></li>
           <li><a class="hover:text-ink" href="connect.html">Connect & Community</a></li>
+          <li class="nav-dropdown md:relative" data-nav-dropdown>
+            <button type="button" data-nav-dropdown-trigger class="inline-flex w-full items-center gap-1 border-0 bg-transparent p-0 text-left font-medium text-muted hover:text-ink md:inline-flex md:w-auto" aria-expanded="false" aria-controls="groupsSubmenu" aria-haspopup="true" id="groupsNavTrigger">
+              Groups
+              <span class="nav-dropdown-chevron text-[0.65rem] leading-none opacity-70" aria-hidden="true">▾</span>
+            </button>
+            <ul id="groupsSubmenu" class="nav-dropdown-panel" role="menu">
+              <li role="none"><a role="menuitem" class="block rounded-md py-2 hover:text-ink md:px-3 md:py-2 md:hover:bg-[var(--surface-hover)]" href="forge.html">The Forge</a></li>
+              <li role="none"><a role="menuitem" class="block rounded-md py-2 hover:text-ink md:px-3 md:py-2 md:hover:bg-[var(--surface-hover)]" href="foundry.html">The Foundry</a></li>
+            </ul>
+          </li>
           <li><a class="hover:text-ink" href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -86,19 +77,19 @@
         <p>You do not have to have all the answers. You do not have to be great at speaking. If you want to come listen quietly and know you are not alone, you are welcome with us.</p>
         <div class="mt-6 flex flex-wrap gap-3">
           <a class="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accentdark" href="https://discord.gg/U8Ev8eMuz3" target="_blank" rel="noopener noreferrer">Join Our Discord</a>
-          <a class="rounded-full border border-line bg-white px-5 py-2.5 text-sm font-semibold text-ink hover:bg-slate-50" href="teaching.html">See Our Teaching Focus</a>
+          <a class="rounded-full border border-line bg-warmcard px-5 py-2.5 text-sm font-semibold text-ink hover:bg-[var(--surface-hover)]" href="teaching.html">See Our Teaching Focus</a>
         </div>
       </div>
     </section>
 
     <section class="px-5 py-6 sm:px-6 sm:py-8 lg:px-8">
       <div class="mx-auto grid max-w-read gap-6 md:grid-cols-2">
-        <article class="rounded-2xl border border-line bg-white p-6 shadow-sm">
+        <article class="rounded-2xl border border-line bg-warmcard p-6 shadow-sm">
           <h2 class="mb-4 text-2xl font-semibold text-ink">Who this is for</h2>
           <p>Upward Knoxville is open to men and women of all ages across the greater Knoxville area. Whether you have followed Jesus for years or you are just starting to ask questions, we would be glad to walk with you.</p>
           <p>This is not about impressing people. It is about staying faithful to Jesus and His Word together.</p>
         </article>
-        <article class="rounded-2xl border border-line bg-white p-6 shadow-sm">
+        <article class="rounded-2xl border border-line bg-warmcard p-6 shadow-sm">
           <h2 class="mb-4 text-2xl font-semibold text-ink">What we do together</h2>
           <p>Our main focus is careful, expository Bible teaching through whole books of Scripture. We slow down, read the passage, look at what it actually says, and let the Word shape us.</p>
           <p>Along the way we share wisdom, practical advice, prayers, and encouragement from real life.</p>
@@ -107,15 +98,15 @@
     </section>
 
     <section class="px-5 py-6 sm:px-6 sm:py-8 lg:px-8">
-      <div class="mx-auto max-w-read rounded-2xl border border-line bg-white p-6 shadow-sm">
+      <div class="mx-auto max-w-read rounded-2xl border border-line bg-warmcard p-6 shadow-sm">
         <h2 class="mb-4 text-2xl font-semibold text-ink">What we are not</h2>
         <p>We are not a church, a sports program, or a formal ministry organization. We are simply people who love Jesus and want to keep growing together in truth, humility, and love.</p>
-        <div class="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4 text-[0.97rem] text-gray-700">If you want to come and just listen for a while, that is completely okay. You never have to speak before you are ready.</div>
+        <div class="mt-5 rounded-xl border border-[var(--callout-border)] bg-[var(--callout-bg)] p-4 text-[0.97rem] text-[var(--callout-text)]">If you want to come and just listen for a while, that is completely okay. You never have to speak before you are ready.</div>
       </div>
     </section>
   </main>
 
-  <footer class="mt-10 border-t border-line bg-white">
+  <footer class="footer-surface mt-10 border-t border-line">
     <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-6 text-sm text-muted sm:px-6 lg:px-8 md:flex-row md:items-center md:justify-between">
       <p>&copy; <span id="year"></span> Upward Knoxville. All rights reserved.</p>
       <div class="flex flex-wrap items-center gap-4">
