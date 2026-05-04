@@ -2,9 +2,9 @@
   var html = document.documentElement;
   try {
     var theme = localStorage.getItem('uk-theme');
+    /* Default is light. Dark only when the user has chosen it (persisted). */
     if (theme === 'dark') html.setAttribute('data-theme', 'dark');
-    else if (theme === 'light') html.removeAttribute('data-theme');
-    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) html.setAttribute('data-theme', 'dark');
+    else html.removeAttribute('data-theme');
 
     var rm = localStorage.getItem('uk-reduce-motion');
     if (rm === '1') html.setAttribute('data-reduce-motion', 'true');
