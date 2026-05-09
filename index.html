@@ -11,110 +11,150 @@
   <link rel="stylesheet" href="theme.css" />
   <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            warmbg: 'var(--bg)',
-            warmcard: 'var(--surface)',
-            ink: 'var(--text)',
-            muted: 'var(--muted)',
-            accent: 'var(--accent)',
-            accentdark: 'var(--accent-hover)',
-            line: 'var(--border)'
-          },
-          maxWidth: {
-            read: '56rem'
-          }
-        }
-      }
-    };
-  </script>
-  <title>Upward Knoxville | Home</title>
-  <meta name="description" content="A warm, Christ-centered fellowship for Knoxville and nearby communities." />
+  <title>Upward Knoxville | Scripture-Centered Fellowship</title>
+  <meta name="description" content="A Scripture-centered fellowship in Knoxville, Tennessee. Opening the Bible together line by line, verse by verse." />
 </head>
 <body class="antialiased">
-  <header class="header-surface sticky top-0 z-30 border-b border-line">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-6 lg:px-8">
-      <a href="index.html" class="flex items-center gap-3 text-sm font-semibold text-ink sm:text-base">
-        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="h-11 w-11 rounded-full border border-line object-cover" />
+  <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+      <a href="index.html" class="flex items-center gap-3 font-semibold text-[var(--text)]">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="h-10 w-10 rounded-full border border-[var(--border)] object-cover" />
         <span>Upward Knoxville</span>
       </a>
-
-      <button id="menuButton" class="inline-flex items-center rounded-md border border-line px-3 py-2 text-sm font-medium text-ink md:hidden" aria-label="Toggle navigation">Menu</button>
-
-      <nav id="menu" class="absolute left-0 right-0 top-full hidden border-b border-line bg-warmcard px-5 py-3 md:static md:block md:border-0 md:bg-transparent md:p-0">
-        <ul class="flex flex-col gap-3 text-sm font-medium text-muted md:flex-row md:items-center md:gap-6">
-          <li><a class="hover:text-ink" href="index.html">Home</a></li>
-          <li><a class="hover:text-ink" href="about.html">About Upward Knoxville</a></li>
-          <li><a class="hover:text-ink" href="beliefs.html">What We Believe</a></li>
-          <li><a class="hover:text-ink" href="teaching.html">Verse-by-Verse Teaching</a></li>
-          <li><a class="hover:text-ink" href="connect.html">Connect & Community</a></li>
-          <li class="nav-dropdown md:relative" data-nav-dropdown>
-            <button type="button" data-nav-dropdown-trigger class="inline-flex w-full items-center gap-1 border-0 bg-transparent p-0 text-left font-medium text-muted hover:text-ink md:inline-flex md:w-auto" aria-expanded="false" aria-controls="groupsSubmenu" aria-haspopup="true" id="groupsNavTrigger">
-              Groups
-              <span class="nav-dropdown-chevron text-[0.65rem] leading-none opacity-70" aria-hidden="true">▾</span>
-            </button>
-            <ul id="groupsSubmenu" class="nav-dropdown-panel" role="menu">
-              <li role="none"><a role="menuitem" class="block rounded-md py-2 hover:text-ink md:px-3 md:py-2 md:hover:bg-[var(--surface-hover)]" href="forge.html">The Forge</a></li>
-              <li role="none"><a role="menuitem" class="block rounded-md py-2 hover:text-ink md:px-3 md:py-2 md:hover:bg-[var(--surface-hover)]" href="foundry.html">The Foundry</a></li>
-            </ul>
-          </li>
-          <li><a class="hover:text-ink" href="contact.html">Contact</a></li>
+      <button id="menuButton" aria-expanded="false" class="rounded-md border border-[var(--border)] px-3 py-2 text-sm font-medium lg:hidden">Menu</button>
+      <nav id="menu" class="lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+          <li><a class="nav-link" aria-current="page" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" href="teachings.html">Teachings</a></li>
+          <li><a class="nav-link" href="expect.html">What to Expect</a></li>
+          <li><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li><a class="nav-link" href="connect.html">Connect</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-
-  <main class="readable">
-    <section class="px-5 pb-6 pt-10 sm:px-6 sm:pt-12 lg:px-8">
-      <div class="mx-auto max-w-read rounded-2xl border border-line bg-warmcard p-6 shadow-sm sm:p-8">
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">Greater Knoxville Fellowship</p>
-        <h1 class="mb-4 text-3xl font-bold text-ink sm:text-4xl">A simple place to open the Bible together and look to Jesus.</h1>
-        <p class="text-lg text-muted">We are ordinary believers from Knoxville and nearby towns who want to grow in Christ together. We read Scripture slowly, verse by verse, and help each other keep walking with the Lord one day at a time.</p>
-        <p>You do not have to have all the answers. You do not have to be great at speaking. If you want to come listen quietly and know you are not alone, you are welcome with us.</p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a class="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accentdark" href="https://discord.gg/U8Ev8eMuz3" target="_blank" rel="noopener noreferrer">Join Our Discord</a>
-          <a class="rounded-full border border-line bg-warmcard px-5 py-2.5 text-sm font-semibold text-ink hover:bg-[var(--surface-hover)]" href="teaching.html">See Our Teaching Focus</a>
+  <main>
+    <section class="hero-backdrop border-b border-[var(--border)] px-5 py-20">
+      <div class="mx-auto max-w-4xl text-center">
+        <h1 class="text-5xl font-semibold tracking-tight text-[var(--text)] sm:text-6xl">Upward Knoxville</h1>
+        <p class="mt-6 text-xl text-[var(--muted)]">A Scripture-centered fellowship in Knoxville, Tennessee.</p>
+        <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[var(--muted)]">Opening the Bible together line by line, verse by verse, and growing in Christ one day at a time.</p>
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <a href="teachings.html" class="rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)]">Watch Teachings</a>
+          <a href="connect.html" class="rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-sm font-semibold text-[var(--text)] transition hover:bg-[var(--surface-hover)]">Stay Connected</a>
         </div>
       </div>
     </section>
 
-    <section class="px-5 py-6 sm:px-6 sm:py-8 lg:px-8">
-      <div class="mx-auto grid max-w-read gap-6 md:grid-cols-2">
-        <article class="rounded-2xl border border-line bg-warmcard p-6 shadow-sm">
-          <h2 class="mb-4 text-2xl font-semibold text-ink">Who this is for</h2>
-          <p>Upward Knoxville is open to men and women of all ages across the greater Knoxville area. Whether you have followed Jesus for years or you are just starting to ask questions, we would be glad to walk with you.</p>
-          <p>This is not about impressing people. It is about staying faithful to Jesus and His Word together.</p>
+    <section class="px-5 py-16">
+      <div class="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
+        <article class="soft-card p-7">
+          <h2 class="text-2xl font-semibold">Who We Are</h2>
+          <p class="content-text mt-4 leading-8">We are ordinary believers who want to keep Christ at the center. No pressure, no performance, and no pretending. Just a welcoming place to read Scripture faithfully and encourage one another in real life.</p>
         </article>
-        <article class="rounded-2xl border border-line bg-warmcard p-6 shadow-sm">
-          <h2 class="mb-4 text-2xl font-semibold text-ink">What we do together</h2>
-          <p>Our main focus is careful, expository Bible teaching through whole books of Scripture. We slow down, read the passage, look at what it actually says, and let the Word shape us.</p>
-          <p>Along the way we share wisdom, practical advice, prayers, and encouragement from real life.</p>
+        <article class="soft-card p-7">
+          <h2 class="text-2xl font-semibold">A Welcoming Atmosphere</h2>
+          <p class="content-text mt-4 leading-8">You are welcome to listen quietly, ask questions, and learn at your own pace. We value authenticity, humility, and a fellowship rhythm that helps people grow over time.</p>
         </article>
       </div>
     </section>
 
-    <section class="px-5 py-6 sm:px-6 sm:py-8 lg:px-8">
-      <div class="mx-auto max-w-read rounded-2xl border border-line bg-warmcard p-6 shadow-sm">
-        <h2 class="mb-4 text-2xl font-semibold text-ink">What we are not</h2>
-        <p>We are not a church, a sports program, or a formal ministry organization. We are simply people who love Jesus and want to keep growing together in truth, humility, and love.</p>
-        <div class="mt-5 rounded-xl border border-[var(--callout-border)] bg-[var(--callout-bg)] p-4 text-[0.97rem] text-[var(--callout-text)]">If you want to come and just listen for a while, that is completely okay. You never have to speak before you are ready.</div>
+    <section class="bg-white px-5 py-16">
+      <div class="mx-auto max-w-4xl">
+        <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">How We Teach</h2>
+        <p class="content-text mt-5 leading-8">We teach line by line and verse by verse with context in view. Scripture interprets Scripture. God's written Word comes first, not motivational speaking or performance-driven Christianity.</p>
+      </div>
+    </section>
+
+    <section class="px-5 py-16">
+      <div class="mx-auto max-w-4xl soft-card p-8">
+        <h2 class="text-3xl font-semibold">Our Current Stage</h2>
+        <p class="content-text mt-4 leading-8">Upward Knoxville is currently a growing Bible teaching and fellowship community in Knoxville, Tennessee. It is not yet operating as a full church body, but the hope is to grow faithfully and prayerfully as the Lord leads.</p>
+      </div>
+    </section>
+
+    <section class="bg-white px-5 py-16">
+      <div class="mx-auto max-w-6xl">
+        <h2 class="text-3xl font-semibold tracking-tight sm:text-4xl">What to Expect</h2>
+        <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div class="soft-card p-5 content-text">Bring your Bible and something to take notes with, if desired.</div>
+          <div class="soft-card p-5 content-text">Bibles are not provided yet because Upward is new and starting simple.</div>
+          <div class="soft-card p-5 content-text">Children and families are welcome; parents remain responsible for their children.</div>
+          <div class="soft-card p-5 content-text">No childcare is currently provided.</div>
+          <div class="soft-card p-5 content-text">Mature topics may occasionally arise, with advance communication when appropriate.</div>
+          <div class="soft-card p-5 content-text">No one is pressured to speak. Questions are welcome and teachings are posted online.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-5 py-16">
+      <div class="mx-auto max-w-4xl soft-card p-8">
+        <h2 class="text-3xl font-semibold">Stay Connected</h2>
+        <p class="content-text mt-4 leading-8">Whether you have questions, prayer requests, or simply want to stay connected as Upward Knoxville continues growing, feel free to reach out below.</p>
+        <form class="mt-7 space-y-4">
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium">Name</span>
+            <input type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium">Email</span>
+            <input type="email" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium">Message</span>
+            <textarea rows="5" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+          </label>
+          <label class="flex items-start gap-3 text-sm content-text">
+            <input type="checkbox" class="mt-1 h-4 w-4 rounded border border-[var(--border)]" />
+            <span>I would like to receive updates about future Bible studies, gatherings, teachings, and ministry announcements from Upward Knoxville.</span>
+          </label>
+          <button type="submit" class="rounded-md bg-[var(--accent)] px-5 py-3 font-semibold text-white transition hover:bg-[var(--accent-hover)]">Stay Connected</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="bg-[var(--surface)] px-5 py-16">
+      <div class="mx-auto grid max-w-6xl gap-5 md:grid-cols-2">
+        <article class="soft-card p-7">
+          <h2 class="text-2xl font-semibold">Teachings</h2>
+          <p class="content-text mt-4 leading-8">Watch Bible studies and future teaching uploads from the Upward Knoxville YouTube channel.</p>
+          <a href="teachings.html" class="mt-4 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">Go to Teachings</a>
+        </article>
+        <article class="soft-card p-7">
+          <h2 class="text-2xl font-semibold">Frequently Asked Questions</h2>
+          <p class="content-text mt-4 leading-8">Find quick answers about what Upward Knoxville is, our current stage, what to bring, and how to stay connected.</p>
+          <a href="faq.html" class="mt-4 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">Read FAQ</a>
+        </article>
       </div>
     </section>
   </main>
 
-  <footer class="footer-surface mt-10 border-t border-line">
-    <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-6 text-sm text-muted sm:px-6 lg:px-8 md:flex-row md:items-center md:justify-between">
-      <p>&copy; <span id="year"></span> Upward Knoxville. All rights reserved.</p>
-      <div class="flex flex-wrap items-center gap-4">
-        <a class="hover:text-ink" href="beliefs.html">Beliefs</a>
-        <a class="hover:text-ink" href="teaching.html">Teaching</a>
-        <a class="hover:text-ink" href="connect.html">Community</a>
-        <a class="hover:text-ink" href="contact.html">Contact</a>
+  <footer class="footer-surface border-t border-[var(--border)] px-5 py-12">
+    <div class="mx-auto grid max-w-6xl gap-10 md:grid-cols-3">
+      <div>
+        <div class="flex items-center gap-3 font-semibold">
+          <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="h-9 w-9 rounded-full border border-[var(--border)] object-cover" />
+          <span>Upward Knoxville</span>
+        </div>
+        <p class="mt-4 text-sm leading-7 text-[var(--muted)]">A Scripture-centered fellowship helping people grow in Christ through the faithful teaching of God's Word.</p>
+        <p class="mt-2 text-sm text-[var(--muted)]">Knoxville, TN</p>
       </div>
+      <div class="space-y-2 text-sm">
+        <a class="block nav-link" href="about.html">About</a>
+        <a class="block nav-link" href="teachings.html">Teachings</a>
+        <a class="block nav-link" href="faq.html">FAQ</a>
+        <a class="block nav-link" href="https://youtube.com/@upwardknoxville" target="_blank" rel="noopener noreferrer">YouTube</a>
+      </div>
+      <div class="space-y-2 text-sm">
+        <a class="block nav-link" href="connect.html">Stay Connected</a>
+        <a class="block nav-link" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>
+      </div>
+    </div>
+    <div class="mx-auto mt-10 max-w-6xl border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
+      <p>"Your word is a lamp to my feet and a light to my path." - Psalm 119:105</p>
+      <p class="mt-2">&copy; <span id="year"></span> Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>
 

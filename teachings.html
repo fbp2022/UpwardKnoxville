@@ -6,7 +6,8 @@
   <link rel="stylesheet" href="theme.css" />
   <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>About | Upward Knoxville</title>
+  <title>Teachings | Upward Knoxville</title>
+  <meta name="description" content="Watch recent Bible teachings from Upward Knoxville." />
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]">
@@ -16,8 +17,8 @@
       <nav id="menu" class="lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none">
         <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
           <li><a class="nav-link" href="index.html">Home</a></li>
-          <li><a class="nav-link" aria-current="page" href="about.html">About</a></li>
-          <li><a class="nav-link" href="teachings.html">Teachings</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" aria-current="page" href="teachings.html">Teachings</a></li>
           <li><a class="nav-link" href="expect.html">What to Expect</a></li>
           <li><a class="nav-link" href="faq.html">FAQ</a></li>
           <li><a class="nav-link" href="connect.html">Connect</a></li>
@@ -25,30 +26,33 @@
       </nav>
     </div>
   </header>
+
   <main class="px-5 py-14">
-    <section class="mx-auto max-w-4xl">
-      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">About Upward Knoxville</h1>
-      <p class="mt-6 text-lg leading-8 text-[var(--muted)]">Upward Knoxville exists to help people grow closer to Jesus Christ through Scripture, fellowship, and discipleship in a calm and authentic environment.</p>
+    <section class="mx-auto max-w-5xl">
+      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Teachings</h1>
+      <p class="mt-5 max-w-3xl text-lg leading-8 text-[var(--muted)]">Explore verse-by-verse Bible teachings. Our focus is careful reading, context, and faithful application of God's Word.</p>
     </section>
-    <section class="mx-auto mt-10 grid max-w-5xl gap-5 md:grid-cols-2">
-      <article class="soft-card p-7">
-        <h2 class="text-2xl font-semibold">Mission</h2>
-        <p class="mt-4 leading-8 text-[var(--muted)]">To open the Bible faithfully, verse by verse, and encourage believers to walk with Christ in everyday life.</p>
+
+    <section class="mx-auto mt-10 max-w-5xl soft-card p-4 sm:p-6">
+      <h2 class="text-2xl font-semibold">Latest Teaching</h2>
+      <div class="mt-4 aspect-video overflow-hidden rounded-xl border border-[var(--border)]">
+        <iframe class="h-full w-full" src="https://www.youtube.com/embed?listType=user_uploads&list=upwardknoxville" title="Upward Knoxville YouTube teachings" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p class="mt-4 text-sm text-[var(--muted)]">Subscribe on <a class="underline" href="https://youtube.com/@upwardknoxville" target="_blank" rel="noopener noreferrer">YouTube</a> for future teaching uploads.</p>
+    </section>
+
+    <section class="mx-auto mt-10 grid max-w-5xl gap-4 md:grid-cols-2">
+      <article class="soft-card p-6">
+        <h3 class="text-xl font-semibold">Current Series</h3>
+        <p class="mt-3 text-[var(--muted)]">Verse-by-verse studies through full books of Scripture, posted as they are taught.</p>
       </article>
-      <article class="soft-card p-7">
-        <h2 class="text-2xl font-semibold">Vision</h2>
-        <p class="mt-4 leading-8 text-[var(--muted)]">A grounded fellowship where ordinary people are transformed by God's Word and strengthened in Christian community.</p>
-      </article>
-      <article class="soft-card p-7">
-        <h2 class="text-2xl font-semibold">Values</h2>
-        <p class="mt-4 leading-8 text-[var(--muted)]">Scripture first, authenticity, humility, prayerful growth, and fellowship marked by grace and truth.</p>
-      </article>
-      <article class="soft-card p-7">
-        <h2 class="text-2xl font-semibold">Purpose</h2>
-        <p class="mt-4 leading-8 text-[var(--muted)]">To create a welcoming place in Knoxville where people can learn Scripture clearly, ask honest questions, and mature in Christ.</p>
+      <article class="soft-card p-6">
+        <h3 class="text-xl font-semibold">Teaching Archive</h3>
+        <p class="mt-3 text-[var(--muted)]">An organized archive for future teachings, by book and study date, is being built here.</p>
       </article>
     </section>
   </main>
+
   <footer class="footer-surface border-t border-[var(--border)] px-5 py-10">
     <div class="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
       <div>
@@ -58,8 +62,8 @@
       </div>
       <div class="space-y-2 text-sm">
         <a class="block nav-link" href="index.html">Home</a>
-        <a class="block nav-link" href="teachings.html">Teachings</a>
-        <a class="block nav-link" href="faq.html">FAQ</a>
+        <a class="block nav-link" href="about.html">About</a>
+        <a class="block nav-link" href="expect.html">What to Expect</a>
         <a class="block nav-link" href="connect.html">Stay Connected</a>
       </div>
       <div class="space-y-2 text-sm">
@@ -72,4 +76,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-

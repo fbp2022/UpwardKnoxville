@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme-init.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>FAQ | Upward Knoxville</title>
+</head>
+<body class="antialiased">
+  <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+      <a href="index.html" class="font-semibold">Upward Knoxville</a>
+      <button id="menuButton" aria-expanded="false" class="rounded-md border border-[var(--border)] px-3 py-2 text-sm font-medium lg:hidden">Menu</button>
+      <nav id="menu" class="lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" href="teachings.html">Teachings</a></li>
+          <li><a class="nav-link" href="expect.html">What to Expect</a></li>
+          <li><a class="nav-link" aria-current="page" href="faq.html">FAQ</a></li>
+          <li><a class="nav-link" href="connect.html">Connect</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="px-5 py-14">
+    <section class="mx-auto max-w-4xl">
+      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Frequently Asked Questions</h1>
+    </section>
+    <section class="mx-auto mt-8 max-w-4xl space-y-3">
+      <div data-faq-item><button data-faq-question aria-expanded="false">What is Upward Knoxville?<span>+</span></button><div data-faq-answer hidden>Upward Knoxville is a Scripture-centered fellowship focused on verse-by-verse Bible teaching and authentic Christian community.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">Is Upward Knoxville a church?<span>+</span></button><div data-faq-answer hidden>Upward Knoxville is currently a growing Bible teaching and fellowship community and is not yet operating as a full church body.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">What stage is Upward Knoxville currently in?<span>+</span></button><div data-faq-answer hidden>Upward Knoxville is in an early growth stage and is moving forward prayerfully and intentionally as the Lord leads.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">What denomination are you?<span>+</span></button><div data-faq-answer hidden>We are Bible-centered and Christ-focused. We aim to keep our teaching anchored in Scripture rather than labels.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">What style of teaching is used?<span>+</span></button><div data-faq-answer hidden>Verse-by-verse teaching with attention to context, biblical interpretation, and practical application.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">Are children welcome?<span>+</span></button><div data-faq-answer hidden>Yes, families are welcome.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">Is childcare provided?<span>+</span></button><div data-faq-answer hidden>No, childcare is not currently provided.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">What should I bring?<span>+</span></button><div data-faq-answer hidden>Bring your Bible and come ready to listen and learn.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">Do I have to talk?<span>+</span></button><div data-faq-answer hidden>No. You are welcome to quietly listen with no pressure to speak.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">Will teachings be online?<span>+</span></button><div data-faq-answer hidden>Yes. Teachings are posted online through the Upward Knoxville YouTube channel.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">Is Upward Knoxville affiliated with Calvary Chapel?<span>+</span></button><div data-faq-answer hidden>No formal affiliation is currently stated. We respect many faithful Bible-teaching fellowships and seek to remain rooted in Scripture.</div></div>
+      <div data-faq-item><button data-faq-question aria-expanded="false">How do I stay connected?<span>+</span></button><div data-faq-answer hidden>Use the Stay Connected form on the home or connect page to send a message and optionally request ministry updates.</div></div>
+    </section>
+  </main>
+  <footer class="footer-surface border-t border-[var(--border)] px-5 py-10">
+    <div class="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
+      <div>
+        <p class="font-semibold">Upward Knoxville</p>
+        <p class="content-text mt-3 text-sm">A Scripture-centered fellowship helping people grow in Christ through faithful Bible teaching.</p>
+        <p class="mt-2 text-sm text-[var(--muted)]">Knoxville, Tennessee</p>
+      </div>
+      <div class="space-y-2 text-sm">
+        <a class="block nav-link" href="index.html">Home</a>
+        <a class="block nav-link" href="about.html">About</a>
+        <a class="block nav-link" href="teachings.html">Teachings</a>
+        <a class="block nav-link" href="connect.html">Stay Connected</a>
+      </div>
+      <div class="space-y-2 text-sm">
+        <a class="block nav-link" href="https://youtube.com/@upwardknoxville" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
+        <p class="text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path." - Psalm 119:105</p>
+      </div>
+    </div>
+    <div class="mx-auto mt-6 max-w-6xl border-t border-[var(--border)] pt-4 text-sm text-[var(--muted)]">&copy; <span id="year"></span> Upward Knoxville</div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
