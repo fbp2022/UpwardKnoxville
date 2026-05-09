@@ -3,15 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+  <link rel="manifest" href="images/site.webmanifest" />
+  <link rel="shortcut icon" href="images/favicon.ico" />
   <link rel="stylesheet" href="theme.css" />
   <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <title>FAQ | Upward Knoxville</title>
+  <meta name="description" content="Answers to common questions about Upward Knoxville, our Bible teaching, gatherings, and community." />
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-      <a href="index.html" class="font-semibold">Upward Knoxville</a>
+      <a href="index.html" class="flex items-center gap-3 font-semibold text-[var(--text)]">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
+        <span>Upward Knoxville</span>
+      </a>
       <button id="menuButton" aria-expanded="false" class="rounded-md border border-[var(--border)] px-3 py-2 text-sm font-medium lg:hidden">Menu</button>
       <nav id="menu" class="lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none">
         <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
@@ -25,29 +34,143 @@
       </nav>
     </div>
   </header>
+
   <main class="px-5 py-14">
-    <section class="mx-auto max-w-4xl">
+    <section class="mx-auto max-w-[920px] text-center">
       <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Frequently Asked Questions</h1>
+      <p class="mt-5 text-lg leading-8 text-[var(--muted)]">Quick answers about who we are, how we teach, and what to expect at Upward Knoxville.</p>
     </section>
-    <section class="mx-auto mt-8 max-w-4xl space-y-3">
-      <div data-faq-item><button data-faq-question aria-expanded="false">What is Upward Knoxville?<span>+</span></button><div data-faq-answer hidden>Upward Knoxville is a Scripture-centered fellowship focused on verse-by-verse Bible teaching and authentic Christian community.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">Is Upward Knoxville a church?<span>+</span></button><div data-faq-answer hidden>Upward Knoxville is currently a growing Bible teaching and fellowship community and is not yet operating as a full church body.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">What stage is Upward Knoxville currently in?<span>+</span></button><div data-faq-answer hidden>Upward Knoxville is in an early growth stage and is moving forward prayerfully and intentionally as the Lord leads.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">What denomination are you?<span>+</span></button><div data-faq-answer hidden>We are Bible-centered and Christ-focused. We aim to keep our teaching anchored in Scripture rather than labels.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">What style of teaching is used?<span>+</span></button><div data-faq-answer hidden>Verse-by-verse teaching with attention to context, biblical interpretation, and practical application.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">Are children welcome?<span>+</span></button><div data-faq-answer hidden>Yes, families are welcome.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">Is childcare provided?<span>+</span></button><div data-faq-answer hidden>No, childcare is not currently provided.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">What should I bring?<span>+</span></button><div data-faq-answer hidden>Bring your Bible and come ready to listen and learn.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">Do I have to talk?<span>+</span></button><div data-faq-answer hidden>No. You are welcome to quietly listen with no pressure to speak.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">Will teachings be online?<span>+</span></button><div data-faq-answer hidden>Yes. Teachings are posted online through the Upward Knoxville YouTube channel.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">Is Upward Knoxville affiliated with Calvary Chapel?<span>+</span></button><div data-faq-answer hidden>No formal affiliation is currently stated. We respect many faithful Bible-teaching fellowships and seek to remain rooted in Scripture.</div></div>
-      <div data-faq-item><button data-faq-question aria-expanded="false">How do I stay connected?<span>+</span></button><div data-faq-answer hidden>Use the Stay Connected form on the home or connect page to send a message and optionally request ministry updates.</div></div>
+
+    <section class="mx-auto mt-10 max-w-[920px] faq-list">
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-1">
+          <span class="faq-question-text">What is Upward Knoxville?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-1" data-faq-answer role="region">
+          <div class="faq-answer-inner">Upward Knoxville is a Scripture-centered fellowship focused on verse-by-verse Bible teaching and authentic Christian community.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-2">
+          <span class="faq-question-text">Is Upward Knoxville a church?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-2" data-faq-answer role="region">
+          <div class="faq-answer-inner">Upward Knoxville is currently a growing Bible teaching and fellowship community and is not yet operating as a full church body.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-3">
+          <span class="faq-question-text">What stage is Upward Knoxville currently in?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-3" data-faq-answer role="region">
+          <div class="faq-answer-inner">Upward Knoxville is in an early growth stage and is moving forward prayerfully and intentionally as the Lord leads.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-4">
+          <span class="faq-question-text">What denomination are you?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-4" data-faq-answer role="region">
+          <div class="faq-answer-inner">We are Bible-centered and Christ-focused. We aim to keep our teaching anchored in Scripture rather than labels.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-5">
+          <span class="faq-question-text">What style of teaching is used?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-5" data-faq-answer role="region">
+          <div class="faq-answer-inner">Verse-by-verse teaching with attention to context, biblical interpretation, and practical application.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-6">
+          <span class="faq-question-text">Are children welcome?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-6" data-faq-answer role="region">
+          <div class="faq-answer-inner">Yes, families are welcome. Parents remain responsible for their children during gatherings.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-7">
+          <span class="faq-question-text">Is childcare provided?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-7" data-faq-answer role="region">
+          <div class="faq-answer-inner">No, childcare is not currently provided.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-8">
+          <span class="faq-question-text">What should I bring?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-8" data-faq-answer role="region">
+          <div class="faq-answer-inner">Bring your Bible and come ready to listen and learn. Bibles are not yet provided since Upward is new and starting simple.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-9">
+          <span class="faq-question-text">Do I have to talk?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-9" data-faq-answer role="region">
+          <div class="faq-answer-inner">No. You are welcome to quietly listen with no pressure to speak.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-10">
+          <span class="faq-question-text">Will teachings be online?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-10" data-faq-answer role="region">
+          <div class="faq-answer-inner">Yes. Teachings are posted online through the Upward Knoxville YouTube channel.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-11">
+          <span class="faq-question-text">Is Upward Knoxville affiliated with any other church?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-11" data-faq-answer role="region">
+          <div class="faq-answer-inner">No formal affiliation is currently stated. We respect many faithful Bible-teaching fellowships and seek to remain rooted in Scripture.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" data-faq-item>
+        <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-12">
+          <span class="faq-question-text">How do I stay connected?</span>
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </button>
+        <div class="faq-answer" id="faq-12" data-faq-answer role="region">
+          <div class="faq-answer-inner">Use the Stay Connected form on the home or connect page to send a message and optionally request ministry updates.</div>
+        </div>
+      </div>
     </section>
   </main>
+
   <footer class="footer-surface border-t border-[var(--border)] px-5 py-10">
     <div class="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
       <div>
-        <p class="font-semibold">Upward Knoxville</p>
+        <div class="flex items-center gap-3 font-semibold">
+          <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo brand-logo--sm" />
+          <span>Upward Knoxville</span>
+        </div>
         <p class="content-text mt-3 text-sm">A Scripture-centered fellowship helping people grow in Christ through faithful Bible teaching.</p>
         <p class="mt-2 text-sm text-[var(--muted)]">Knoxville, Tennessee</p>
       </div>
