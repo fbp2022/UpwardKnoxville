@@ -1,6 +1,11 @@
 /**
- * ES module config for public teaching-status (js/teaching-status-display.js).
- * Keep the same URL and anon key as js/admin-config.js (plain script for admin).
+ * Plain script — sets globals for js/supabase-client.js and js/admin.js.
+ * Paste your Supabase anon (publishable) key into SUPABASE_ANON_KEY before deploy.
+ * Never commit the service role key.
  */
-export const SUPABASE_URL = 'https://okgsccnnmocvoddkspoj.supabase.co';
-export const SUPABASE_ANON_KEY = '';
+(function (global) {
+  var SUPABASE_URL = 'https://okgsccnnmocvoddkspoj.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_hjLSkR7MZqOB1nbhKY7Lew_xtlwCXCV';
+  global.__UPWARD_SUPABASE_URL__ = SUPABASE_URL;
+  global.__UPWARD_SUPABASE_ANON_KEY__ = SUPABASE_ANON_KEY;
+})(typeof window !== 'undefined' ? window : globalThis);

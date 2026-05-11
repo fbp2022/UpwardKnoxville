@@ -1,22 +1,43 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.1';
-import { SUPABASE_URL, SUPABASE_ANON_KEY } from './supabase-config.js';
+/**
+ * Plain script — requires Supabase UMD (window.supabase) and globals from supabase-config.js.
+ * Exposes window.UpwardSupabase for js/admin.js and for js/teaching-status-display.js (module).
+ */
+(function (w) {
+  'use strict';
 
-let client = null;
-
-export function isSupabaseConfigured() {
-  return Boolean(SUPABASE_URL && String(SUPABASE_ANON_KEY).trim());
-}
-
-export function getSupabase() {
-  if (!isSupabaseConfigured()) return null;
-  if (!client) {
-    client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY.trim(), {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true,
-      },
-    });
+  function isSupabaseConfigured() {
+    var url = w.__UPWARD_SUPABASE_URL__;
+    var key = w.__UPWARD_SUPABASE_ANON_KEY__;
+    return Boolean(
+      url &&
+      String(key || '').trim() &&
+      w.supabase &&
+      typeof w.supabase.createClient === 'function'
+    );
   }
-  return client;
-}
+
+  var client = null;
+
+  function getSupabase() {
+    if (!isSupabaseConfigured()) return null;
+    if (!client) {
+      client = w.supabase.createClient(
+        String(w.__UPWARD_SUPABASE_URL__).trim(),
+        String(w.__UPWARD_SUPABASE_ANON_KEY__).trim(),
+        {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true,
+          },
+        }
+      );
+    }
+    return client;
+  }
+
+  w.UpwardSupabase = {
+    getSupabase: getSupabase,
+    isSupabaseConfigured: isSupabaseConfigured,
+  };
+})(typeof window !== 'undefined' ? window : globalThis);

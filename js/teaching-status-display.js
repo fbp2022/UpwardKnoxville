@@ -1,5 +1,3 @@
-import { getSupabase, isSupabaseConfigured } from './supabase-client.js';
-
 const FALLBACK =
   '<p class="content-text leading-relaxed">Current teaching details will be posted here soon.</p>';
 
@@ -60,16 +58,25 @@ function renderRow(row) {
   return blocks.join('');
 }
 
+function upwardApi() {
+  return typeof window !== 'undefined' && window.UpwardSupabase ? window.UpwardSupabase : {};
+}
+
 async function run() {
   const root = document.querySelector('[data-teaching-status-root]');
   if (!root) return;
 
-  if (!isSupabaseConfigured()) {
+  const { getSupabase, isSupabaseConfigured } = upwardApi();
+  if (!isSupabaseConfigured || !isSupabaseConfigured()) {
     root.innerHTML = FALLBACK;
     return;
   }
 
-  const supabase = getSupabase();
+  const supabase = getSupabase ? getSupabase() : null;
+  if (!supabase) {
+    root.innerHTML = FALLBACK;
+    return;
+  }
   root.innerHTML =
     '<p class="content-text text-sm text-[var(--muted)]" role="status">Loading…</p>';
 
