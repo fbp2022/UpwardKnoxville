@@ -213,6 +213,17 @@
   async function init() {
     showView('loading');
 
+    if (
+      !window.UpwardSupabase ||
+      typeof window.UpwardSupabase.isSupabaseConfigured !== 'function' ||
+      typeof window.UpwardSupabase.getSupabase !== 'function'
+    ) {
+      friendlyShowError(
+        'Admin could not start because js/supabase-client.js did not load or run. Check the Network tab for 404s on js files.'
+      );
+      return;
+    }
+
     var a = api();
     if (!a.isSupabaseConfigured || !a.isSupabaseConfigured()) {
       showView('config');
