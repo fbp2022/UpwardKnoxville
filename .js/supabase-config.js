@@ -1,7 +1,6 @@
 /**
- * Supabase publishable (anon) key — safe in the browser with RLS.
- * Replace the empty string with your anon key from the Supabase dashboard
- * (Settings → API → anon public), or copy from supabase-config.example.js.
+ * ES module config for public teaching-status (js/teaching-status-display.js).
+ * Keep the same URL and anon key as js/admin-config.js (plain script for admin).
  */
 export const SUPABASE_URL = 'https://okgsccnnmocvoddkspoj.supabase.co';
 export const SUPABASE_ANON_KEY = '';
