@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="theme.css" />
   <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Connect | Upward Knoxville</title>
+  <title>What to Expect | Upward Knoxville</title>
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
@@ -22,45 +22,25 @@
           <li><a class="nav-link" href="teachings.html">Teachings</a></li>
           <li><a class="nav-link" href="faq.html">FAQ</a></li>
           <li><a class="nav-link" href="about.html">About</a></li>
-          <li><a class="nav-link" aria-current="page" href="connect.html">Stay Connected</a></li>
+          <li><a class="nav-link" href="connect.html">Stay Connected</a></li>
         </ul>
       </nav>
     </div>
   </header>
-  <main class="px-5 py-14">
+  <main class="px-5 py-16 md:py-20">
     <section class="mx-auto max-w-4xl">
-      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Stay Connected</h1>
-      <p class="content-text mt-5 text-lg leading-8">Questions about the teachings? Prayer requests? We'd love to hear from you and walk alongside you in the Word.</p>
+      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">What to Expect</h1>
+      <p class="content-text mt-5 text-lg leading-8">A relaxed and welcoming fellowship centered on Scripture.</p>
     </section>
-    <section class="mx-auto mt-8 max-w-4xl soft-card p-7">
-      <form id="connectForm" class="space-y-4" novalidate>
-        <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <input type="hidden" name="_subject" value="New Stay Connected message from upwardknoxville.org" />
-        <label class="block" for="connectName">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Name <span class="font-normal text-[var(--muted)]">(optional)</span></span>
-          <input id="connectName" name="name" type="text" placeholder="Your name" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block" for="connectEmail">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>
-          <input id="connectEmail" name="email" type="email" placeholder="you@example.com" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block" for="connectMessage">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Message</span>
-          <textarea id="connectMessage" name="message" rows="5" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2"></textarea>
-        </label>
-        <div class="form-switch-row">
-          <span id="connectPrayerLabel" class="form-switch-label">This is a prayer request</span>
-          <button type="button" id="connectPrayerSwitch" class="a11y-switch" role="switch" aria-checked="false" aria-labelledby="connectPrayerLabel">
-            <span class="a11y-switch-thumb" aria-hidden="true"></span>
-          </button>
-        </div>
-        <button id="connectSubmitButton" type="submit" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Stay Connected</button>
-        <p id="connectStatus" class="text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
-      </form>
-    </section>
-    <section class="mx-auto mt-6 max-w-4xl soft-card p-7">
-      <h2 class="text-2xl font-semibold">Questions or Prayer Requests</h2>
-      <p class="content-text mt-4 leading-8">Email us at <a class="font-medium text-[var(--accent)] underline decoration-[var(--accent)]/30 underline-offset-2 hover:text-[var(--accent-hover)]" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>. We read every message and are grateful to hear from you.</p>
+    <section class="mx-auto mt-10 grid max-w-5xl gap-4 md:grid-cols-2">
+      <div class="soft-card p-5 content-text">Bring your Bible, and bring something to take notes with if desired.</div>
+      <div class="soft-card p-5 content-text">Bibles are not provided yet because Upward is new and starting simple.</div>
+      <div class="soft-card p-5 content-text">Verse-by-verse teaching is central, and context is emphasized.</div>
+      <div class="soft-card p-5 content-text">Children and families are welcome.</div>
+      <div class="soft-card p-5 content-text">Childcare is not currently provided, and parents remain responsible for their children.</div>
+      <div class="soft-card p-5 content-text">Mature topics may occasionally be taught; advance communication will be shared when appropriate.</div>
+      <div class="soft-card p-5 content-text">No one is pressured to speak. Questions are welcome.</div>
+      <div class="soft-card p-5 content-text">Teachings will be posted online afterward.</div>
     </section>
   </main>
   <footer class="footer-surface border-t border-[var(--border)] px-5 py-12" data-site-footer>
@@ -97,4 +77,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-

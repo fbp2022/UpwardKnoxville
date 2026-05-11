@@ -8,20 +8,30 @@ if (menuButton && menu) {
   menuButton.addEventListener('click', () => {
     const isOpen = menu.classList.toggle('is-open');
     menuButton.setAttribute('aria-expanded', String(isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
   });
 
   menu.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
-      if (window.innerWidth < 960) {
+      if (window.innerWidth < 1024) {
         menu.classList.remove('is-open');
         menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open menu');
       }
     });
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) {
+      menu.classList.remove('is-open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Open menu');
+    }
   });
 }
 
 /* =========================
-   FOOTER YEAR
+   FOOTER YEAR (optional)
 ========================= */
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
@@ -29,20 +39,36 @@ if (year) year.textContent = new Date().getFullYear();
 /* =========================
    FAQ ACCORDION
 ========================= */
-document.querySelectorAll('[data-faq-question]').forEach((button) => {
-  button.addEventListener('click', () => {
-    const item = button.closest('[data-faq-item]');
-    if (!item) return;
-
-    const expanded = button.getAttribute('aria-expanded') === 'true';
-    button.setAttribute('aria-expanded', String(!expanded));
-    item.classList.toggle('is-open', !expanded);
+function initFaqAccordion() {
+  document.querySelectorAll('[data-faq-item]').forEach((item) => {
+    const button = item.querySelector('[data-faq-question]');
+    const answer = item.querySelector('[data-faq-answer]');
+    if (!button || !answer) return;
+    const isOpen = item.classList.contains('is-open');
+    button.setAttribute('aria-expanded', String(isOpen));
+    answer.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
   });
-});
+
+  document.querySelectorAll('[data-faq-question]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const item = button.closest('[data-faq-item]');
+      const answer = item?.querySelector('[data-faq-answer]');
+      if (!item || !answer) return;
+
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      const next = !expanded;
+      button.setAttribute('aria-expanded', String(next));
+      item.classList.toggle('is-open', next);
+      answer.setAttribute('aria-hidden', next ? 'false' : 'true');
+    });
+  });
+}
+
+initFaqAccordion();
 
 /* =========================
    ACCESSIBILITY / SETTINGS WIDGET
-   Persists user preferences via localStorage keys read by theme-init.js:
+   Persists via localStorage keys read by theme-init.js:
      uk-theme, uk-reduce-motion, uk-text-large, uk-high-contrast
 ========================= */
 (function buildAccessibilityWidget() {
@@ -56,22 +82,30 @@ document.querySelectorAll('[data-faq-question]').forEach((button) => {
   widget.innerHTML = `
     <div id="a11yPanel" class="a11y-panel" role="dialog" aria-labelledby="a11yPanelTitle" hidden>
       <h2 id="a11yPanelTitle" class="a11y-panel-title">Accessibility</h2>
-      <label class="a11y-option">
-        <span>Dark mode</span>
-        <input type="checkbox" data-a11y-option="dark" />
-      </label>
-      <label class="a11y-option">
-        <span>Reduce motion</span>
-        <input type="checkbox" data-a11y-option="reduce-motion" />
-      </label>
-      <label class="a11y-option">
-        <span>Larger text</span>
-        <input type="checkbox" data-a11y-option="text-large" />
-      </label>
-      <label class="a11y-option">
-        <span>High contrast</span>
-        <input type="checkbox" data-a11y-option="high-contrast" />
-      </label>
+      <div class="a11y-row">
+        <span id="a11y-l-dark" class="a11y-row-label">Dark mode</span>
+        <button type="button" class="a11y-switch" role="switch" aria-checked="false" aria-labelledby="a11y-l-dark" data-a11y-switch="dark">
+          <span class="a11y-switch-thumb" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="a11y-row">
+        <span id="a11y-l-motion" class="a11y-row-label">Reduce motion</span>
+        <button type="button" class="a11y-switch" role="switch" aria-checked="false" aria-labelledby="a11y-l-motion" data-a11y-switch="reduce-motion">
+          <span class="a11y-switch-thumb" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="a11y-row">
+        <span id="a11y-l-text" class="a11y-row-label">Larger text</span>
+        <button type="button" class="a11y-switch" role="switch" aria-checked="false" aria-labelledby="a11y-l-text" data-a11y-switch="text-large">
+          <span class="a11y-switch-thumb" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="a11y-row">
+        <span id="a11y-l-hc" class="a11y-row-label">High contrast</span>
+        <button type="button" class="a11y-switch" role="switch" aria-checked="false" aria-labelledby="a11y-l-hc" data-a11y-switch="high-contrast">
+          <span class="a11y-switch-thumb" aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
     <button type="button" class="a11y-toggle" aria-label="Open accessibility settings" aria-expanded="false" aria-controls="a11yPanel">
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -115,18 +149,24 @@ document.querySelectorAll('[data-faq-question]').forEach((button) => {
   });
 
   function readPref(key) {
-    try { return localStorage.getItem(key); } catch (e) { return null; }
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return null;
+    }
   }
   function writePref(key, value) {
     try {
       if (value === null) localStorage.removeItem(key);
       else localStorage.setItem(key, value);
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      /* ignore */
+    }
   }
 
-  const options = {
+  const switches = {
     dark: {
-      input: widget.querySelector('[data-a11y-option="dark"]'),
+      el: widget.querySelector('[data-a11y-switch="dark"]'),
       isActive: () => html.getAttribute('data-theme') === 'dark',
       apply: (on) => {
         if (on) html.setAttribute('data-theme', 'dark');
@@ -135,7 +175,7 @@ document.querySelectorAll('[data-faq-question]').forEach((button) => {
       },
     },
     'reduce-motion': {
-      input: widget.querySelector('[data-a11y-option="reduce-motion"]'),
+      el: widget.querySelector('[data-a11y-switch="reduce-motion"]'),
       isActive: () => html.getAttribute('data-reduce-motion') === 'true',
       apply: (on) => {
         html.setAttribute('data-reduce-motion', on ? 'true' : 'false');
@@ -143,7 +183,7 @@ document.querySelectorAll('[data-faq-question]').forEach((button) => {
       },
     },
     'text-large': {
-      input: widget.querySelector('[data-a11y-option="text-large"]'),
+      el: widget.querySelector('[data-a11y-switch="text-large"]'),
       isActive: () => html.getAttribute('data-text-large') === 'true',
       apply: (on) => {
         if (on) html.setAttribute('data-text-large', 'true');
@@ -152,7 +192,7 @@ document.querySelectorAll('[data-faq-question]').forEach((button) => {
       },
     },
     'high-contrast': {
-      input: widget.querySelector('[data-a11y-option="high-contrast"]'),
+      el: widget.querySelector('[data-a11y-switch="high-contrast"]'),
       isActive: () => html.getAttribute('data-high-contrast') === 'true',
       apply: (on) => {
         if (on) html.setAttribute('data-high-contrast', 'true');
@@ -162,14 +202,38 @@ document.querySelectorAll('[data-faq-question]').forEach((button) => {
     },
   };
 
-  Object.values(options).forEach((opt) => {
-    if (!opt.input) return;
-    opt.input.checked = opt.isActive();
-    opt.input.addEventListener('change', (e) => {
-      opt.apply(e.target.checked);
+  function syncSwitchUi(key) {
+    const opt = switches[key];
+    if (!opt?.el) return;
+    const on = opt.isActive();
+    opt.el.setAttribute('aria-checked', String(on));
+  }
+
+  Object.keys(switches).forEach((key) => {
+    const opt = switches[key];
+    if (!opt.el) return;
+    syncSwitchUi(key);
+    opt.el.addEventListener('click', () => {
+      const on = opt.isActive();
+      opt.apply(!on);
+      syncSwitchUi(key);
     });
   });
 })();
+
+/* =========================
+   CONNECT FORM: OPTIONAL PRAYER-REQUEST SWITCH
+========================= */
+function wireConnectPrayerSwitch() {
+  const sw = document.getElementById('connectPrayerSwitch');
+  if (!sw) return;
+  sw.addEventListener('click', () => {
+    const on = sw.getAttribute('aria-checked') === 'true';
+    sw.setAttribute('aria-checked', String(!on));
+  });
+}
+
+wireConnectPrayerSwitch();
 
 /* =========================
    CONNECT FORM SUBMISSION
@@ -198,12 +262,11 @@ if (connectForm && connectStatus && connectSubmitButton) {
 
     try {
       const formData = new FormData(connectForm);
-      const isOptedIn = formData.get('updates_opt_in') === 'on';
+      const prayerSwitch = document.getElementById('connectPrayerSwitch');
+      const isPrayer = prayerSwitch?.getAttribute('aria-checked') === 'true';
       formData.set(
-        'updates_opt_in',
-        isOptedIn
-          ? 'Yes - subscribed to Upward Knoxville updates.'
-          : 'No - did not subscribe to Upward Knoxville updates.'
+        'prayer_request',
+        isPrayer ? 'Yes - sender marked this as a prayer request.' : 'No - general message (not marked as prayer request).'
       );
 
       const response = await fetch('https://formsubmit.co/ajax/connect@upwardknoxville.org', {
@@ -221,6 +284,7 @@ if (connectForm && connectStatus && connectSubmitButton) {
 
       connectStatus.textContent = 'Thank you for reaching out. Your message has been received.';
       connectForm.reset();
+      if (prayerSwitch) prayerSwitch.setAttribute('aria-checked', 'false');
     } catch (error) {
       connectStatus.textContent = 'Something went wrong while sending your message. Please try again later.';
     } finally {
