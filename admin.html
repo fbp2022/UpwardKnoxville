@@ -119,24 +119,9 @@
     </main>
   </div>
 
-  <script type="module">
-    function showLoadError(message) {
-      const load = document.getElementById('state-loading');
-      const err = document.getElementById('state-error');
-      const text = document.getElementById('state-error-text');
-      if (load) load.hidden = true;
-      if (err) err.hidden = false;
-      if (text) text.textContent = message;
-    }
-
-    import('./js/admin-app.js')
-      .then((mod) => mod.initializeAdmin())
-      .catch((err) => {
-        console.error('[admin] bootstrap failed', err);
-        showLoadError(
-          'We could not load the admin tools. Check your connection, confirm this site is served over HTTPS, and that all JavaScript files deployed correctly.'
-        );
-      });
-  </script>
+  <!-- Supabase JS v2 UMD: must load before admin-boot (provides window.supabase.createClient) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+  <script src="js/admin-config.js"></script>
+  <script src="js/admin-boot.js" defer></script>
 </body>
 </html>
