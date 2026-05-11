@@ -224,12 +224,24 @@ initFaqAccordion();
 /* =========================
    CONNECT FORM: OPTIONAL PRAYER-REQUEST SWITCH
 ========================= */
+function setConnectPrayerSwitchState(sw, on) {
+  sw.setAttribute('aria-checked', on ? 'true' : 'false');
+  sw.setAttribute('data-prayer-request', on ? 'true' : 'false');
+}
+
+function readConnectPrayerSwitchOn() {
+  const sw = document.getElementById('connectPrayerSwitch');
+  if (!sw) return false;
+  if (sw.getAttribute('aria-checked') === 'true') return true;
+  return sw.getAttribute('data-prayer-request') === 'true';
+}
+
 function wireConnectPrayerSwitch() {
   const sw = document.getElementById('connectPrayerSwitch');
   if (!sw) return;
+  setConnectPrayerSwitchState(sw, sw.getAttribute('aria-checked') === 'true');
   sw.addEventListener('click', () => {
-    const on = sw.getAttribute('aria-checked') === 'true';
-    sw.setAttribute('aria-checked', String(!on));
+    setConnectPrayerSwitchState(sw, !readConnectPrayerSwitchOn());
   });
 }
 
@@ -263,11 +275,14 @@ if (connectForm && connectStatus && connectSubmitButton) {
     try {
       const formData = new FormData(connectForm);
       const prayerSwitch = document.getElementById('connectPrayerSwitch');
-      const isPrayer = prayerSwitch?.getAttribute('aria-checked') === 'true';
-      formData.set(
-        'prayer_request',
-        isPrayer ? 'Yes - sender marked this as a prayer request.' : 'No - general message (not marked as prayer request).'
-      );
+      const isPrayer = readConnectPrayerSwitchOn();
+
+      formData.delete('prayer_request');
+      formData.append('prayer_request', isPrayer ? 'Yes' : 'No');
+
+      if (!formData.has('_captcha')) {
+        formData.append('_captcha', 'false');
+      }
 
       const response = await fetch('https://formsubmit.co/ajax/connect@upwardknoxville.org', {
         method: 'POST',
@@ -284,7 +299,7 @@ if (connectForm && connectStatus && connectSubmitButton) {
 
       connectStatus.textContent = 'Thank you for reaching out. Your message has been received.';
       connectForm.reset();
-      if (prayerSwitch) prayerSwitch.setAttribute('aria-checked', 'false');
+      if (prayerSwitch) setConnectPrayerSwitchState(prayerSwitch, false);
     } catch (error) {
       connectStatus.textContent = 'Something went wrong while sending your message. Please try again later.';
     } finally {

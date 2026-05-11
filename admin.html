@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme-init.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Admin | Upward Knoxville</title>
+</head>
+<body class="antialiased">
+  <header class="header-surface border-b border-[var(--border)]" role="banner">
+    <div class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-5 py-3">
+      <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo" />
+        <span>Upward Knoxville</span>
+      </a>
+      <p class="text-xs text-[var(--muted)] sm:text-sm">Site admin</p>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-3xl px-5 py-14 md:py-16 lg:py-20">
+    <div id="admin-config-missing" class="soft-card p-8" hidden>
+      <h1 class="text-xl font-semibold text-[var(--text)]">Configuration needed</h1>
+      <p class="content-text mt-4 leading-relaxed">Supabase is not configured yet. Add your publishable anon key to <code class="rounded bg-[var(--surface-hover)] px-1.5 py-0.5 text-sm">js/supabase-config.js</code> (see <code class="rounded bg-[var(--surface-hover)] px-1.5 py-0.5 text-sm">js/supabase-config.example.js</code>).</p>
+    </div>
+
+    <div id="admin-login" class="soft-card p-8 md:p-10" hidden>
+      <h1 class="text-2xl font-semibold text-[var(--text)]">Sign in</h1>
+      <p class="content-text mt-3 text-sm leading-relaxed">Private access for updating teaching status only.</p>
+      <form id="adminLoginForm" class="mt-8 space-y-4">
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>
+          <input id="adminLoginEmail" type="email" name="email" autocomplete="username" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Password</span>
+          <input id="adminLoginPassword" type="password" name="password" autocomplete="current-password" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
+        </label>
+        <p id="adminLoginError" class="min-h-[1.25rem] text-sm content-text" role="alert" aria-live="polite"></p>
+        <button type="submit" id="adminLoginSubmit" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)]">Sign in</button>
+      </form>
+    </div>
+
+    <div id="admin-editor" hidden>
+      <div class="soft-card p-8 md:p-10">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h1 class="text-2xl font-semibold text-[var(--text)]">Teaching status</h1>
+            <p id="adminLastUpdated" class="content-text mt-2 text-sm leading-relaxed"></p>
+          </div>
+          <button type="button" id="adminLogoutBtn" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)]">Log out</button>
+        </div>
+
+        <p id="adminEditorLoading" class="content-text mt-6 text-sm text-[var(--muted)]" hidden role="status">Loading…</p>
+
+        <form id="adminTeachingForm" class="mt-8 space-y-5">
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current book</span>
+            <input id="field-current-book" name="current_book" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current chapter</span>
+            <input id="field-current-chapter" name="current_chapter" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current verses</span>
+            <input id="field-current-verses" name="current_verses" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-[var(--text)]">Where we left off</span>
+            <textarea id="field-where-we-left-off" name="where_we_left_off" rows="3" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current focus</span>
+            <textarea id="field-current-focus" name="current_focus" rows="3" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+          </label>
+          <label class="block">
+            <span class="mb-2 block text-sm font-medium text-[var(--text)]">Public note</span>
+            <textarea id="field-public-note" name="public_note" rows="4" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+          </label>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            <button type="submit" id="adminSaveBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Save</button>
+          </div>
+          <p id="adminEditorStatus" class="min-h-[1.25rem] text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="js/admin-app.js"></script>
+</body>
+</html>
