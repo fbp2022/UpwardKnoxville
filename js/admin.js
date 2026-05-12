@@ -236,64 +236,74 @@
   }
 
   async function init() {
-    showView('loading');
-
-    if (
-      !window.UpwardSupabase ||
-      typeof window.UpwardSupabase.isSupabaseConfigured !== 'function' ||
-      typeof window.UpwardSupabase.getSupabase !== 'function'
-    ) {
-      friendlyShowError(
-        'Admin could not start because js/supabase-client.js did not load or run. Check the Network tab for 404s on js files.'
-      );
-      return;
-    }
-
-    var a = api();
-    if (!a.isSupabaseConfigured || !a.isSupabaseConfigured()) {
-      showView('config');
-      return;
-    }
-
-    if (!window.supabase || typeof window.supabase.createClient !== 'function') {
-      setErrorMessage('The Supabase library did not load. Check your network or try again later.');
-      showView('error');
-      return;
-    }
-
-    console.log('Supabase loaded');
-
-    client = a.getSupabase ? a.getSupabase() : null;
-    if (!client) {
-      friendlyShowError('Could not start Supabase client.');
-      return;
-    }
-
-    bindLogin();
-    subscribeAuth();
-
-    console.log('Checking session');
-    var sessRes;
+    var body = document.body;
+    var note = $('adminSessionCheckNote');
+    if (body) body.setAttribute('data-admin-init', 'pending');
     try {
-      sessRes = await withTimeout(
-        client.auth.getSession(),
-        15000,
-        'Session check timed out (15s). Your network, a browser extension, or a mismatched Supabase key can block auth. In Supabase → Settings → API, try the long "anon" / "public" JWT key if you are using a publishable key that fails here.'
-      );
-    } catch (e) {
-      friendlyShowError(e && e.message ? e.message : 'Session check failed.');
-      return;
-    }
-    if (sessRes.error) {
-      friendlyShowError(sessRes.error.message || 'Could not verify session.');
-      return;
-    }
+      if (
+        !window.UpwardSupabase ||
+        typeof window.UpwardSupabase.isSupabaseConfigured !== 'function' ||
+        typeof window.UpwardSupabase.getSupabase !== 'function'
+      ) {
+        friendlyShowError(
+          'Admin could not start because js/supabase-client.js did not load or run. Check the Network tab for 404s on js files.'
+        );
+        return;
+      }
 
-    if (sessRes.data && sessRes.data.session) {
-      await openDashboard();
-    } else {
-      console.log('Rendering login');
-      showView('login');
+      var a = api();
+      if (!a.isSupabaseConfigured || !a.isSupabaseConfigured()) {
+        showView('config');
+        return;
+      }
+
+      if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+        setErrorMessage('The Supabase library did not load. Check your network or try again later.');
+        showView('error');
+        return;
+      }
+
+      console.log('Supabase loaded');
+
+      client = a.getSupabase ? a.getSupabase() : null;
+      if (!client) {
+        friendlyShowError('Could not start Supabase client.');
+        return;
+      }
+
+      bindLogin();
+      subscribeAuth();
+
+      console.log('Checking session');
+      if (note) note.hidden = false;
+      var sessRes;
+      try {
+        sessRes = await withTimeout(
+          client.auth.getSession(),
+          15000,
+          'Session check timed out (15s). Your network, a browser extension, or a mismatched Supabase key can block auth. In Supabase → Settings → API, try the long "anon" / "public" JWT key if you are using a publishable key that fails here.'
+        );
+      } catch (e) {
+        if (note) note.hidden = true;
+        friendlyShowError(e && e.message ? e.message : 'Session check failed.');
+        return;
+      }
+      if (note) note.hidden = true;
+
+      if (sessRes.error) {
+        friendlyShowError(sessRes.error.message || 'Could not verify session.');
+        return;
+      }
+
+      if (sessRes.data && sessRes.data.session) {
+        await openDashboard();
+      } else {
+        console.log('Rendering login');
+        showView('login');
+      }
+    } finally {
+      if (note) note.hidden = true;
+      if (body) body.setAttribute('data-admin-init', 'done');
     }
   }
 
