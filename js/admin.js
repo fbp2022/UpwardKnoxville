@@ -34,6 +34,14 @@
     return p.indexOf('/admin/') !== -1 ? '../' : '';
   }
 
+  /** Absolute admin URL for Supabase redirect (add this URL in Dashboard → Auth → Redirect URLs). */
+  function getAdminAuthRedirectUrl() {
+    if (typeof window === 'undefined' || !window.location) return '';
+    var path = window.location.pathname || '/admin.html';
+    var base = window.location.origin + path.split('?')[0].split('#')[0];
+    return base;
+  }
+
   function clearWatchdogTimer() {
     if (typeof window !== 'undefined' && window.__UPWARD_ADMIN_LOADING_WATCHDOG) {
       clearTimeout(window.__UPWARD_ADMIN_LOADING_WATCHDOG);
@@ -84,12 +92,61 @@
       '<p id="adminLoginError" class="min-h-[1.25rem] text-sm content-text" role="alert" aria-live="polite"></p>' +
       '<button type="submit" id="adminLoginSubmit" class="w-full rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Sign in</button>' +
       '</form>' +
+      '<div class="mt-6 border-t border-[var(--border)] pt-6">' +
+      '<p class="text-sm font-medium text-[var(--text)]">Forgot password?</p>' +
+      '<p class="content-text mt-1 text-xs leading-relaxed">We will email a link to reset your password. Use the email address above.</p>' +
+      '<button type="button" id="adminForgotPasswordBtn" class="mt-3 w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm font-semibold text-[var(--text)] transition hover:bg-[var(--surface-hover)] disabled:cursor-not-allowed disabled:opacity-70">Send reset link</button>' +
+      '<p id="adminForgotStatus" class="mt-2 min-h-[1.25rem] text-xs content-text text-[var(--muted)]" role="status" aria-live="polite"></p>' +
+      '</div>' +
       '<p class="content-text mt-8 text-center text-xs leading-relaxed">' +
       '<a href="' +
       P +
       'index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a>' +
       '</p></div></div>'
     );
+  }
+
+  function getPasswordRecoveryHtml(prefix) {
+    var P = prefix || '';
+    return (
+      '<div class="flex min-h-screen flex-col items-center justify-center px-5 py-8">' +
+      '<div class="soft-card w-full max-w-[420px] p-8 md:p-10">' +
+      '<p id="adminPageBanner" class="content-text mb-4 rounded-md border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-2 text-center text-sm leading-relaxed" role="alert" hidden></p>' +
+      '<div class="flex flex-col items-center text-center">' +
+      '<img src="' +
+      P +
+      'images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" width="48" height="48" class="brand-logo h-12 w-12" />' +
+      '<h1 class="mt-5 text-xl font-semibold text-[var(--text)]">Set a new password</h1>' +
+      '<p class="content-text mt-3 text-sm leading-relaxed">Choose a new password for your account.</p>' +
+      '</div>' +
+      '<form id="adminRecoveryForm" class="mt-8 space-y-4 text-left">' +
+      '<label class="block">' +
+      '<span class="mb-2 block text-sm font-medium text-[var(--text)]">New password</span>' +
+      '<input id="adminRecoveryPassword" type="password" name="password" autocomplete="new-password" required minlength="8" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />' +
+      '</label>' +
+      '<label class="block">' +
+      '<span class="mb-2 block text-sm font-medium text-[var(--text)]">Confirm new password</span>' +
+      '<input id="adminRecoveryPassword2" type="password" name="password2" autocomplete="new-password" required minlength="8" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />' +
+      '</label>' +
+      '<p id="adminRecoveryError" class="min-h-[1.25rem] text-sm content-text" role="alert" aria-live="polite"></p>' +
+      '<button type="submit" id="adminRecoverySubmit" class="w-full rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Update password</button>' +
+      '</form>' +
+      '<p class="content-text mt-6 text-center text-xs leading-relaxed">' +
+      '<button type="button" id="adminRecoveryCancel" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">Cancel and return to sign in</button>' +
+      '</p></div></div>'
+    );
+  }
+
+  function renderPasswordRecovery() {
+    console.log('[admin] password recovery form');
+    clearWatchdogTimer();
+    destroyDashboardState();
+    applyBodyLoginOnly();
+    var app = getApp();
+    if (!app) return;
+    app.className = 'min-h-screen';
+    app.innerHTML = getPasswordRecoveryHtml(assetPrefix());
+    bindPasswordRecovery();
   }
 
   function renderLoading() {
@@ -203,29 +260,116 @@
 
   function bindLogin() {
     var form = $('adminLoginForm');
-    if (!form) return;
-    form.addEventListener('submit', async function (ev) {
-      ev.preventDefault();
-      clearPageBanner();
+    if (form) {
+      form.addEventListener('submit', async function (ev) {
+        ev.preventDefault();
+        clearPageBanner();
+        var emailEl = $('adminLoginEmail');
+        var passEl = $('adminLoginPassword');
+        var errEl = $('adminLoginError');
+        var submit = $('adminLoginSubmit');
+        var email = emailEl && emailEl.value ? emailEl.value.trim() : '';
+        var password = passEl ? passEl.value : '';
+        if (errEl) errEl.textContent = '';
+        if (submit) submit.disabled = true;
+        try {
+          if (!client) throw new Error('Not initialized.');
+          var res = await client.auth.signInWithPassword({ email: email, password: password });
+          if (res.error) throw res.error;
+        } catch (e) {
+          var msg = e && e.message ? e.message : 'Sign-in failed.';
+          if (errEl) errEl.textContent = msg;
+        } finally {
+          if (submit) submit.disabled = false;
+        }
+      });
+    }
+    bindForgotPassword();
+  }
+
+  function bindForgotPassword() {
+    var btn = $('adminForgotPasswordBtn');
+    if (!btn || btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', async function () {
       var emailEl = $('adminLoginEmail');
-      var passEl = $('adminLoginPassword');
-      var errEl = $('adminLoginError');
-      var submit = $('adminLoginSubmit');
+      var statusEl = $('adminForgotStatus');
       var email = emailEl && emailEl.value ? emailEl.value.trim() : '';
-      var password = passEl ? passEl.value : '';
-      if (errEl) errEl.textContent = '';
-      if (submit) submit.disabled = true;
+      if (statusEl) statusEl.textContent = '';
+      if (!email) {
+        if (statusEl) statusEl.textContent = 'Enter your email address above first.';
+        if (emailEl) emailEl.focus();
+        return;
+      }
+      btn.disabled = true;
       try {
         if (!client) throw new Error('Not initialized.');
-        var res = await client.auth.signInWithPassword({ email: email, password: password });
+        var redirectTo = getAdminAuthRedirectUrl();
+        if (!redirectTo) throw new Error('Could not build redirect URL.');
+        var res = await client.auth.resetPasswordForEmail(email, { redirectTo: redirectTo });
         if (res.error) throw res.error;
+        if (statusEl) {
+          statusEl.textContent =
+            'If an account exists for that email, you will receive a reset link shortly. Check your inbox and spam folder.';
+        }
       } catch (e) {
-        var msg = e && e.message ? e.message : 'Sign-in failed.';
-        if (errEl) errEl.textContent = msg;
+        var msg = e && e.message ? e.message : 'Could not send reset email.';
+        if (statusEl) statusEl.textContent = msg;
       } finally {
-        if (submit) submit.disabled = false;
+        btn.disabled = false;
       }
     });
+  }
+
+  function bindPasswordRecovery() {
+    var form = $('adminRecoveryForm');
+    if (form && !form.dataset.bound) {
+      form.dataset.bound = '1';
+      form.addEventListener('submit', async function (ev) {
+        ev.preventDefault();
+        var p1 = $('adminRecoveryPassword');
+        var p2 = $('adminRecoveryPassword2');
+        var errEl = $('adminRecoveryError');
+        var submit = $('adminRecoverySubmit');
+        var a = p1 && p1.value ? String(p1.value) : '';
+        var b = p2 && p2.value ? String(p2.value) : '';
+        if (errEl) errEl.textContent = '';
+        if (a.length < 8) {
+          if (errEl) errEl.textContent = 'Password must be at least 8 characters.';
+          return;
+        }
+        if (a !== b) {
+          if (errEl) errEl.textContent = 'Passwords do not match.';
+          return;
+        }
+        if (submit) submit.disabled = true;
+        try {
+          if (!client) throw new Error('Not initialized.');
+          var res = await client.auth.updateUser({ password: a });
+          if (res.error) throw res.error;
+          clearPageBanner();
+          var banner = $('adminPageBanner');
+          if (banner) {
+            banner.textContent = 'Your password was updated. Loading the dashboard…';
+            banner.hidden = false;
+          }
+          await enterDashboard();
+        } catch (e) {
+          var msg = e && e.message ? e.message : 'Could not update password.';
+          if (errEl) errEl.textContent = msg;
+        } finally {
+          if (submit) submit.disabled = false;
+        }
+      });
+    }
+    var cancel = $('adminRecoveryCancel');
+    if (cancel && !cancel.dataset.bound) {
+      cancel.dataset.bound = '1';
+      cancel.addEventListener('click', function () {
+        if (client) client.auth.signOut();
+        renderLogin();
+      });
+    }
   }
 
   function bindTeachingForm() {
@@ -865,7 +1009,12 @@
     authSubscribed = true;
     client.auth.onAuthStateChange(function (event, session) {
       if (event === 'INITIAL_SESSION') return;
+      if (event === 'PASSWORD_RECOVERY') {
+        if (session) renderPasswordRecovery();
+        return;
+      }
       if (session && event === 'SIGNED_IN') {
+        if ($('adminRecoveryForm')) return;
         enterDashboard().catch(function (e) {
           friendlyShowError(e && e.message ? e.message : 'Could not open dashboard.');
         });
@@ -886,6 +1035,7 @@
       return;
     }
     if (body) body.setAttribute('data-admin-init', 'pending');
+    var pwRecoveryFromUrl = /type=recovery/.test(String(window.location.hash || ''));
     renderLoading();
     try {
       if (
@@ -943,9 +1093,19 @@
       }
 
       if (sessRes.data && sessRes.data.session) {
-        await enterDashboard();
+        if (pwRecoveryFromUrl) {
+          renderPasswordRecovery();
+        } else {
+          await enterDashboard();
+        }
       } else {
-        renderLogin();
+        if (pwRecoveryFromUrl) {
+          friendlyShowError(
+            'This password reset link is invalid or has expired. Use “Send reset link” below with your email address.'
+          );
+        } else {
+          renderLogin();
+        }
       }
     } finally {
       if (body) body.setAttribute('data-admin-init', 'done');
