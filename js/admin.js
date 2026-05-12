@@ -640,19 +640,21 @@
       return;
     }
     var table = document.createElement('table');
-    table.className = 'w-full min-w-[32rem] border-collapse text-left text-sm';
+    table.className = 'w-full min-w-[36rem] border-collapse text-left text-sm';
     var thead = document.createElement('thead');
     thead.innerHTML =
       '<tr class="border-b border-[var(--border)] text-[var(--muted)]">' +
       '<th class="py-2 pr-3 font-medium">Date</th>' +
       '<th class="py-2 pr-3 font-medium">From</th>' +
       '<th class="py-2 pr-3 font-medium">Email</th>' +
-      '<th class="py-2 font-medium">Message</th>' +
+      '<th class="py-2 pr-3 font-medium">Message</th>' +
+      '<th class="py-2 pl-2 text-right font-medium w-24">Actions</th>' +
       '</tr>';
     table.appendChild(thead);
     var tbody = document.createElement('tbody');
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i];
+      var rowId = r && r.id != null ? String(r.id) : '';
       var created = r && r.created_at ? new Date(r.created_at) : null;
       var dateStr =
         created && !isNaN(created.getTime())
@@ -673,13 +675,49 @@
         '<td class="py-2 pr-3 break-all">' +
         escapeHtml(email) +
         '</td>' +
-        '<td class="py-2 max-w-md"><div class="max-h-32 overflow-y-auto whitespace-pre-wrap">' +
+        '<td class="py-2 max-w-md pr-3"><div class="max-h-32 overflow-y-auto whitespace-pre-wrap">' +
         escapeHtml(msg) +
-        '</div></td>';
+        '</div></td>' +
+        '<td class="py-2 pl-2 text-right align-top">' +
+        '<button type="button" class="text-xs font-medium text-[var(--muted)] underline decoration-[var(--border)] underline-offset-2 hover:text-[var(--text)]" data-contact-delete="' +
+        escapeHtml(rowId) +
+        '">Delete</button>' +
+        '</td>';
       tbody.appendChild(tr);
     }
     table.appendChild(tbody);
     wrap.appendChild(table);
+  }
+
+  function bindContactMessagesList() {
+    var wrap = $('adminContactTableWrap');
+    if (!wrap || wrap.dataset.contactDeleteBound === '1') return;
+    wrap.dataset.contactDeleteBound = '1';
+    wrap.addEventListener('click', async function (ev) {
+      var t = ev.target;
+      var btn = t && t.closest ? t.closest('[data-contact-delete]') : null;
+      if (!btn || !btn.getAttribute) return;
+      var id = btn.getAttribute('data-contact-delete');
+      if (!id) return;
+      ev.preventDefault();
+      if (!window.confirm('Delete this contact message? This cannot be undone.')) return;
+      if (!client) {
+        setContactStatus('Not connected.');
+        return;
+      }
+      btn.disabled = true;
+      setContactStatus('');
+      try {
+        var res = await client.from('contact_messages').delete().eq('id', id);
+        if (res.error) throw res.error;
+        await loadContactMessages();
+      } catch (e) {
+        var msg = e && e.message ? e.message : 'Delete failed.';
+        setContactStatus(msg);
+      } finally {
+        btn.disabled = false;
+      }
+    });
   }
 
   async function loadContactMessages() {
@@ -819,6 +857,7 @@
     bindAnnouncementList();
     bindBccForm();
     bindBccList();
+    bindContactMessagesList();
   }
 
   function subscribeAuth() {
