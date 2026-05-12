@@ -1,3 +1,4 @@
+-- Legacy: prefer sql/announcements.sql and table `announcements` (is_published, display_order).
 -- ============================================================================
 -- Run this entire file in the Supabase Dashboard → SQL Editor, then Execute.
 -- It creates the public announcements table, row-level security, and an
