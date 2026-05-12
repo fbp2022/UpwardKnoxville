@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme-init.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Admin | Upward Knoxville</title>
+</head>
+<body class="min-h-screen antialiased">
+  <noscript>
+    <div class="mx-auto max-w-lg p-8 text-center content-text">JavaScript is required to use the admin page.</div>
+  </noscript>
+
+  <div id="state-loading" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16">
+    <div class="soft-card max-w-md p-10 text-center">
+      <p class="text-sm font-medium text-[var(--text)]">Loading admin…</p>
+      <p class="content-text mt-3 text-sm leading-relaxed">One moment please.</p>
+    </div>
+  </div>
+
+  <div id="state-error" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16" hidden>
+    <div class="soft-card max-w-md p-10 text-center">
+      <h1 class="text-lg font-semibold text-[var(--text)]">Something went wrong</h1>
+      <p id="state-error-text" class="content-text mt-4 text-sm leading-relaxed"></p>
+      <a href="admin.html" class="mt-6 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">Try again</a>
+    </div>
+  </div>
+
+  <div id="state-config" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16" hidden>
+    <div class="soft-card max-w-md p-10">
+      <h1 class="text-lg font-semibold text-[var(--text)]">Configuration needed</h1>
+      <p class="content-text mt-4 text-sm leading-relaxed">
+        Open <code class="rounded bg-[var(--surface-hover)] px-1.5 py-0.5 text-xs">js/supabase-config.js</code> and set
+        <code class="rounded bg-[var(--surface-hover)] px-1.5 py-0.5 text-xs">SUPABASE_ANON_KEY</code> to your publishable anon key
+        (see <code class="rounded bg-[var(--surface-hover)] px-1.5 py-0.5 text-xs">js/supabase-config.example.js</code>).
+      </p>
+    </div>
+  </div>
+
+  <div id="state-login" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" hidden>
+    <div class="soft-card w-full max-w-[420px] p-8 md:p-10">
+      <div class="flex flex-col items-center text-center">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" width="48" height="48" class="brand-logo h-12 w-12" />
+        <h1 class="mt-5 text-xl font-semibold text-[var(--text)]">Teaching steward</h1>
+        <p class="content-text mt-3 text-sm leading-relaxed">Sign in to update where we are in Scripture.</p>
+      </div>
+      <form id="adminLoginForm" class="mt-8 space-y-4 text-left">
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>
+          <input id="adminLoginEmail" type="email" name="email" autocomplete="username" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Password</span>
+          <input id="adminLoginPassword" type="password" name="password" autocomplete="current-password" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
+        </label>
+        <p id="adminLoginError" class="min-h-[1.25rem] text-sm content-text" role="alert" aria-live="polite"></p>
+        <button type="submit" id="adminLoginSubmit" class="w-full rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Sign in</button>
+      </form>
+      <p class="content-text mt-8 text-center text-xs leading-relaxed">
+        <a href="index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a>
+      </p>
+    </div>
+  </div>
+
+  <div id="state-dashboard" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" hidden>
+    <div class="soft-card w-full max-w-xl p-8 md:p-10">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h2 class="text-xl font-semibold text-[var(--text)]">Teaching status</h2>
+          <p id="adminLastUpdated" class="content-text mt-2 text-sm leading-relaxed"></p>
+        </div>
+        <button type="button" id="adminLogoutBtn" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] sm:mt-0">Log out</button>
+      </div>
+
+      <p id="adminEditorLoading" class="content-text mt-6 text-sm text-[var(--muted)]" hidden role="status">Loading…</p>
+
+      <form id="adminTeachingForm" class="mt-8 space-y-5">
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current Book</span>
+          <input id="field-current-book" name="current_book" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current Chapter</span>
+          <input id="field-current-chapter" name="current_chapter" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current Verses</span>
+          <input id="field-current-verses" name="current_verses" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Where We Left Off</span>
+          <textarea id="field-where-we-left-off" name="where_we_left_off" rows="3" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current Focus</span>
+          <textarea id="field-current-focus" name="current_focus" rows="3" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Public Note</span>
+          <textarea id="field-public-note" name="public_note" rows="4" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+        </label>
+
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <button type="submit" id="adminSaveBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Save changes</button>
+        </div>
+        <p id="adminEditorStatus" class="min-h-[1.25rem] text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="content-text mt-8 text-center text-xs leading-relaxed">
+        <a href="index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Admin: Supabase v2 UMD + js/supabase-config.js, js/supabase-client.js, js/admin.js only. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/admin.js" defer></script>
+</body>
+</html>
