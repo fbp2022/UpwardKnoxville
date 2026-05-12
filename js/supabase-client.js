@@ -1,6 +1,6 @@
 /**
  * Plain script — requires Supabase UMD (window.supabase) and globals from supabase-config.js.
- * Exposes window.UpwardSupabase for js/admin.js and for site modules (e.g. teaching-status-display.js, announcements-display.js).
+ * Exposes window.UpwardSupabase for js/admin.js and for site modules (e.g. teaching-status-display.js, announcements-display.js on updates.html).
  */
 (function (w) {
   'use strict';
