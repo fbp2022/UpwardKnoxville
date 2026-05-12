@@ -21,6 +21,10 @@
     return document.getElementById(id);
   }
 
+  function getApp() {
+    return document.getElementById('admin-app');
+  }
+
   function api() {
     return typeof window !== 'undefined' && window.UpwardSupabase ? window.UpwardSupabase : {};
   }
@@ -30,43 +34,133 @@
     return p.indexOf('/admin/') !== -1 ? '../' : '';
   }
 
-  function showShell(phase) {
+  function clearWatchdogTimer() {
     if (typeof window !== 'undefined' && window.__UPWARD_ADMIN_LOADING_WATCHDOG) {
       clearTimeout(window.__UPWARD_ADMIN_LOADING_WATCHDOG);
       window.__UPWARD_ADMIN_LOADING_WATCHDOG = null;
     }
-    var loading = $('state-loading');
-    var login = $('state-login');
-    var root = $('state-dashboard-root');
-    if (loading) loading.hidden = phase !== 'loading';
-    if (login) login.hidden = phase !== 'login';
-    if (root) {
-      root.hidden = phase !== 'dashboard';
-      if (phase !== 'dashboard' && !dashboardMounted) root.innerHTML = '';
-    }
   }
 
-  function unmountDashboard() {
-    var root = $('state-dashboard-root');
-    if (root) root.innerHTML = '';
-    dashboardMounted = false;
+  function applyBodyLoginOnly() {
+    document.body.removeAttribute('data-admin-dashboard');
+    document.documentElement.classList.add('admin-auth-locked');
+    document.body.classList.add('admin-auth-locked');
+  }
+
+  function applyBodyDashboard() {
+    document.documentElement.classList.remove('admin-auth-locked');
+    document.body.classList.remove('admin-auth-locked');
+    document.body.setAttribute('data-admin-dashboard', 'true');
+  }
+
+  function destroyDashboardState() {
     currentRowId = null;
     adminAnnouncementsCache = [];
+    dashboardMounted = false;
   }
 
-  function mountDashboardMarkup() {
-    var root = $('state-dashboard-root');
-    if (!root) return;
+  function getLoginHtml(prefix) {
+    var P = prefix || '';
+    return (
+      '<div class="flex min-h-screen flex-col items-center justify-center px-5 py-8">' +
+      '<div class="soft-card w-full max-w-[420px] p-8 md:p-10">' +
+      '<p id="adminPageBanner" class="content-text mb-4 rounded-md border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-2 text-center text-sm leading-relaxed" role="alert" hidden></p>' +
+      '<div class="flex flex-col items-center text-center">' +
+      '<img src="' +
+      P +
+      'images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" width="48" height="48" class="brand-logo h-12 w-12" />' +
+      '<h1 class="mt-5 text-xl font-semibold text-[var(--text)]">Teaching steward</h1>' +
+      '<p class="content-text mt-3 text-sm leading-relaxed">Sign in to update where we are in Scripture.</p>' +
+      '</div>' +
+      '<form id="adminLoginForm" class="mt-8 space-y-4 text-left">' +
+      '<label class="block">' +
+      '<span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>' +
+      '<input id="adminLoginEmail" type="email" name="email" autocomplete="username" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />' +
+      '</label>' +
+      '<label class="block">' +
+      '<span class="mb-2 block text-sm font-medium text-[var(--text)]">Password</span>' +
+      '<input id="adminLoginPassword" type="password" name="password" autocomplete="current-password" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />' +
+      '</label>' +
+      '<p id="adminLoginError" class="min-h-[1.25rem] text-sm content-text" role="alert" aria-live="polite"></p>' +
+      '<button type="submit" id="adminLoginSubmit" class="w-full rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Sign in</button>' +
+      '</form>' +
+      '<p class="content-text mt-8 text-center text-xs leading-relaxed">' +
+      '<a href="' +
+      P +
+      'index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a>' +
+      '</p></div></div>'
+    );
+  }
+
+  function renderLoading() {
+    console.log('[admin] loading');
+    clearWatchdogTimer();
+    destroyDashboardState();
+    applyBodyLoginOnly();
+    var app = getApp();
+    if (!app) return;
+    app.className = 'min-h-screen';
+    app.innerHTML =
+      '<div class="flex min-h-screen flex-col items-center justify-center px-5" role="status" aria-live="polite">' +
+      '<p class="content-text text-sm text-[var(--muted)]">Loading…</p></div>';
+  }
+
+  /**
+   * @param {{ signOut?: boolean }} opts
+   */
+  function renderLogin(opts) {
+    opts = opts || {};
+    if (opts.signOut) {
+      console.log('[admin] sign out, clearing dashboard');
+    } else if (!opts.silent) {
+      console.log('[admin] no session, rendering login only');
+    }
+    clearWatchdogTimer();
+    destroyDashboardState();
+    applyBodyLoginOnly();
+    var app = getApp();
+    if (!app) return;
+    app.className = 'min-h-screen';
+    app.innerHTML = getLoginHtml(assetPrefix());
+    bindLogin();
+  }
+
+  function renderDashboard() {
+    console.log('[admin] session found, rendering dashboard');
+    clearWatchdogTimer();
+    applyBodyDashboard();
+    destroyDashboardState();
+    var app = getApp();
+    if (!app) return;
+    app.className = 'min-h-screen';
     var fn =
       typeof window !== 'undefined' && typeof window.__UPWARD_GET_ADMIN_DASHBOARD_HTML__ === 'function'
         ? window.__UPWARD_GET_ADMIN_DASHBOARD_HTML__
         : null;
     if (!fn) {
-      console.error('Missing __UPWARD_GET_ADMIN_DASHBOARD_HTML__ (load js/admin-dashboard-html.js before admin.js).');
+      app.innerHTML =
+        '<div class="p-8 text-center content-text text-sm">Missing dashboard template (admin-dashboard-html.js).</div>';
+      dashboardMounted = false;
       return;
     }
-    root.innerHTML = fn(assetPrefix());
+    app.innerHTML = fn(assetPrefix());
     dashboardMounted = true;
+    bindDashboardOnce();
+  }
+
+  async function initDashboardAfterAuth() {
+    await Promise.all([
+      loadTeachingEditor(),
+      loadAnnouncementsAdmin(),
+      loadBccList(),
+      loadContactMessages(),
+    ]);
+  }
+
+  async function enterDashboard() {
+    renderDashboard();
+    if (!dashboardMounted) return;
+    await initDashboardAfterAuth();
   }
 
   function clearPageBanner() {
@@ -89,13 +183,12 @@
   }
 
   function friendlyShowError(msg) {
-    unmountDashboard();
+    renderLogin({ silent: true });
     var b = $('adminPageBanner');
     if (b) {
       b.textContent = msg || 'Please try again in a moment.';
       b.hidden = false;
     }
-    showShell('login');
   }
 
   function bindLogout() {
@@ -110,31 +203,29 @@
 
   function bindLogin() {
     var form = $('adminLoginForm');
-    if (form && !form.dataset.bound) {
-      form.dataset.bound = '1';
-      form.addEventListener('submit', async function (ev) {
-        ev.preventDefault();
-        clearPageBanner();
-        var emailEl = $('adminLoginEmail');
-        var passEl = $('adminLoginPassword');
-        var errEl = $('adminLoginError');
-        var submit = $('adminLoginSubmit');
-        var email = emailEl && emailEl.value ? emailEl.value.trim() : '';
-        var password = passEl ? passEl.value : '';
-        if (errEl) errEl.textContent = '';
-        if (submit) submit.disabled = true;
-        try {
-          if (!client) throw new Error('Not initialized.');
-          var res = await client.auth.signInWithPassword({ email: email, password: password });
-          if (res.error) throw res.error;
-        } catch (e) {
-          var msg = e && e.message ? e.message : 'Sign-in failed.';
-          if (errEl) errEl.textContent = msg;
-        } finally {
-          if (submit) submit.disabled = false;
-        }
-      });
-    }
+    if (!form) return;
+    form.addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      clearPageBanner();
+      var emailEl = $('adminLoginEmail');
+      var passEl = $('adminLoginPassword');
+      var errEl = $('adminLoginError');
+      var submit = $('adminLoginSubmit');
+      var email = emailEl && emailEl.value ? emailEl.value.trim() : '';
+      var password = passEl ? passEl.value : '';
+      if (errEl) errEl.textContent = '';
+      if (submit) submit.disabled = true;
+      try {
+        if (!client) throw new Error('Not initialized.');
+        var res = await client.auth.signInWithPassword({ email: email, password: password });
+        if (res.error) throw res.error;
+      } catch (e) {
+        var msg = e && e.message ? e.message : 'Sign-in failed.';
+        if (errEl) errEl.textContent = msg;
+      } finally {
+        if (submit) submit.disabled = false;
+      }
+    });
   }
 
   function bindTeachingForm() {
@@ -730,47 +821,33 @@
     bindBccList();
   }
 
-  async function openDashboard() {
-    console.log('Rendering dashboard');
-    clearPageBanner();
-    unmountDashboard();
-    mountDashboardMarkup();
-    if (!dashboardMounted) {
-      friendlyShowError('Could not build admin dashboard.');
-      return;
-    }
-    showShell('dashboard');
-    bindDashboardOnce();
-    await Promise.all([
-      loadTeachingEditor(),
-      loadAnnouncementsAdmin(),
-      loadBccList(),
-      loadContactMessages(),
-    ]);
-  }
-
   function subscribeAuth() {
     if (authSubscribed || !client) return;
     authSubscribed = true;
     client.auth.onAuthStateChange(function (event, session) {
       if (event === 'INITIAL_SESSION') return;
-      if (session) {
-        openDashboard().catch(function (e) {
+      if (session && event === 'SIGNED_IN') {
+        enterDashboard().catch(function (e) {
           friendlyShowError(e && e.message ? e.message : 'Could not open dashboard.');
         });
-      } else {
-        console.log('Rendering login');
-        unmountDashboard();
-        clearPageBanner();
-        showShell('login');
+        return;
+      }
+      if (!session && event === 'SIGNED_OUT') {
+        renderLogin({ signOut: true });
+        window.scrollTo(0, 0);
       }
     });
   }
 
   async function init() {
     var body = document.body;
+    var app = getApp();
+    if (!app) {
+      console.error('[admin] #admin-app missing');
+      return;
+    }
     if (body) body.setAttribute('data-admin-init', 'pending');
-    showShell('loading');
+    renderLoading();
     try {
       if (
         !window.UpwardSupabase ||
@@ -806,7 +883,6 @@
         return;
       }
 
-      bindLogin();
       subscribeAuth();
 
       console.log('Checking session');
@@ -828,12 +904,9 @@
       }
 
       if (sessRes.data && sessRes.data.session) {
-        await openDashboard();
+        await enterDashboard();
       } else {
-        console.log('Rendering login');
-        clearPageBanner();
-        unmountDashboard();
-        showShell('login');
+        renderLogin();
       }
     } finally {
       if (body) body.setAttribute('data-admin-init', 'done');
