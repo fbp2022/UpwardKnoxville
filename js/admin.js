@@ -237,7 +237,6 @@
 
   async function init() {
     var body = document.body;
-    var note = $('adminSessionCheckNote');
     if (body) body.setAttribute('data-admin-init', 'pending');
     try {
       if (
@@ -275,7 +274,6 @@
       subscribeAuth();
 
       console.log('Checking session');
-      if (note) note.hidden = false;
       var sessRes;
       try {
         sessRes = await withTimeout(
@@ -284,11 +282,9 @@
           'Session check timed out (15s). Your network, a browser extension, or a mismatched Supabase key can block auth. In Supabase → Settings → API, try the long "anon" / "public" JWT key if you are using a publishable key that fails here.'
         );
       } catch (e) {
-        if (note) note.hidden = true;
         friendlyShowError(e && e.message ? e.message : 'Session check failed.');
         return;
       }
-      if (note) note.hidden = true;
 
       if (sessRes.error) {
         friendlyShowError(sessRes.error.message || 'Could not verify session.');
@@ -302,7 +298,6 @@
         showView('login');
       }
     } finally {
-      if (note) note.hidden = true;
       if (body) body.setAttribute('data-admin-init', 'done');
     }
   }
