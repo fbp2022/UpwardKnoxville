@@ -71,7 +71,6 @@
         <h1 class="mt-5 text-xl font-semibold text-[var(--text)]">Teaching steward</h1>
         <p class="content-text mt-3 text-sm leading-relaxed">Sign in to update where we are in Scripture.</p>
       </div>
-      <p id="adminSessionCheckNote" class="content-text mt-4 text-center text-sm text-[var(--muted)]" hidden role="status">Checking session…</p>
       <form id="adminLoginForm" class="mt-8 space-y-4 text-left">
         <label class="block">
           <span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>
@@ -92,15 +91,9 @@
 
   <div id="state-dashboard" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" hidden>
     <div class="soft-card w-full max-w-xl p-8 md:p-10">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h2 class="text-xl font-semibold text-[var(--text)]">Teaching status</h2>
-          <p id="adminLastUpdated" class="content-text mt-2 text-sm leading-relaxed"></p>
-        </div>
-        <button type="button" id="adminLogoutBtn" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] sm:mt-0">Log out</button>
-      </div>
-
-      <p id="adminEditorLoading" class="content-text mt-6 text-sm text-[var(--muted)]" hidden role="status">Loading…</p>
+      <h2 class="text-xl font-semibold text-[var(--text)]">Teaching status</h2>
+      <p id="adminLastUpdated" class="content-text mt-2 text-sm leading-relaxed"></p>
+      <p id="adminEditorLoading" class="content-text mt-4 text-sm text-[var(--muted)]" hidden role="status">Loading…</p>
 
       <form id="adminTeachingForm" class="mt-8 space-y-5">
         <label class="block">
@@ -128,15 +121,14 @@
           <textarea id="field-public-note" name="public_note" rows="4" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
         </label>
 
-        <div class="flex flex-wrap items-center gap-3 pt-2">
-          <button type="submit" id="adminSaveBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Save changes</button>
+        <div class="flex flex-col gap-3 border-t border-[var(--border)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-wrap items-center gap-3">
+            <button type="submit" id="adminSaveBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Save changes</button>
+            <button type="button" id="adminLogoutBtn" class="rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)]">Log out</button>
+          </div>
+          <p id="adminEditorStatus" class="min-h-[1.25rem] text-sm text-[var(--muted)] sm:text-right" role="status" aria-live="polite"></p>
         </div>
-        <p id="adminEditorStatus" class="min-h-[1.25rem] text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
       </form>
-
-      <p class="content-text mt-8 text-center text-xs leading-relaxed">
-        <a href="index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a>
-      </p>
     </div>
   </div>
 
@@ -149,12 +141,11 @@
     (function () {
       setTimeout(function () {
         if (typeof window.__UPWARD_ADMIN_SCRIPT_RAN !== 'undefined') return;
-        var loading = document.getElementById('state-loading');
-        if (!loading || loading.hidden) return;
         var cfg = document.getElementById('state-config');
         var login = document.getElementById('state-login');
         var dash = document.getElementById('state-dashboard');
         var err = document.getElementById('state-error');
+        var loading = document.getElementById('state-loading');
         var msg = document.getElementById('state-error-text');
         if (msg) {
           msg.textContent =
