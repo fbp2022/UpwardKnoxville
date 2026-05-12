@@ -13,8 +13,25 @@ const BCC_WARNING =
   'Your message was saved, but we could not add you to the update email list. You can try again later or contact us.';
 const EMAIL_NOTIFICATION_WARNING = 'Message saved, but email notification failed.';
 
-const NOTIFY_TO = 'connect@upwardknoxville.org';
+const NOTIFY_INBOX = 'connect@upwardknoxville.org';
 const DEFAULT_RESEND_FROM = 'Upward Knoxville <notifications@upwardknoxville.org>';
+
+/** Every submission is emailed to NOTIFY_INBOX; optional CONTACT_NOTIFY_TO adds more (comma / space / semicolon separated). */
+function notificationRecipients(): string[] {
+  const out: string[] = [NOTIFY_INBOX];
+  const raw = (Deno.env.get('CONTACT_NOTIFY_TO') || '').trim();
+  if (!raw) return out;
+  const seen = new Set(out.map((e) => e.toLowerCase()));
+  for (const part of raw.split(/[\s,;]+/)) {
+    const p = part.trim();
+    if (!p || !isValidEmail(p)) continue;
+    const low = p.toLowerCase();
+    if (seen.has(low)) continue;
+    seen.add(low);
+    out.push(p);
+  }
+  return out;
+}
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -81,9 +98,11 @@ async function sendContactNotificationEmail(params: {
     escapeHtml(textBody) +
     '</pre>';
 
+  const to = notificationRecipients();
+
   const payload: Record<string, unknown> = {
     from,
-    to: [NOTIFY_TO],
+    to,
     subject: 'New Upward Knoxville contact form message',
     text: textBody,
     html: htmlBody,
