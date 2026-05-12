@@ -51,6 +51,17 @@ body {
   margin: 0;
 }
 
+/* Admin: loading/login only — no scroll chrome behind an empty dashboard shell */
+html.admin-auth-locked,
+body.admin-auth-locked {
+  height: 100%;
+  overflow: hidden;
+}
+
+html.admin-auth-locked #admin-app {
+  min-height: 100%;
+}
+
 .header-surface {
   background: var(--header-bg);
   backdrop-filter: blur(10px);
