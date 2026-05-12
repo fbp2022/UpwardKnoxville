@@ -103,27 +103,38 @@
 
     <div class="soft-card w-full max-w-xl p-8 md:p-10">
       <h2 class="text-xl font-semibold text-[var(--text)]">Announcements</h2>
-      <p class="content-text mt-2 text-sm leading-relaxed">Public message board (newest first, up to ten).</p>
+      <p class="content-text mt-2 text-sm leading-relaxed">Published posts appear on the site (order, then date). Drafts stay hidden until published.</p>
       <p id="adminAnnouncementsLoading" class="content-text mt-4 text-sm text-[var(--muted)]" hidden role="status">Loading announcements…</p>
       <p id="adminAnnouncementsStatus" class="content-text mt-3 min-h-[1.25rem] text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
 
       <form id="adminAnnouncementForm" class="mt-6 space-y-4 border-t border-[var(--border)] pt-6">
-        <h3 class="text-sm font-semibold text-[var(--text)]">New announcement</h3>
+        <input type="hidden" id="adminAnnouncementEditingId" value="" autocomplete="off" />
+        <h3 id="adminAnnouncementFormHeading" class="text-sm font-semibold text-[var(--text)]">New announcement</h3>
         <label class="block">
           <span class="mb-2 block text-sm font-medium text-[var(--text)]">Title</span>
           <input id="adminAnnouncementTitle" type="text" name="title" required maxlength="500" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
         </label>
         <label class="block">
           <span class="mb-2 block text-sm font-medium text-[var(--text)]">Body</span>
-          <textarea id="adminAnnouncementBody" name="body" rows="4" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+          <textarea id="adminAnnouncementBody" name="body" rows="5" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+        </label>
+        <label class="flex cursor-pointer items-center gap-3">
+          <input id="adminAnnouncementPublished" type="checkbox" class="h-4 w-4 rounded border-[var(--border)] text-[var(--accent)] focus:ring-[var(--accent)]" />
+          <span class="text-sm font-medium text-[var(--text)]">Published (visible on the public site)</span>
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Display order</span>
+          <input id="adminAnnouncementDisplayOrder" type="number" name="display_order" value="0" step="1" class="w-full max-w-[12rem] rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
+          <span class="mt-1 block text-xs text-[var(--muted)]">Lower numbers appear first.</span>
         </label>
         <div class="flex flex-wrap items-center gap-3">
-          <button type="submit" id="adminAnnouncementPostBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Post</button>
+          <button type="submit" id="adminAnnouncementPostBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Save</button>
+          <button type="button" id="adminAnnouncementClearBtn" class="rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)]">New announcement</button>
         </div>
       </form>
 
       <div class="mt-8 border-t border-[var(--border)] pt-6">
-        <h3 class="text-sm font-semibold text-[var(--text)]">Recent</h3>
+        <h3 class="text-sm font-semibold text-[var(--text)]">All announcements</h3>
         <ul id="adminAnnouncementsList" class="mt-4 list-none space-y-4 p-0"></ul>
       </div>
     </div>
