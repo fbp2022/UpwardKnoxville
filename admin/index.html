@@ -4,99 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="../theme.css" />
-  <script src="../theme-init.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta http-equiv="refresh" content="0;url=../admin.html" />
   <title>Admin | Upward Knoxville</title>
+  <script>
+    location.replace('../admin.html');
+  </script>
 </head>
-<body class="min-h-screen antialiased">
-  <script>
-    (function () {
-      window.__UPWARD_ADMIN_LOADING_WATCHDOG = setTimeout(function () {
-        var b = document.body;
-        if (!b || b.getAttribute('data-admin-init') !== 'pending') return;
-        var loading = document.getElementById('state-loading');
-        var login = document.getElementById('state-login');
-        var root = document.getElementById('state-dashboard-root');
-        var banner = document.getElementById('adminPageBanner');
-        if (root) {
-          root.innerHTML = '';
-          root.hidden = true;
-        }
-        if (loading) loading.hidden = true;
-        if (login) login.hidden = false;
-        if (banner) {
-          banner.textContent =
-            'Admin did not finish starting. Open DevTools → Network, confirm the latest files are deployed, then reload this page.';
-          banner.hidden = false;
-        }
-        b.setAttribute('data-admin-init', 'done');
-      }, 18000);
-    })();
-  </script>
-  <noscript>
-    <div class="mx-auto max-w-lg p-8 text-center content-text">JavaScript is required to use the admin page.</div>
-  </noscript>
-
-  <div id="state-loading" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" role="status" aria-live="polite">
-    <p class="content-text text-sm text-[var(--muted)]">Loading…</p>
-  </div>
-
-  <div id="state-login" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" hidden>
-    <div class="soft-card w-full max-w-[420px] p-8 md:p-10">
-      <p id="adminPageBanner" class="content-text mb-4 rounded-md border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-2 text-center text-sm leading-relaxed" role="alert" hidden></p>
-      <div class="flex flex-col items-center text-center">
-        <img src="../images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" width="48" height="48" class="brand-logo h-12 w-12" />
-        <h1 class="mt-5 text-xl font-semibold text-[var(--text)]">Teaching steward</h1>
-        <p class="content-text mt-3 text-sm leading-relaxed">Sign in to update where we are in Scripture.</p>
-      </div>
-      <form id="adminLoginForm" class="mt-8 space-y-4 text-left">
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>
-          <input id="adminLoginEmail" type="email" name="email" autocomplete="username" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Password</span>
-          <input id="adminLoginPassword" type="password" name="password" autocomplete="current-password" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <p id="adminLoginError" class="min-h-[1.25rem] text-sm content-text" role="alert" aria-live="polite"></p>
-        <button type="submit" id="adminLoginSubmit" class="w-full rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Sign in</button>
-      </form>
-      <p class="content-text mt-8 text-center text-xs leading-relaxed">
-        <a href="../index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a>
-      </p>
-    </div>
-  </div>
-
-  <div id="state-dashboard-root" class="flex min-h-[70vh] flex-col items-center justify-center gap-8 px-5 py-14 md:py-16" hidden></div>
-
-  <!-- Supabase v2 UMD (explicit path so jsDelivr always serves the browser bundle). -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
-  <script src="../js/supabase-config.js"></script>
-  <script src="../js/supabase-client.js"></script>
-  <script src="../js/admin-dashboard-html.js"></script>
-  <script src="../js/admin.js"></script>
-  <script>
-    (function () {
-      setTimeout(function () {
-        if (typeof window.__UPWARD_ADMIN_SCRIPT_RAN !== 'undefined') return;
-        var loading = document.getElementById('state-loading');
-        var login = document.getElementById('state-login');
-        var root = document.getElementById('state-dashboard-root');
-        var banner = document.getElementById('adminPageBanner');
-        if (root) {
-          root.innerHTML = '';
-          root.hidden = true;
-        }
-        if (loading) loading.hidden = true;
-        if (login) login.hidden = false;
-        if (banner) {
-          banner.textContent =
-            '../js/admin.js did not run. Check Network for 404, deploy the js/ folder, and reload.';
-          banner.hidden = false;
-        }
-      }, 2500);
-    })();
-  </script>
+<body style="margin:0;font-family:system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f7f8fb;color:#374151">
+  <p style="padding:2rem;text-align:center;font-size:0.95rem">
+    <a href="../admin.html" style="color:#3f6f9f;font-weight:600">Continue to admin →</a>
+  </p>
 </body>
 </html>
