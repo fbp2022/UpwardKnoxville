@@ -1,12 +1,16 @@
-const QUIET =
-  '<p class="content-text text-sm text-[var(--muted)]">No announcements yet.</p>';
-
 function escapeHtml(str) {
   if (str == null || str === '') return '';
   const div = document.createElement('div');
   div.textContent = String(str);
   return div.innerHTML;
 }
+
+const QUIET =
+  '<article class="announcement-card announcement-card--empty" aria-live="polite">' +
+  '<p class="content-text">' +
+  escapeHtml('No announcements have been posted yet.') +
+  '</p>' +
+  '</article>';
 
 function formatDate(iso) {
   if (!iso) return '';
@@ -19,26 +23,28 @@ function upwardApi() {
   return typeof window !== 'undefined' && window.UpwardSupabase ? window.UpwardSupabase : {};
 }
 
+function renderArticle(row) {
+  const titleRaw = row.title != null ? String(row.title).trim() : '';
+  const title = escapeHtml(titleRaw);
+  const when = escapeHtml(formatDate(row.created_at));
+  const bodyHtml = escapeHtml(row.body != null ? String(row.body) : '');
+  const titleBlock = titleRaw
+    ? '<h3 class="announcement-card__title">' + title + '</h3>'
+    : '';
+  const metaBlock = when ? '<p class="announcement-card__meta">' + when + '</p>' : '';
+  return (
+    '<article class="announcement-card">' +
+    titleBlock +
+    metaBlock +
+    '<div class="announcement-card__body content-text whitespace-pre-wrap">' +
+    bodyHtml +
+    '</div>' +
+    '</article>'
+  );
+}
+
 function renderList(rows) {
-  const items = rows.map((row) => {
-    const title = escapeHtml(row.title);
-    const when = escapeHtml(formatDate(row.created_at));
-    const bodyHtml = escapeHtml(row.body != null ? String(row.body) : '');
-    return (
-      '<li class="announcement-item">' +
-      '<h3 class="announcement-item__title">' +
-      title +
-      '</h3>' +
-      '<p class="announcement-item__meta">' +
-      when +
-      '</p>' +
-      '<div class="announcement-item__body content-text">' +
-      bodyHtml +
-      '</div>' +
-      '</li>'
-    );
-  });
-  return '<ul class="announcement-list">' + items.join('') + '</ul>';
+  return rows.map((row) => renderArticle(row)).join('');
 }
 
 async function run() {
@@ -63,9 +69,8 @@ async function run() {
   try {
     const { data, error } = await supabase
       .from('announcements')
-      .select('id,title,body,created_at,is_published,display_order')
+      .select('id,title,body,created_at,is_published')
       .eq('is_published', true)
-      .order('display_order', { ascending: true })
       .order('created_at', { ascending: false })
       .limit(100);
 
