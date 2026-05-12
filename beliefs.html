@@ -3,107 +3,218 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
-  <link rel="manifest" href="images/site.webmanifest" />
-  <link rel="shortcut icon" href="images/favicon.ico" />
   <link rel="stylesheet" href="theme.css" />
   <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            warmbg: 'var(--bg)',
-            warmcard: 'var(--surface)',
-            ink: 'var(--text)',
-            muted: 'var(--muted)',
-            accent: 'var(--accent)',
-            accentdark: 'var(--accent-hover)',
-            line: 'var(--border)'
-          },
-          maxWidth: {
-            read: '56rem'
-          }
-        }
-      }
-    };
-  </script>
   <title>What We Believe | Upward Knoxville</title>
-  <meta name="description" content="Core beliefs of Upward Knoxville with Scripture references." />
+  <meta name="description" content="Foundational beliefs of Upward Knoxville, a Scripture-centered fellowship in Knoxville, Tennessee." />
 </head>
 <body class="antialiased">
-  <header class="header-surface sticky top-0 z-30 border-b border-line">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-6 lg:px-8">
-      <a href="index.html" class="flex items-center gap-3 text-sm font-semibold text-ink sm:text-base">
-        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="h-11 w-11 rounded-full border border-line object-cover" />
+  <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
+    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+      <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
         <span>Upward Knoxville</span>
       </a>
-
-      <button id="menuButton" class="inline-flex items-center rounded-md border border-line px-3 py-2 text-sm font-medium text-ink md:hidden" aria-label="Toggle navigation">Menu</button>
-
-      <nav id="menu" class="absolute left-0 right-0 top-full hidden border-b border-line bg-warmcard px-5 py-3 md:static md:block md:border-0 md:bg-transparent md:p-0">
-        <ul class="flex flex-col gap-3 text-sm font-medium text-muted md:flex-row md:items-center md:gap-6">
-          <li><a class="hover:text-ink" href="index.html">Home</a></li>
-          <li><a class="hover:text-ink" href="about.html">About Upward Knoxville</a></li>
-          <li><a class="hover:text-ink" href="beliefs.html">What We Believe</a></li>
-          <li><a class="hover:text-ink" href="teaching.html">Verse-by-Verse Teaching</a></li>
-          <li><a class="hover:text-ink" href="connect.html">Connect & Community</a></li>
-          <li class="nav-dropdown md:relative" data-nav-dropdown>
-            <button type="button" data-nav-dropdown-trigger class="inline-flex w-full items-center gap-1 border-0 bg-transparent p-0 text-left font-medium text-muted hover:text-ink md:inline-flex md:w-auto" aria-expanded="false" aria-controls="groupsSubmenu" aria-haspopup="true" id="groupsNavTrigger">
-              Groups
-              <span class="nav-dropdown-chevron text-[0.65rem] leading-none opacity-70" aria-hidden="true">▾</span>
-            </button>
-            <ul id="groupsSubmenu" class="nav-dropdown-panel" role="menu">
-              <li role="none"><a role="menuitem" class="block rounded-md py-2 hover:text-ink md:px-3 md:py-2 md:hover:bg-[var(--surface-hover)]" href="forge.html">The Forge</a></li>
-              <li role="none"><a role="menuitem" class="block rounded-md py-2 hover:text-ink md:px-3 md:py-2 md:hover:bg-[var(--surface-hover)]" href="foundry.html">The Foundry</a></li>
+      <button type="button" id="menuButton" aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] lg:hidden">Menu</button>
+      <nav id="menu" class="site-nav lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none" aria-label="Primary">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="teachings.html">Teachings</a></li>
+          <li><a class="nav-link" href="updates.html">Updates</a></li>
+          <li><a class="nav-link" aria-current="page" href="beliefs.html">Beliefs</a></li>
+          <li class="nav-dropdown" data-nav-dropdown>
+            <div class="nav-dropdown__row">
+              <a class="nav-link nav-dropdown__parent" href="groups.html">Groups</a>
+              <button type="button" class="nav-dropdown__toggle" aria-expanded="false" aria-controls="nav-groups-submenu" aria-label="Show or hide Groups pages">
+                <svg class="nav-dropdown__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </div>
+            <ul id="nav-groups-submenu" class="nav-dropdown__list" role="list">
+              <li><a class="nav-link nav-dropdown__link" href="groups.html">Groups Overview</a></li>
+              <li><a class="nav-link nav-dropdown__link" href="forge.html">The Forge</a></li>
+              <li><a class="nav-link nav-dropdown__link" href="foundry.html">The Foundry</a></li>
             </ul>
           </li>
-          <li><a class="hover:text-ink" href="contact.html">Contact</a></li>
+          <li><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" href="connect.html">Stay Connected</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main class="readable px-5 pb-8 pt-10 sm:px-6 sm:pt-12 lg:px-8">
-    <div class="mx-auto max-w-read space-y-7">
-      <section class="rounded-2xl border border-line bg-warmcard p-6 shadow-sm sm:p-8">
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent">What We Believe</p>
-        <h1 class="mb-4 text-3xl font-bold text-ink sm:text-4xl">Our beliefs are rooted in Scripture and centered on Jesus.</h1>
-        <p>We do not claim to know everything, but we do want to hold firmly to what God has made clear in His Word.</p>
-      </section>
+  <main class="px-5 py-14 md:py-16 lg:py-20">
+    <section class="mx-auto max-w-prose">
+      <p class="text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Doctrine</p>
+      <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">What We Believe</h1>
+      <p class="content-text mt-6 text-lg leading-relaxed">Upward Knoxville exists to open the Bible together, look to Jesus, and grow in Christ through faithful teaching, honest fellowship, prayer, and the study of God&rsquo;s Word. These beliefs are not meant to replace Scripture, but to summarize the foundational truths we hold as we walk through the Bible line by line and verse by verse.</p>
+    </section>
 
-      <section class="space-y-5">
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About God</h2><p>We believe there is one true God, forever existing as Father, Son, and Holy Spirit. He is Creator over everything, holy in all His ways, and full of mercy and love.</p><p class="text-sm text-muted">(Genesis 1:1; Deuteronomy 6:4; Matthew 28:19)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About the Bible</h2><p>We believe the Bible is God's inspired and trustworthy Word. It is our final authority for faith and daily life, and it shows us God's heart, His truth, and His rescue plan in Christ.</p><p class="text-sm text-muted">(2 Timothy 3:16-17; Psalm 119:105; Hebrews 4:12)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About the Holy Spirit</h2><p>We believe the Holy Spirit is fully God. He convicts, comforts, and empowers believers to live holy lives and serve faithfully. He gives spiritual gifts as He chooses, and His work always points us to Christ-like love and biblical order.</p><p class="text-sm text-muted">(John 14:16-17; John 16:8; Acts 1:8; 1 Corinthians 12:4-11; Galatians 5:22-23)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About Mankind</h2><p>We believe every person is made in God's image and carries deep value. We also believe all of us have sinned and cannot fix ourselves apart from God's grace.</p><p class="text-sm text-muted">(Genesis 1:27; Romans 3:23; Romans 5:12)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About Salvation</h2><p>We believe salvation is by grace through faith in Jesus Christ alone, not by our works. Through His death and resurrection, sinners can be forgiven, made new, and reconciled to God.</p><p class="text-sm text-muted">(Ephesians 2:8-9; Romans 3:23-26; Romans 5:8-9; John 3:16)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About Jesus Christ</h2><p>We believe Jesus is fully God and fully man. He was born of a virgin, lived without sin, died for our sins, rose bodily from the grave, and ascended to Heaven. He now intercedes for us and will return in power and righteousness.</p><p class="text-sm text-muted">(John 1:1-3; Philippians 2:5-11; Luke 1:34-35; Romans 5:8; 1 Corinthians 15:3-4; Revelation 19:11-16)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About the Church</h2><p>We believe the Church is the body of Christ made up of believers everywhere. God calls us to gather, worship, pray, teach the Word, make disciples, and serve one another in love.</p><p class="text-sm text-muted">(Matthew 16:18; Acts 2:42-47; Ephesians 4:11-13; Hebrews 10:25)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About Human Life</h2><p>We believe every human life is sacred from conception to natural death because each life is made by God and bears His image. Every person has real dignity and worth.</p><p class="text-sm text-muted">(Psalm 139:13-16; Jeremiah 1:5; Genesis 9:6)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About Gender</h2><p>We believe God created people male and female, and that this is part of His good design. Men and women are equal in value before God and both reflect His image.</p><p class="text-sm text-muted">(Genesis 1:27; Matthew 19:4; Psalm 139:13-16)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About Marriage</h2><p>We believe marriage is a lifelong covenant between one man and one woman, established by God. It reflects Christ's love and is meant to be marked by faithfulness, love, and honor.</p><p class="text-sm text-muted">(Genesis 2:24; Matthew 19:4-6; Ephesians 5:31-33)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About Sexuality</h2><p>We believe God designed sexual intimacy for marriage as Scripture defines it. We also believe the gospel offers mercy, forgiveness, and transformation to anyone who turns to Christ in repentance and faith.</p><p class="text-sm text-muted">(Romans 1:26-27; 1 Corinthians 6:9-11; Hebrews 13:4; 2 Corinthians 5:17; John 8:11)</p></article>
-        <article class="rounded-xl border border-line bg-warmcard p-5 shadow-sm"><h2 class="mb-3 text-xl font-semibold">About Christ's Return and Eternity</h2><p>We believe Jesus will return, judge with perfect justice, and reign forever. We believe in the resurrection of all people, eternal life with God for those who are in Christ, and eternal separation for those who reject Him.</p><p class="text-sm text-muted">(Daniel 12:2; John 5:28-29; Revelation 20-21)</p></article>
-      </section>
-    </div>
+    <section class="mx-auto mt-10 max-w-prose md:mt-12">
+      <div class="soft-card p-8 md:p-10">
+        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">A Scripture-Centered Foundation</h2>
+        <p class="content-text mt-6 text-base leading-relaxed">Our desire is not to build a fellowship around personality, performance, trends, or tradition for tradition&rsquo;s sake. Our desire is to submit ourselves to the written Word of God and point one another to Jesus Christ. We believe Scripture is sufficient, Christ is central, salvation is by grace through faith, and the Christian life is meant to be lived in humble obedience to the Lord.</p>
+      </div>
+    </section>
+
+    <section class="mx-auto mt-10 max-w-prose space-y-10 md:mt-14 md:space-y-12">
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">1. The Scriptures</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe the Bible is the inspired, authoritative, and sufficient Word of God. Scripture is not merely helpful religious literature, but God&rsquo;s written revelation to mankind. It teaches us who God is, who we are, what sin has done, what Christ has accomplished, and how we are called to walk before the Lord.</p>
+          <p>We believe Scripture should be taught faithfully, in context, and with reverence. That is why Upward Knoxville emphasizes line-by-line, verse-by-verse Bible teaching.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">2 Timothy 3:16–17 · 2 Peter 1:20–21 · Psalm 119:105</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">2. God</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe in one living and true God, eternally existing in three persons: Father, Son, and Holy Spirit. God is holy, sovereign, righteous, merciful, just, gracious, and good. He is the Creator of all things and the One to whom all people are accountable.</p>
+          <p>God is not distant or indifferent. He has revealed Himself through creation, through His Word, and most fully through His Son, Jesus Christ.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Deuteronomy 6:4 · Matthew 28:19 · John 17:3</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">3. Jesus Christ</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe Jesus Christ is the eternal Son of God, fully God and fully man. He was conceived by the Holy Spirit, born of the virgin Mary, lived a sinless life, taught with authority, performed works that revealed His identity, died on the cross for our sins, rose bodily from the dead, ascended to the right hand of the Father, and will return.</p>
+          <p>Jesus is not merely a teacher, prophet, example, or moral guide. He is Lord, Savior, King, and the only way to the Father.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">John 1:1–14 · John 14:6 · Colossians 1:15–20 · 1 Corinthians 15:3–4</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">4. The Holy Spirit</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe the Holy Spirit is fully God and actively works in the world and in the life of the believer. He convicts the world concerning sin, righteousness, and judgment. He regenerates, indwells, seals, teaches, comforts, sanctifies, and empowers believers to walk in obedience to Christ.</p>
+          <p>The Christian life is not lived by human strength alone, but by the grace of God and the work of the Holy Spirit.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">John 14:26 · John 16:7–15 · Romans 8:9–14 · Ephesians 1:13–14</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">5. Sin and the Human Condition</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe mankind was created in the image of God, but through sin, humanity became separated from God. Sin is not merely a mistake or weakness. It is rebellion against God and affects every part of human life.</p>
+          <p>Because of sin, all people need redemption, forgiveness, and reconciliation with God. No person can make themselves righteous before God by good works, religious effort, morality, or personal sincerity.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Genesis 1:26–27 · Romans 3:23 · Romans 6:23 · Isaiah 59:2</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">6. Salvation</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe salvation is by grace alone through faith in Jesus Christ. It is not earned by works, religious performance, church attendance, personal goodness, or human effort. Salvation is the gift of God, made possible through the death and resurrection of Jesus.</p>
+          <p>Those who repent and believe in Christ are forgiven, justified before God, made new, and brought into eternal life.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Ephesians 2:8–9 · Romans 5:1 · John 3:16 · Titus 3:5–7</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">7. Grace and Faith</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe grace is not permission to remain in sin, but the undeserved mercy of God that saves, restores, teaches, and transforms. True faith is more than intellectual agreement. It is trust in Christ that produces a changed life.</p>
+          <p>We are saved by grace, through faith, and called to walk in obedience, humility, repentance, and love.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Romans 6:1–4 · Galatians 2:20 · James 2:17 · Titus 2:11–14</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">8. The Church</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe the Church is the body of Christ, made up of all true believers. The Church exists to worship God, teach Scripture, proclaim the gospel, make disciples, serve one another, pray, encourage the saints, and bear witness to Christ in the world.</p>
+          <p>Upward Knoxville is currently beginning as a Bible teaching and fellowship community, with the hope of growing faithfully and prayerfully as the Lord leads.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Acts 2:42 · Ephesians 4:11–16 · Hebrews 10:24–25 · Matthew 28:18–20</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">9. Baptism and Communion</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe baptism and communion are important acts of obedience, remembrance, and public identification with Christ, but they are not what saves a person. Salvation is by grace through faith in Jesus Christ alone, not through rituals, works, or religious performance.</p>
+          <p>We follow baptism because Jesus Himself was baptized and commanded His followers to baptize believers. Baptism publicly identifies a Christian with the death, burial, and resurrection of Christ and serves as an outward expression of inward faith.</p>
+          <p>We also practice communion because Jesus said, &ldquo;Do this in remembrance of Me.&rdquo; Communion is a reverent remembrance of Christ&rsquo;s sacrifice and a proclamation of the gospel. We do not believe the bread and cup literally become the physical flesh and blood of Christ, but rather serve as meaningful reminders pointing believers back to Jesus, the cross, and His finished work.</p>
+          <p>These practices are not empty rituals, but important acts of obedience and worship that continually direct our hearts toward Christ.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Matthew 28:19 · Romans 6:3–4 · Luke 22:19 · 1 Corinthians 11:23–26</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">10. Sanctification</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe the Christian life is a continual process of growing in Christ. Believers are called to turn from sin, walk in obedience, love God, love others, and become more like Jesus through the work of the Holy Spirit.</p>
+          <p>Growth does not happen through performance or pretending, but through abiding in Christ, submitting to the Word, repentance, prayer, fellowship, and the grace of God.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">John 15:4–5 · Romans 12:1–2 · 1 Thessalonians 4:3 · 2 Corinthians 3:18</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">11. The Return of Christ</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe Jesus Christ will return. His return is the hope of the believer and a reminder that this present world is not our final home. Christians are called to live faithfully, watchfully, and expectantly as we await the Lord.</p>
+          <p>The return of Christ should not lead us to speculation, fear, or distraction, but to holiness, endurance, worship, and faithful obedience.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">John 14:1–3 · Acts 1:11 · Titus 2:13 · Revelation 22:20</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">12. Christian Living</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>We believe followers of Jesus are called to live lives marked by humility, repentance, truth, love, holiness, service, prayer, and faithfulness. The Christian life is not about appearing impressive, but about walking with the Lord one day at a time.</p>
+          <p>We desire to be a fellowship where ordinary believers can grow honestly, ask sincere questions, be corrected by Scripture, encourage one another, and keep looking to Christ.</p>
+        </div>
+        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Micah 6:8 · Colossians 3:12–17 · 1 Peter 1:15–16 · 1 John 2:6</p>
+      </article>
+
+      <article class="soft-card p-8 md:p-10">
+        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Walking Together in the Word</h2>
+        <div class="content-text mt-6 space-y-4 text-base leading-relaxed">
+          <p>These beliefs guide how we teach, gather, pray, and encourage one another. Our goal is not to win arguments, build a platform, or create a performance-driven environment. Our goal is to open the Bible, look to Jesus, and help one another walk faithfully with the Lord.</p>
+          <p>If you are new to faith, returning after a long season away, or have followed Christ for many years, you are welcome to come learn, listen, ask questions, and grow with us.</p>
+        </div>
+      </article>
+    </section>
   </main>
-  <footer class="footer-surface mt-10 border-t border-line">
-    <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-6 text-sm text-muted sm:px-6 lg:px-8 md:flex-row md:items-center md:justify-between">
-      <p>&copy; <span id="year"></span> Upward Knoxville. All rights reserved.</p>
-      <div class="flex flex-wrap items-center gap-4">
-        <a class="hover:text-ink" href="beliefs.html">Beliefs</a>
-        <a class="hover:text-ink" href="teaching.html">Teaching</a>
-        <a class="hover:text-ink" href="connect.html">Community</a>
-        <a class="hover:text-ink" href="contact.html">Contact</a>
+
+  <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
+    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+      <div>
+        <div class="flex items-center gap-3 font-semibold text-[var(--text)]">
+          <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo brand-logo--sm" />
+          <span>Upward Knoxville</span>
+        </div>
+        <p class="content-text mt-3 text-sm leading-relaxed">Verse-by-verse Bible teaching and simple fellowship in Knoxville.</p>
+        <p class="mt-2 text-sm text-[var(--muted)]">Knoxville, Tennessee</p>
+      </div>
+      <nav class="space-y-2 text-sm" aria-label="Quick links">
+        <a class="block nav-link" href="index.html">Home</a>
+        <a class="block nav-link" href="teachings.html">Teachings</a>
+        <a class="block nav-link" href="updates.html">Updates</a>
+        <a class="block nav-link" href="beliefs.html">Beliefs</a>
+        <a class="block nav-link" href="groups.html">Groups</a>
+        <a class="block nav-link" href="forge.html">The Forge</a>
+        <a class="block nav-link" href="foundry.html">The Foundry</a>
+        <a class="block nav-link" href="faq.html">FAQ</a>
+        <a class="block nav-link" href="about.html">About</a>
+        <a class="block nav-link" href="connect.html">Stay Connected</a>
+        <a class="block nav-link" href="what-to-expect.html">What to Expect</a>
+      </nav>
+      <div class="space-y-2 text-sm">
+        <a class="footer-youtube nav-link" href="https://youtube.com/@upwardknoxville" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+        <a class="block nav-link" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>
+        <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path.", Psalm 119:105</p>
       </div>
     </div>
+    <div class="mx-auto mt-8 max-w-6xl border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
+      <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
+    </div>
   </footer>
-
   <script src="script.js"></script>
 </body>
 </html>
-

@@ -6,7 +6,8 @@
   <link rel="stylesheet" href="theme.css" />
   <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Connect | Upward Knoxville</title>
+  <title>Groups | Upward Knoxville</title>
+  <meta name="description" content="Groups at Upward Knoxville, where The Forge is live; The Foundry is not yet meeting." />
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
@@ -24,60 +25,77 @@
           <li><a class="nav-link" href="beliefs.html">Beliefs</a></li>
           <li class="nav-dropdown" data-nav-dropdown>
             <div class="nav-dropdown__row">
-              <a class="nav-link nav-dropdown__parent" href="groups.html">Groups</a>
+              <a class="nav-link nav-dropdown__parent nav-dropdown__parent--active" href="groups.html">Groups</a>
               <button type="button" class="nav-dropdown__toggle" aria-expanded="false" aria-controls="nav-groups-submenu" aria-label="Show or hide Groups pages">
                 <svg class="nav-dropdown__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
             </div>
             <ul id="nav-groups-submenu" class="nav-dropdown__list" role="list">
-              <li><a class="nav-link nav-dropdown__link" href="groups.html">Groups Overview</a></li>
+              <li><a class="nav-link nav-dropdown__link" aria-current="page" href="groups.html">Groups Overview</a></li>
               <li><a class="nav-link nav-dropdown__link" href="forge.html">The Forge</a></li>
               <li><a class="nav-link nav-dropdown__link" href="foundry.html">The Foundry</a></li>
             </ul>
           </li>
           <li><a class="nav-link" href="faq.html">FAQ</a></li>
           <li><a class="nav-link" href="about.html">About</a></li>
-          <li><a class="nav-link" aria-current="page" href="connect.html">Stay Connected</a></li>
+          <li><a class="nav-link" href="connect.html">Stay Connected</a></li>
         </ul>
       </nav>
     </div>
   </header>
+
   <main class="px-5 py-14 md:py-16 lg:py-20">
     <section class="mx-auto max-w-prose">
-      <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">Stay Connected</h1>
-      <p class="content-text mt-6 text-lg leading-relaxed">Questions about the teachings? Prayer requests? We'd love to hear from you and walk alongside you in the Word.</p>
+      <p class="text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Discipleship</p>
+      <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">Groups</h1>
+      <p class="content-text mt-6 text-lg leading-relaxed">Upward Knoxville is beginning with Bible teaching and fellowship. As the fellowship grows, groups provide smaller, focused spaces for discipleship, encouragement, accountability, prayer, and spiritual growth.</p>
     </section>
-    <section class="mx-auto mt-10 max-w-2xl soft-card p-7 md:mt-12 md:p-8">
-      <form id="connectForm" class="space-y-4" novalidate>
-        <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <input type="hidden" name="_subject" value="New Stay Connected message from upwardknoxville.org" />
-        <label class="block" for="connectName">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Name <span class="font-normal text-[var(--muted)]">(optional)</span></span>
-          <input id="connectName" name="name" type="text" placeholder="Your name" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block" for="connectEmail">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>
-          <input id="connectEmail" name="email" type="email" placeholder="you@example.com" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block" for="connectMessage">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Message</span>
-          <textarea id="connectMessage" name="message" rows="5" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2"></textarea>
-        </label>
-        <div class="form-switch-row">
-          <span id="connectPrayerLabel" class="form-switch-label">This is a prayer request</span>
-          <button type="button" id="connectPrayerSwitch" class="a11y-switch" role="switch" aria-checked="false" aria-labelledby="connectPrayerLabel">
-            <span class="a11y-switch-thumb" aria-hidden="true"></span>
-          </button>
+
+    <section class="mx-auto mt-10 max-w-prose md:mt-12">
+      <div class="soft-card p-8 md:p-10">
+        <h2 class="text-xl font-semibold tracking-tight text-[var(--text)] sm:text-2xl">Staying connected</h2>
+        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
+          <p>Most group interaction and participation currently takes place through Discord. This helps reduce unnecessary travel, allows people with different schedules to participate more consistently, and makes it easier for individuals both inside and outside the Knoxville area to stay connected and involved.</p>
+          <p>While there may occasionally be planned in-person gatherings, fellowship events, or meetups connected to these groups, those would typically be scheduled well in advance with clear communication beforehand.</p>
+          <p>Our goal is not to replace real fellowship, but to create practical and accessible ways for believers to stay connected, encouraged, sharpened by Scripture, and involved in discipleship throughout the week.</p>
         </div>
-        <button id="connectSubmitButton" type="submit" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Stay Connected</button>
-        <p id="connectStatus" class="text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
-      </form>
+      </div>
     </section>
-    <section class="mx-auto mt-8 max-w-2xl soft-card p-7 md:mt-10 md:p-8">
-      <h2 class="text-2xl font-semibold text-[var(--text)]">Questions or Prayer Requests</h2>
-      <p class="content-text mt-5 text-base leading-relaxed">Email us at <a class="font-medium text-[var(--accent)] underline decoration-[var(--accent)]/30 underline-offset-2 hover:text-[var(--accent-hover)]" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>. We read every message and are grateful to hear from you.</p>
+
+    <section class="mx-auto mt-10 max-w-prose md:mt-12">
+      <div class="soft-card p-8 md:p-10">
+        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Groups Are Developing</h2>
+        <div class="content-text mt-6 space-y-4 text-base leading-relaxed">
+          <p>Upward Knoxville is still in its early stages overall, and we are adding discipleship spaces slowly and intentionally. The Forge is already live for men; other spaces (such as The Foundry) are still forming as the Lord provides leadership and need. We do not want to create programs simply to appear established.</p>
+          <p>These groups are not meant to replace the main Bible teaching and fellowship of Upward Knoxville. They are meant to support it by creating smaller spaces where believers can grow honestly, encourage one another, ask questions, pray, and walk more faithfully with Christ.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto mt-10 max-w-prose md:mt-14">
+      <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Our groups</h2>
+      <p class="content-text mt-4 text-base leading-relaxed">The Forge is live; The Foundry is not yet meeting. Read more about each below.</p>
+      <div class="mt-8 grid gap-6 md:grid-cols-2 md:gap-8">
+        <article class="soft-card p-7 md:p-8">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="text-xl font-semibold text-[var(--text)]">The Forge</h3>
+            <span class="inline-flex rounded-full border border-[var(--border)] bg-[var(--surface)] px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Live</span>
+          </div>
+          <p class="content-text mt-4 text-base leading-relaxed">Men&rsquo;s discipleship is live now, with biblical leadership, accountability, brotherhood, spiritual refinement, and regular connection on Discord.</p>
+          <a href="forge.html" class="mt-6 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">The Forge →</a>
+        </article>
+        <article class="soft-card p-7 md:p-8">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="text-xl font-semibold text-[var(--text)]">The Foundry</h3>
+            <span class="inline-flex rounded-full border border-[var(--border)] bg-[var(--surface)] px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Not yet live</span>
+          </div>
+          <p class="content-text mt-4 text-base leading-relaxed">Planned women&rsquo;s discipleship space, not yet meeting. We are actively looking for Scripture-honoring leadership before anything launches.</p>
+          <a href="foundry.html" class="mt-6 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">The Foundry →</a>
+        </article>
+      </div>
     </section>
   </main>
+
   <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
     <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
       <div>
@@ -117,4 +135,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-

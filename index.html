@@ -27,6 +27,20 @@
           <li><a class="nav-link" aria-current="page" href="index.html">Home</a></li>
           <li><a class="nav-link" href="teachings.html">Teachings</a></li>
           <li><a class="nav-link" href="updates.html">Updates</a></li>
+          <li><a class="nav-link" href="beliefs.html">Beliefs</a></li>
+          <li class="nav-dropdown" data-nav-dropdown>
+            <div class="nav-dropdown__row">
+              <a class="nav-link nav-dropdown__parent" href="groups.html">Groups</a>
+              <button type="button" class="nav-dropdown__toggle" aria-expanded="false" aria-controls="nav-groups-submenu" aria-label="Show or hide Groups pages">
+                <svg class="nav-dropdown__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </div>
+            <ul id="nav-groups-submenu" class="nav-dropdown__list" role="list">
+              <li><a class="nav-link nav-dropdown__link" href="groups.html">Groups Overview</a></li>
+              <li><a class="nav-link nav-dropdown__link" href="forge.html">The Forge</a></li>
+              <li><a class="nav-link nav-dropdown__link" href="foundry.html">The Foundry</a></li>
+            </ul>
+          </li>
           <li><a class="nav-link" href="faq.html">FAQ</a></li>
           <li><a class="nav-link" href="about.html">About</a></li>
           <li><a class="nav-link" href="connect.html">Stay Connected</a></li>
@@ -48,16 +62,6 @@
       </div>
     </section>
 
-    <section class="border-b border-[var(--border)] bg-[var(--surface)] px-5 py-12 md:py-14 lg:py-16">
-      <div class="mx-auto max-w-prose">
-        <div class="soft-card p-8 md:p-10">
-          <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Announcements</h2>
-          <p class="content-text mt-3 text-sm leading-relaxed">News and notes from the fellowship. For Scripture progress too, see <a href="updates.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">Updates</a>.</p>
-          <div data-announcements-root class="mt-6"></div>
-        </div>
-      </div>
-    </section>
-
     <section class="px-5 py-14 md:py-16 lg:py-20">
       <div class="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 md:gap-8">
         <article class="soft-card p-7 md:p-8">
@@ -69,6 +73,7 @@
           <p class="content-text mt-5 max-w-prose text-base leading-relaxed">You are welcome to listen quietly, ask questions, and learn at your own pace. We value authenticity, humility, and a fellowship rhythm that helps people grow over time.</p>
         </article>
       </div>
+      <p class="content-text mx-auto mt-10 max-w-prose text-center text-sm text-[var(--muted)]">Discipleship groups: <a href="groups.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">Groups</a> · What we believe: <a href="beliefs.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">Beliefs</a></p>
     </section>
 
     <section class="border-y border-[var(--border)] bg-[var(--surface)] px-5 py-14 md:py-16 lg:py-20">
@@ -84,8 +89,12 @@
 
     <section class="px-5 py-14 md:py-16 lg:py-20">
       <div class="mx-auto max-w-prose soft-card p-8 md:p-10">
-        <h2 class="text-3xl font-semibold text-[var(--text)]">Our Current Stage</h2>
-        <p class="content-text mt-6 text-base leading-relaxed">Upward Knoxville is currently a growing Bible teaching and fellowship community in Knoxville, Tennessee. It is not yet operating as a full church body, but the hope is to grow faithfully and prayerfully as the Lord leads.</p>
+        <h2 class="text-3xl font-semibold tracking-tight text-[var(--text)] sm:text-4xl">How we teach</h2>
+        <div class="content-text mt-6 space-y-5 text-base leading-relaxed">
+          <p>We teach the Bible verse by verse, chapter by chapter, with context kept in view. Our aim is patient exposition, careful observation, clarity, and application that follows what Scripture says, so Christ remains central as we open the Word together.</p>
+          <p>We teach line by line and verse by verse with context in view. Scripture interprets Scripture. God&rsquo;s written Word comes first, not motivational speaking or performance-driven Christianity.</p>
+        </div>
+        <p class="content-text mt-8 text-sm text-[var(--muted)]">For where we are in Scripture and fellowship announcements, see <a href="updates.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">Updates</a>.</p>
       </div>
     </section>
 
@@ -105,24 +114,10 @@
 
     <section class="border-y border-[var(--border)] bg-[var(--surface)] px-5 py-14 md:py-16 lg:py-20">
       <div class="mx-auto flex max-w-2xl justify-center px-2">
-        <a href="/connect.html" class="inline-flex items-center justify-center rounded-full bg-[var(--accent)] px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--accent-hover)]">We&rsquo;d love to hear from you →</a>
+        <a href="connect.html" class="inline-flex items-center justify-center rounded-full bg-[var(--accent)] px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--accent-hover)]">We&rsquo;d love to hear from you →</a>
       </div>
     </section>
 
-    <section class="bg-[var(--surface)] px-5 py-14 md:py-16 lg:py-20">
-      <div class="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 md:gap-8">
-        <article class="soft-card p-7 md:p-8">
-          <h2 class="text-2xl font-semibold text-[var(--text)]">Teachings</h2>
-          <p class="content-text mt-5 max-w-prose text-base leading-relaxed">Watch on YouTube and read how we approach verse-by-verse exposition.</p>
-          <a href="teachings.html" class="mt-6 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">YouTube &amp; how we teach</a>
-        </article>
-        <article class="soft-card p-7 md:p-8">
-          <h2 class="text-2xl font-semibold text-[var(--text)]">Frequently Asked Questions</h2>
-          <p class="content-text mt-5 max-w-prose text-base leading-relaxed">Find quick answers about what Upward Knoxville is, our current stage, what to bring, and how to stay connected.</p>
-          <a href="faq.html" class="mt-6 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">Read FAQ</a>
-        </article>
-      </div>
-    </section>
   </main>
 
   <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
@@ -139,6 +134,10 @@
         <a class="block nav-link" href="index.html">Home</a>
         <a class="block nav-link" href="teachings.html">Teachings</a>
         <a class="block nav-link" href="updates.html">Updates</a>
+        <a class="block nav-link" href="beliefs.html">Beliefs</a>
+        <a class="block nav-link" href="groups.html">Groups</a>
+        <a class="block nav-link" href="forge.html">The Forge</a>
+        <a class="block nav-link" href="foundry.html">The Foundry</a>
         <a class="block nav-link" href="faq.html">FAQ</a>
         <a class="block nav-link" href="about.html">About</a>
         <a class="block nav-link" href="connect.html">Stay Connected</a>
@@ -150,7 +149,7 @@
           YouTube
         </a>
         <a class="block nav-link" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>
-        <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path." — Psalm 119:105</p>
+        <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path.", Psalm 119:105</p>
       </div>
     </div>
     <div class="mx-auto mt-8 max-w-6xl border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
@@ -158,10 +157,6 @@
     </div>
   </footer>
 
-  <script src="js/supabase-config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
-  <script src="js/supabase-client.js"></script>
-  <script type="module" src="js/announcements-display.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

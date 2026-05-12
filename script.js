@@ -1,4 +1,47 @@
 /* =========================
+   GROUPS NAV DROPDOWN (mobile disclosure + desktop hover/focus)
+========================= */
+function closeGroupsNavDropdowns() {
+  document.querySelectorAll('[data-nav-dropdown].is-open').forEach((root) => {
+    root.classList.remove('is-open');
+    const toggle = root.querySelector('.nav-dropdown__toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  });
+}
+
+(function initGroupsNavDropdown() {
+  const roots = document.querySelectorAll('[data-nav-dropdown]');
+  if (!roots.length) return;
+
+  roots.forEach((root) => {
+    const toggle = root.querySelector('.nav-dropdown__toggle');
+    if (!toggle) return;
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      const next = !expanded;
+      toggle.setAttribute('aria-expanded', String(next));
+      root.classList.toggle('is-open', next);
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth >= 1024) return;
+    roots.forEach((root) => {
+      if (!root.contains(e.target)) {
+        root.classList.remove('is-open');
+        const t = root.querySelector('.nav-dropdown__toggle');
+        if (t) t.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeGroupsNavDropdowns();
+  });
+})();
+
+/* =========================
    MOBILE MENU
 ========================= */
 const menuButton = document.getElementById('menuButton');
@@ -17,6 +60,7 @@ if (menuButton && menu) {
         menu.classList.remove('is-open');
         menuButton.setAttribute('aria-expanded', 'false');
         menuButton.setAttribute('aria-label', 'Open menu');
+        closeGroupsNavDropdowns();
       }
     });
   });
@@ -26,6 +70,7 @@ if (menuButton && menu) {
       menu.classList.remove('is-open');
       menuButton.setAttribute('aria-expanded', 'false');
       menuButton.setAttribute('aria-label', 'Open menu');
+      closeGroupsNavDropdowns();
     }
   });
 }
