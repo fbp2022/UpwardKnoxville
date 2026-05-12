@@ -15,21 +15,16 @@
       window.__UPWARD_ADMIN_LOADING_WATCHDOG = setTimeout(function () {
         var b = document.body;
         if (!b || b.getAttribute('data-admin-init') !== 'pending') return;
-        var loading = document.getElementById('state-loading');
-        var cfg = document.getElementById('state-config');
         var login = document.getElementById('state-login');
         var dash = document.getElementById('state-dashboard');
-        var err = document.getElementById('state-error');
-        var msg = document.getElementById('state-error-text');
-        if (msg) {
-          msg.textContent =
-            'Admin did not finish starting. Common causes: (1) js/admin.js or another file under /js/ returned 404 — confirm GitHub Pages deployed the latest files. (2) The Supabase script from the CDN was blocked. (3) The session check never completed. Open DevTools → Network, hard refresh (Ctrl+Shift+R), and look for failed requests.';
-        }
-        if (loading) loading.hidden = true;
-        if (cfg) cfg.hidden = true;
-        if (login) login.hidden = true;
+        var banner = document.getElementById('adminPageBanner');
         if (dash) dash.hidden = true;
-        if (err) err.hidden = false;
+        if (login) login.hidden = false;
+        if (banner) {
+          banner.textContent =
+            'Admin did not finish starting. Open DevTools → Network, confirm the latest files are deployed, then reload this page.';
+          banner.hidden = false;
+        }
         b.setAttribute('data-admin-init', 'done');
       }, 18000);
     })();
@@ -38,34 +33,9 @@
     <div class="mx-auto max-w-lg p-8 text-center content-text">JavaScript is required to use the admin page.</div>
   </noscript>
 
-  <div id="state-loading" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16" hidden>
-    <div class="soft-card max-w-md p-10 text-center">
-      <p class="text-sm font-medium text-[var(--text)]">Loading admin…</p>
-      <p class="content-text mt-3 text-sm leading-relaxed">One moment please.</p>
-    </div>
-  </div>
-
-  <div id="state-error" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16" hidden>
-    <div class="soft-card max-w-md p-10 text-center">
-      <h1 class="text-lg font-semibold text-[var(--text)]">Something went wrong</h1>
-      <p id="state-error-text" class="content-text mt-4 text-sm leading-relaxed"></p>
-      <a href="admin.html" class="mt-6 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">Try again</a>
-    </div>
-  </div>
-
-  <div id="state-config" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16" hidden>
-    <div class="soft-card max-w-md p-10">
-      <h1 class="text-lg font-semibold text-[var(--text)]">Configuration needed</h1>
-      <p class="content-text mt-4 text-sm leading-relaxed">
-        Open <code class="rounded bg-[var(--surface-hover)] px-1.5 py-0.5 text-xs">js/supabase-config.js</code> and set
-        <code class="rounded bg-[var(--surface-hover)] px-1.5 py-0.5 text-xs">SUPABASE_ANON_KEY</code> to your publishable anon key
-        (see <code class="rounded bg-[var(--surface-hover)] px-1.5 py-0.5 text-xs">js/supabase-config.example.js</code>).
-      </p>
-    </div>
-  </div>
-
   <div id="state-login" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16">
     <div class="soft-card w-full max-w-[420px] p-8 md:p-10">
+      <p id="adminPageBanner" class="content-text mb-4 rounded-md border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-2 text-center text-sm leading-relaxed" role="alert" hidden></p>
       <div class="flex flex-col items-center text-center">
         <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" width="48" height="48" class="brand-logo h-12 w-12" />
         <h1 class="mt-5 text-xl font-semibold text-[var(--text)]">Teaching steward</h1>
@@ -89,7 +59,7 @@
     </div>
   </div>
 
-  <div id="state-dashboard" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" hidden>
+  <div id="state-dashboard" class="flex min-h-[70vh] flex-col items-center justify-center gap-8 px-5 py-14 md:py-16" hidden>
     <div class="soft-card w-full max-w-xl p-8 md:p-10">
       <h2 class="text-xl font-semibold text-[var(--text)]">Teaching status</h2>
       <p id="adminLastUpdated" class="content-text mt-2 text-sm leading-relaxed"></p>
@@ -130,6 +100,33 @@
         </div>
       </form>
     </div>
+
+    <div class="soft-card w-full max-w-xl p-8 md:p-10">
+      <h2 class="text-xl font-semibold text-[var(--text)]">Announcements</h2>
+      <p class="content-text mt-2 text-sm leading-relaxed">Public message board (newest first, up to ten).</p>
+      <p id="adminAnnouncementsLoading" class="content-text mt-4 text-sm text-[var(--muted)]" hidden role="status">Loading announcements…</p>
+      <p id="adminAnnouncementsStatus" class="content-text mt-3 min-h-[1.25rem] text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
+
+      <form id="adminAnnouncementForm" class="mt-6 space-y-4 border-t border-[var(--border)] pt-6">
+        <h3 class="text-sm font-semibold text-[var(--text)]">New announcement</h3>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Title</span>
+          <input id="adminAnnouncementTitle" type="text" name="title" required maxlength="500" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
+        </label>
+        <label class="block">
+          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Body</span>
+          <textarea id="adminAnnouncementBody" name="body" rows="4" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
+        </label>
+        <div class="flex flex-wrap items-center gap-3">
+          <button type="submit" id="adminAnnouncementPostBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Post</button>
+        </div>
+      </form>
+
+      <div class="mt-8 border-t border-[var(--border)] pt-6">
+        <h3 class="text-sm font-semibold text-[var(--text)]">Recent</h3>
+        <ul id="adminAnnouncementsList" class="mt-4 list-none space-y-4 p-0"></ul>
+      </div>
+    </div>
   </div>
 
   <!-- Supabase v2 UMD (explicit path so jsDelivr always serves the browser bundle). -->
@@ -141,21 +138,16 @@
     (function () {
       setTimeout(function () {
         if (typeof window.__UPWARD_ADMIN_SCRIPT_RAN !== 'undefined') return;
-        var cfg = document.getElementById('state-config');
         var login = document.getElementById('state-login');
         var dash = document.getElementById('state-dashboard');
-        var err = document.getElementById('state-error');
-        var loading = document.getElementById('state-loading');
-        var msg = document.getElementById('state-error-text');
-        if (msg) {
-          msg.textContent =
-            'js/admin.js did not run. In DevTools → Network, check whether admin.js returned 404 or was blocked. Deploy js/admin.js to the site root /js/ folder and hard-refresh.';
-        }
-        if (loading) loading.hidden = true;
-        if (cfg) cfg.hidden = true;
-        if (login) login.hidden = true;
+        var banner = document.getElementById('adminPageBanner');
         if (dash) dash.hidden = true;
-        if (err) err.hidden = false;
+        if (login) login.hidden = false;
+        if (banner) {
+          banner.textContent =
+            'js/admin.js did not run. Check Network for a 404 on admin.js, deploy the /js/ folder, and reload.';
+          banner.hidden = false;
+        }
       }, 2500);
     })();
   </script>
