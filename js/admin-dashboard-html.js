@@ -58,7 +58,7 @@
       '<ul id="adminAnnouncementsList" class="mt-4 list-none space-y-4 p-0"></ul></div></div>' +
       '<div class="soft-card w-full max-w-xl p-8 md:p-10">' +
       '<h2 class="text-xl font-semibold text-[var(--text)]">Update email BCC list</h2>' +
-      '<p class="content-text mt-2 text-sm leading-relaxed">These addresses receive blind copies when teaching status or other admin updates are sent (if your backend uses this table).</p>' +
+      '<p class="content-text mt-2 text-sm leading-relaxed">These addresses receive blind copies when teaching status or other admin updates are sent. People can join this list from the Stay Connected form if they opt in.</p>' +
       '<form id="adminBccForm" class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-end">' +
       '<label class="block min-w-0 flex-1"><span class="mb-2 block text-sm font-medium text-[var(--text)]">Email address</span>' +
       '<input id="adminBccEmail" type="email" autocomplete="email" placeholder="name@example.com" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" /></label>' +

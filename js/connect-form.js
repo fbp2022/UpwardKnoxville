@@ -9,7 +9,7 @@
 (function () {
   'use strict';
 
-  var CONNECT_FORM_BUILD = 'edge-v2';
+  var CONNECT_FORM_BUILD = 'edge-v4';
 
   /** Pinned so production works even if __UPWARD_SUPABASE_URL__ is missing on a host. */
   var CONTACT_FUNCTION_URL =
@@ -55,6 +55,12 @@
     el.textContent = text || '';
     el.classList.remove('text-red-600');
     if (isError) el.classList.add('text-red-600');
+  }
+
+  function isValidEmail(s) {
+    var t = s != null ? String(s).trim() : '';
+    if (!t || t.length > 254) return false;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t);
   }
 
   function initForm() {
@@ -122,6 +128,11 @@
         var email = emailEl && emailEl.value != null ? String(emailEl.value).trim() : '';
         var message = messageEl && messageEl.value != null ? String(messageEl.value).trim() : '';
 
+        var addToUpdateList =
+          typeof readConnectUpdateListOn === 'function' ? !!readConnectUpdateListOn() : false;
+        var isPrayerRequest =
+          typeof readConnectPrayerSwitchOn === 'function' ? !!readConnectPrayerSwitchOn() : false;
+
         setStatus(statusEl, '', false);
 
         if (!message) {
@@ -130,6 +141,16 @@
         }
         if (message.length < MIN_MESSAGE_LEN) {
           setStatus(statusEl, 'Please write a bit more (at least ' + MIN_MESSAGE_LEN + ' characters).', true);
+          return;
+        }
+
+        if (addToUpdateList && !isValidEmail(email)) {
+          setStatus(statusEl, 'Please enter a valid email address to join the update list.', true);
+          return;
+        }
+
+        if (!addToUpdateList && email && !isValidEmail(email)) {
+          setStatus(statusEl, 'Please enter a valid email address.', true);
           return;
         }
 
@@ -157,6 +178,8 @@
           name: name,
           email: email,
           message: message,
+          isPrayerRequest: isPrayerRequest,
+          addToUpdateList: addToUpdateList,
           turnstileToken: token,
         };
 
@@ -195,16 +218,21 @@
             throw new Error(errMsg);
           }
 
-          setStatus(
-            statusEl,
-            'Thank you for reaching out. Your message has been received.',
-            false
-          );
+          var okMsg = 'Thank you for reaching out. Your message has been received.';
+          if (data && typeof data.warning === 'string' && data.warning) {
+            okMsg += ' ' + data.warning;
+          }
+          setStatus(statusEl, okMsg, false);
           form.reset();
           var prayerSwitch = $('connectPrayerSwitch');
           if (prayerSwitch) {
             prayerSwitch.setAttribute('aria-checked', 'false');
             prayerSwitch.setAttribute('data-prayer-request', 'false');
+          }
+          var updateSwitch = $('connectUpdateListSwitch');
+          if (updateSwitch) {
+            updateSwitch.setAttribute('aria-checked', 'false');
+            updateSwitch.setAttribute('data-update-list', 'false');
           }
           resetTurnstile();
         } catch (err) {
