@@ -14,19 +14,197 @@
   <link rel="stylesheet" href="theme.css" />
   <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Beliefs page only — editorial / study-document layout (does not change global theme tokens) */
+    .beliefs-page .beliefs-lede {
+      margin: 0;
+      padding: 1.75rem clamp(1.25rem, 3vw, 2.25rem);
+      border-left: 4px solid var(--accent);
+      background: color-mix(in srgb, var(--surface) 92%, var(--bg));
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    }
+    .beliefs-page .beliefs-lede__title {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .beliefs-page .beliefs-lede__text {
+      margin: 1rem 0 0;
+    }
+    .beliefs-page .beliefs-shell {
+      display: grid;
+      gap: clamp(1.75rem, 4vw, 2.75rem);
+    }
+    @media (min-width: 1100px) {
+      .beliefs-page .beliefs-shell {
+        grid-template-columns: min(14.5rem, 26vw) minmax(0, 1fr);
+        align-items: start;
+      }
+      .beliefs-page .beliefs-toc {
+        position: sticky;
+        top: 5.75rem;
+      }
+    }
+    .beliefs-page .beliefs-toc__label {
+      margin: 0 0 0.65rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .beliefs-page .beliefs-toc__list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.15rem 1rem;
+    }
+    @media (min-width: 1100px) {
+      .beliefs-page .beliefs-toc__list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+      }
+    }
+    .beliefs-page .beliefs-toc a,
+    .beliefs-page .beliefs-toc__finale {
+      display: block;
+      padding: 0.35rem 0.4rem;
+      border-radius: 0.35rem;
+      font-size: 0.875rem;
+      color: var(--text-readable);
+      text-decoration: none;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .beliefs-page .beliefs-toc a:hover,
+    .beliefs-page .beliefs-toc__finale:hover {
+      color: var(--accent);
+      background: var(--surface-hover);
+    }
+    .beliefs-page .beliefs-toc__finale {
+      margin-top: 0.65rem;
+    }
+    .beliefs-page .beliefs-chapter {
+      display: grid;
+      gap: 1rem 1.35rem;
+      padding: clamp(2rem, 4vw, 2.75rem) 0;
+      border-top: 1px solid var(--border);
+      scroll-margin-top: 6rem;
+    }
+    .beliefs-page .beliefs-chapter:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+    @media (min-width: 900px) {
+      .beliefs-page .beliefs-chapter {
+        grid-template-columns: 4.75rem minmax(0, 1fr) minmax(11.5rem, 17rem);
+        grid-template-areas: 'num core refs';
+        align-items: start;
+        column-gap: clamp(1.25rem, 2.5vw, 2rem);
+      }
+      .beliefs-page .beliefs-chapter__num {
+        grid-area: num;
+      }
+      .beliefs-page .beliefs-chapter__core {
+        grid-area: core;
+      }
+      .beliefs-page .beliefs-chapter__refs {
+        grid-area: refs;
+      }
+    }
+    @media (max-width: 899px) {
+      .beliefs-page .beliefs-chapter {
+        grid-template-columns: 3.25rem minmax(0, 1fr);
+        grid-template-areas:
+          'num core'
+          'refs refs';
+      }
+      .beliefs-page .beliefs-chapter__num {
+        grid-area: num;
+      }
+      .beliefs-page .beliefs-chapter__core {
+        grid-area: core;
+      }
+      .beliefs-page .beliefs-chapter__refs {
+        grid-area: refs;
+      }
+    }
+    .beliefs-page .beliefs-chapter__num {
+      font-size: clamp(2.1rem, 4.5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: color-mix(in srgb, var(--accent) 42%, var(--text));
+    }
+    .beliefs-page .beliefs-chapter__title {
+      margin: 0 0 0.85rem;
+      font-size: clamp(1.2rem, 2.1vw, 1.45rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .beliefs-page .beliefs-chapter__body > * + * {
+      margin-top: 1rem;
+    }
+    .beliefs-page .beliefs-chapter__refs {
+      font-size: 0.8125rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+    .beliefs-page .beliefs-chapter__refs p {
+      margin: 0;
+    }
+    @media (min-width: 900px) {
+      .beliefs-page .beliefs-chapter__refs {
+        border-left: 1px solid var(--border);
+        padding-left: 1.15rem;
+      }
+    }
+    @media (max-width: 899px) {
+      .beliefs-page .beliefs-chapter__refs {
+        border-top: 1px solid var(--border);
+        padding-top: 1rem;
+      }
+    }
+    .beliefs-page .beliefs-chapter__refs-label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .beliefs-page .beliefs-finale {
+      scroll-margin-top: 6rem;
+      padding-top: var(--section-padding-y);
+      padding-bottom: var(--section-padding-y);
+    }
+    .beliefs-page .beliefs-finale__body {
+      margin-top: 1.25rem;
+      max-width: var(--content-max);
+    }
+    .beliefs-page .beliefs-finale__body > * + * {
+      margin-top: 1rem;
+    }
+  </style>
   <title>What We Believe | Upward Knoxville</title>
   <meta name="description" content="Foundational beliefs of Upward Knoxville, a Scripture-centered fellowship in Knoxville, Tennessee." />
 </head>
-<body class="antialiased">
+<body class="antialiased beliefs-page">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+    <div class="site-header-inner">
       <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
         <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
         <span>Upward Knoxville</span>
       </a>
       <button type="button" id="menuButton" aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] lg:hidden">Menu</button>
       <nav id="menu" class="site-nav lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none" aria-label="Primary">
-        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-8 lg:text-sm">
           <li><a class="nav-link" href="index.html">Home</a></li>
           <li><a class="nav-link" href="teachings.html">Teachings</a></li>
           <li><a class="nav-link" href="updates.html">Updates</a></li>
@@ -52,143 +230,246 @@
     </div>
   </header>
 
-  <main class="px-5 py-14 md:py-16 lg:py-20">
-    <section class="mx-auto max-w-prose">
-      <p class="text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Doctrine</p>
-      <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">What We Believe</h1>
-      <p class="content-text mt-6 text-lg leading-relaxed">Upward Knoxville exists to open the Bible together, look to Jesus, and grow in Christ through faithful teaching, honest fellowship, prayer, and the study of God&rsquo;s Word. These beliefs are not meant to replace Scripture, but to summarize the foundational truths we hold as we walk through the Bible line by line and verse by verse.</p>
-    </section>
-
-    <section class="mx-auto mt-10 max-w-prose md:mt-12">
-      <div class="soft-card p-8 md:p-10">
-        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">A Scripture-Centered Foundation</h2>
-        <p class="content-text mt-6 text-base leading-relaxed">Our desire is not to build a fellowship around personality, performance, trends, or tradition for tradition&rsquo;s sake. Our desire is to submit ourselves to the written Word of God and point one another to Jesus Christ. We believe Scripture is sufficient, Christ is central, salvation is by grace through faith, and the Christian life is meant to be lived in humble obedience to the Lord.</p>
+  <main class="site-main">
+    <section class="layout-bleed-x hero-backdrop border-b border-[var(--border)] page-intro">
+      <div class="site-content">
+        <p class="page-eyebrow">Doctrine</p>
+        <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-[2.65rem] sm:leading-tight">What We Believe</h1>
+        <p class="content-text mt-6 text-lg leading-relaxed">Upward Knoxville exists to open the Bible together, look to Jesus, and grow in Christ through faithful teaching, honest fellowship, prayer, and the study of God&rsquo;s Word. These beliefs are not meant to replace Scripture, but to summarize the foundational truths we hold as we walk through the Bible line by line and verse by verse.</p>
       </div>
     </section>
 
-    <section class="mx-auto mt-10 max-w-prose space-y-10 md:mt-14 md:space-y-12">
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">1. The Scriptures</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe the Bible is the inspired, authoritative, and sufficient Word of God. Scripture is not merely helpful religious literature, but God&rsquo;s written revelation to mankind. It teaches us who God is, who we are, what sin has done, what Christ has accomplished, and how we are called to walk before the Lord.</p>
-          <p>We believe Scripture should be taught faithfully, in context, and with reverence. That is why Upward Knoxville emphasizes line-by-line, verse-by-verse Bible teaching.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">2 Timothy 3:16–17 · 2 Peter 1:20–21 · Psalm 119:105</p>
-      </article>
+    <section class="site-container mt-stack-gap">
+      <div class="site-content mx-auto">
+        <blockquote class="beliefs-lede">
+          <h2 class="beliefs-lede__title">A Scripture-Centered Foundation</h2>
+          <p class="content-text beliefs-lede__text text-base leading-relaxed">Our desire is not to build a fellowship around personality, performance, trends, or tradition for tradition&rsquo;s sake. Our desire is to submit ourselves to the written Word of God and point one another to Jesus Christ. We believe Scripture is sufficient, Christ is central, salvation is by grace through faith, and the Christian life is meant to be lived in humble obedience to the Lord.</p>
+        </blockquote>
+      </div>
+    </section>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">2. God</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe in one living and true God, eternally existing in three persons: Father, Son, and Holy Spirit. God is holy, sovereign, righteous, merciful, just, gracious, and good. He is the Creator of all things and the One to whom all people are accountable.</p>
-          <p>God is not distant or indifferent. He has revealed Himself through creation, through His Word, and most fully through His Son, Jesus Christ.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Deuteronomy 6:4 · Matthew 28:19 · John 17:3</p>
-      </article>
+    <section class="site-container mt-stack-gap" aria-label="Statement of beliefs">
+      <div class="beliefs-shell">
+        <nav class="beliefs-toc" aria-label="On this page">
+          <p class="beliefs-toc__label">On this page</p>
+          <ol class="beliefs-toc__list">
+            <li><a href="#belief-1">Scriptures</a></li>
+            <li><a href="#belief-2">God</a></li>
+            <li><a href="#belief-3">Christ</a></li>
+            <li><a href="#belief-4">Holy Spirit</a></li>
+            <li><a href="#belief-5">Sin</a></li>
+            <li><a href="#belief-6">Salvation</a></li>
+            <li><a href="#belief-7">Grace &amp; faith</a></li>
+            <li><a href="#belief-8">Church</a></li>
+            <li><a href="#belief-9">Baptism &amp; communion</a></li>
+            <li><a href="#belief-10">Sanctification</a></li>
+            <li><a href="#belief-11">Christ&rsquo;s return</a></li>
+            <li><a href="#belief-12">Christian living</a></li>
+          </ol>
+          <a class="beliefs-toc__finale" href="#belief-finale">Walking together</a>
+        </nav>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">3. Jesus Christ</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe Jesus Christ is the eternal Son of God, fully God and fully man. He was conceived by the Holy Spirit, born of the virgin Mary, lived a sinless life, taught with authority, performed works that revealed His identity, died on the cross for our sins, rose bodily from the dead, ascended to the right hand of the Father, and will return.</p>
-          <p>Jesus is not merely a teacher, prophet, example, or moral guide. He is Lord, Savior, King, and the only way to the Father.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">John 1:1–14 · John 14:6 · Colossians 1:15–20 · 1 Corinthians 15:3–4</p>
-      </article>
+        <div class="beliefs-stream">
+          <article id="belief-1" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">1</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">The Scriptures</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe the Bible is the inspired, authoritative, and sufficient Word of God. Scripture is not merely helpful religious literature, but God&rsquo;s written revelation to mankind. It teaches us who God is, who we are, what sin has done, what Christ has accomplished, and how we are called to walk before the Lord.</p>
+                <p>We believe Scripture should be taught faithfully, in context, and with reverence. That is why Upward Knoxville emphasizes line-by-line, verse-by-verse Bible teaching.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>2 Timothy 3:16–17 · 2 Peter 1:20–21 · Psalm 119:105</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">4. The Holy Spirit</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe the Holy Spirit is fully God and actively works in the world and in the life of the believer. He convicts the world concerning sin, righteousness, and judgment. He regenerates, indwells, seals, teaches, comforts, sanctifies, and empowers believers to walk in obedience to Christ.</p>
-          <p>The Christian life is not lived by human strength alone, but by the grace of God and the work of the Holy Spirit.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">John 14:26 · John 16:7–15 · Romans 8:9–14 · Ephesians 1:13–14</p>
-      </article>
+          <article id="belief-2" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">2</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">God</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe in one living and true God, eternally existing in three persons: Father, Son, and Holy Spirit. God is holy, sovereign, righteous, merciful, just, gracious, and good. He is the Creator of all things and the One to whom all people are accountable.</p>
+                <p>God is not distant or indifferent. He has revealed Himself through creation, through His Word, and most fully through His Son, Jesus Christ.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>Deuteronomy 6:4 · Matthew 28:19 · John 17:3</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">5. Sin and the Human Condition</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe mankind was created in the image of God, but through sin, humanity became separated from God. Sin is not merely a mistake or weakness. It is rebellion against God and affects every part of human life.</p>
-          <p>Because of sin, all people need redemption, forgiveness, and reconciliation with God. No person can make themselves righteous before God by good works, religious effort, morality, or personal sincerity.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Genesis 1:26–27 · Romans 3:23 · Romans 6:23 · Isaiah 59:2</p>
-      </article>
+          <article id="belief-3" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">3</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">Jesus Christ</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe Jesus Christ is the eternal Son of God, fully God and fully man. He was conceived by the Holy Spirit, born of the virgin Mary, lived a sinless life, taught with authority, performed works that revealed His identity, died on the cross for our sins, rose bodily from the dead, ascended to the right hand of the Father, and will return.</p>
+                <p>Jesus is not merely a teacher, prophet, example, or moral guide. He is Lord, Savior, King, and the only way to the Father.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>John 1:1–14 · John 14:6 · Colossians 1:15–20 · 1 Corinthians 15:3–4</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">6. Salvation</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe salvation is by grace alone through faith in Jesus Christ. It is not earned by works, religious performance, church attendance, personal goodness, or human effort. Salvation is the gift of God, made possible through the death and resurrection of Jesus.</p>
-          <p>Those who repent and believe in Christ are forgiven, justified before God, made new, and brought into eternal life.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Ephesians 2:8–9 · Romans 5:1 · John 3:16 · Titus 3:5–7</p>
-      </article>
+          <article id="belief-4" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">4</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">The Holy Spirit</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe the Holy Spirit is fully God and actively works in the world and in the life of the believer. He convicts the world concerning sin, righteousness, and judgment. He regenerates, indwells, seals, teaches, comforts, sanctifies, and empowers believers to walk in obedience to Christ.</p>
+                <p>The Christian life is not lived by human strength alone, but by the grace of God and the work of the Holy Spirit.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>John 14:26 · John 16:7–15 · Romans 8:9–14 · Ephesians 1:13–14</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">7. Grace and Faith</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe grace is not permission to remain in sin, but the undeserved mercy of God that saves, restores, teaches, and transforms. True faith is more than intellectual agreement. It is trust in Christ that produces a changed life.</p>
-          <p>We are saved by grace, through faith, and called to walk in obedience, humility, repentance, and love.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Romans 6:1–4 · Galatians 2:20 · James 2:17 · Titus 2:11–14</p>
-      </article>
+          <article id="belief-5" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">5</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">Sin and the Human Condition</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe mankind was created in the image of God, but through sin, humanity became separated from God. Sin is not merely a mistake or weakness. It is rebellion against God and affects every part of human life.</p>
+                <p>Because of sin, all people need redemption, forgiveness, and reconciliation with God. No person can make themselves righteous before God by good works, religious effort, morality, or personal sincerity.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>Genesis 1:26–27 · Romans 3:23 · Romans 6:23 · Isaiah 59:2</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">8. The Church</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe the Church is the body of Christ, made up of all true believers. The Church exists to worship God, teach Scripture, proclaim the gospel, make disciples, serve one another, pray, encourage the saints, and bear witness to Christ in the world.</p>
-          <p>Upward Knoxville is currently beginning as a Bible teaching and fellowship community, with the hope of growing faithfully and prayerfully as the Lord leads.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Acts 2:42 · Ephesians 4:11–16 · Hebrews 10:24–25 · Matthew 28:18–20</p>
-      </article>
+          <article id="belief-6" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">6</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">Salvation</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe salvation is by grace alone through faith in Jesus Christ. It is not earned by works, religious performance, church attendance, personal goodness, or human effort. Salvation is the gift of God, made possible through the death and resurrection of Jesus.</p>
+                <p>Those who repent and believe in Christ are forgiven, justified before God, made new, and brought into eternal life.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>Ephesians 2:8–9 · Romans 5:1 · John 3:16 · Titus 3:5–7</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">9. Baptism and Communion</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe baptism and communion are important acts of obedience, remembrance, and public identification with Christ, but they are not what saves a person. Salvation is by grace through faith in Jesus Christ alone, not through rituals, works, or religious performance.</p>
-          <p>We follow baptism because Jesus Himself was baptized and commanded His followers to baptize believers. Baptism publicly identifies a Christian with the death, burial, and resurrection of Christ and serves as an outward expression of inward faith.</p>
-          <p>We also practice communion because Jesus said, &ldquo;Do this in remembrance of Me.&rdquo; Communion is a reverent remembrance of Christ&rsquo;s sacrifice and a proclamation of the gospel. We do not believe the bread and cup literally become the physical flesh and blood of Christ, but rather serve as meaningful reminders pointing believers back to Jesus, the cross, and His finished work.</p>
-          <p>These practices are not empty rituals, but important acts of obedience and worship that continually direct our hearts toward Christ.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Matthew 28:19 · Romans 6:3–4 · Luke 22:19 · 1 Corinthians 11:23–26</p>
-      </article>
+          <article id="belief-7" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">7</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">Grace and Faith</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe grace is not permission to remain in sin, but the undeserved mercy of God that saves, restores, teaches, and transforms. True faith is more than intellectual agreement. It is trust in Christ that produces a changed life.</p>
+                <p>We are saved by grace, through faith, and called to walk in obedience, humility, repentance, and love.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>Romans 6:1–4 · Galatians 2:20 · James 2:17 · Titus 2:11–14</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">10. Sanctification</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe the Christian life is a continual process of growing in Christ. Believers are called to turn from sin, walk in obedience, love God, love others, and become more like Jesus through the work of the Holy Spirit.</p>
-          <p>Growth does not happen through performance or pretending, but through abiding in Christ, submitting to the Word, repentance, prayer, fellowship, and the grace of God.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">John 15:4–5 · Romans 12:1–2 · 1 Thessalonians 4:3 · 2 Corinthians 3:18</p>
-      </article>
+          <article id="belief-8" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">8</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">The Church</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe the Church is the body of Christ, made up of all true believers. The Church exists to worship God, teach Scripture, proclaim the gospel, make disciples, serve one another, pray, encourage the saints, and bear witness to Christ in the world.</p>
+                <p>Upward Knoxville is currently beginning as a Bible teaching and fellowship community, with the hope of growing faithfully and prayerfully as the Lord leads.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>Acts 2:42 · Ephesians 4:11–16 · Hebrews 10:24–25 · Matthew 28:18–20</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">11. The Return of Christ</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe Jesus Christ will return. His return is the hope of the believer and a reminder that this present world is not our final home. Christians are called to live faithfully, watchfully, and expectantly as we await the Lord.</p>
-          <p>The return of Christ should not lead us to speculation, fear, or distraction, but to holiness, endurance, worship, and faithful obedience.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">John 14:1–3 · Acts 1:11 · Titus 2:13 · Revelation 22:20</p>
-      </article>
+          <article id="belief-9" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">9</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">Baptism and Communion</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe baptism and communion are important acts of obedience, remembrance, and public identification with Christ, but they are not what saves a person. Salvation is by grace through faith in Jesus Christ alone, not through rituals, works, or religious performance.</p>
+                <p>We follow baptism because Jesus Himself was baptized and commanded His followers to baptize believers. Baptism publicly identifies a Christian with the death, burial, and resurrection of Christ and serves as an outward expression of inward faith.</p>
+                <p>We also practice communion because Jesus said, &ldquo;Do this in remembrance of Me.&rdquo; Communion is a reverent remembrance of Christ&rsquo;s sacrifice and a proclamation of the gospel. We do not believe the bread and cup literally become the physical flesh and blood of Christ, but rather serve as meaningful reminders pointing believers back to Jesus, the cross, and His finished work.</p>
+                <p>These practices are not empty rituals, but important acts of obedience and worship that continually direct our hearts toward Christ.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>Matthew 28:19 · Romans 6:3–4 · Luke 22:19 · 1 Corinthians 11:23–26</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold text-[var(--text)] sm:text-2xl">12. Christian Living</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>We believe followers of Jesus are called to live lives marked by humility, repentance, truth, love, holiness, service, prayer, and faithfulness. The Christian life is not about appearing impressive, but about walking with the Lord one day at a time.</p>
-          <p>We desire to be a fellowship where ordinary believers can grow honestly, ask sincere questions, be corrected by Scripture, encourage one another, and keep looking to Christ.</p>
-        </div>
-        <p class="mt-6 text-sm leading-relaxed text-[var(--muted)]">Micah 6:8 · Colossians 3:12–17 · 1 Peter 1:15–16 · 1 John 2:6</p>
-      </article>
+          <article id="belief-10" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">10</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">Sanctification</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe the Christian life is a continual process of growing in Christ. Believers are called to turn from sin, walk in obedience, love God, love others, and become more like Jesus through the work of the Holy Spirit.</p>
+                <p>Growth does not happen through performance or pretending, but through abiding in Christ, submitting to the Word, repentance, prayer, fellowship, and the grace of God.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>John 15:4–5 · Romans 12:1–2 · 1 Thessalonians 4:3 · 2 Corinthians 3:18</p>
+            </aside>
+          </article>
 
-      <article class="soft-card p-8 md:p-10">
-        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Walking Together in the Word</h2>
-        <div class="content-text mt-6 space-y-4 text-base leading-relaxed">
+          <article id="belief-11" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">11</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">The Return of Christ</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe Jesus Christ will return. His return is the hope of the believer and a reminder that this present world is not our final home. Christians are called to live faithfully, watchfully, and expectantly as we await the Lord.</p>
+                <p>The return of Christ should not lead us to speculation, fear, or distraction, but to holiness, endurance, worship, and faithful obedience.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>John 14:1–3 · Acts 1:11 · Titus 2:13 · Revelation 22:20</p>
+            </aside>
+          </article>
+
+          <article id="belief-12" class="beliefs-chapter">
+            <span class="beliefs-chapter__num" aria-hidden="true">12</span>
+            <div class="beliefs-chapter__core">
+              <h2 class="beliefs-chapter__title">Christian Living</h2>
+              <div class="beliefs-chapter__body content-text text-base leading-relaxed">
+                <p>We believe followers of Jesus are called to live lives marked by humility, repentance, truth, love, holiness, service, prayer, and faithfulness. The Christian life is not about appearing impressive, but about walking with the Lord one day at a time.</p>
+                <p>We desire to be a fellowship where ordinary believers can grow honestly, ask sincere questions, be corrected by Scripture, encourage one another, and keep looking to Christ.</p>
+              </div>
+            </div>
+            <aside class="beliefs-chapter__refs" aria-label="Referenced Scriptures">
+              <span class="beliefs-chapter__refs-label">Texts</span>
+              <p>Micah 6:8 · Colossians 3:12–17 · 1 Peter 1:15–16 · 1 John 2:6</p>
+            </aside>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="belief-finale" class="beliefs-finale layout-bleed-x border-t border-b border-[var(--border)] bg-[var(--surface)] mt-stack-gap">
+      <div class="site-container">
+        <p class="page-eyebrow">Together</p>
+        <h2 class="section-heading">Walking Together in the Word</h2>
+        <div class="beliefs-finale__body content-text text-base leading-relaxed">
           <p>These beliefs guide how we teach, gather, pray, and encourage one another. Our goal is not to win arguments, build a platform, or create a performance-driven environment. Our goal is to open the Bible, look to Jesus, and help one another walk faithfully with the Lord.</p>
           <p>If you are new to faith, returning after a long season away, or have followed Christ for many years, you are welcome to come learn, listen, ask questions, and grow with us.</p>
         </div>
-      </article>
+      </div>
     </section>
+
   </main>
 
-  <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
-    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+  <footer class="footer-surface site-footer border-t border-[var(--border)]" data-site-footer>
+    <div class="site-container grid gap-10 md:grid-cols-3 md:gap-12">
       <div>
         <div class="flex items-center gap-3 font-semibold text-[var(--text)]">
           <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo brand-logo--sm" />
@@ -219,7 +500,7 @@
         <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path.", Psalm 119:105</p>
       </div>
     </div>
-    <div class="mx-auto mt-8 max-w-6xl border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
+    <div class="site-footer-rule text-sm text-[var(--muted)]">
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>

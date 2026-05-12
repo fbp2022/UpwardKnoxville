@@ -19,14 +19,14 @@
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+    <div class="site-header-inner">
       <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
         <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
         <span>Upward Knoxville</span>
       </a>
       <button type="button" id="menuButton" aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] lg:hidden">Menu</button>
       <nav id="menu" class="site-nav lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none" aria-label="Primary">
-        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-8 lg:text-sm">
           <li><a class="nav-link" href="index.html">Home</a></li>
           <li><a class="nav-link" href="teachings.html">Teachings</a></li>
           <li><a class="nav-link" href="updates.html">Updates</a></li>
@@ -52,13 +52,15 @@
     </div>
   </header>
 
-  <main class="px-5 py-14 md:py-16 lg:py-20">
-    <section class="mx-auto max-w-[960px] text-center">
-      <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">Frequently Asked Questions</h1>
-      <p class="content-text mx-auto mt-6 max-w-prose text-lg leading-relaxed">Quick answers about who we are, how we teach, and what to expect at Upward Knoxville.</p>
+  <main class="site-main">
+    <section class="layout-bleed-x hero-backdrop border-b border-[var(--border)] page-intro">
+      <div class="site-container text-center">
+        <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-[2.65rem] sm:leading-tight">Frequently Asked Questions</h1>
+        <p class="content-text mx-auto mt-6 max-w-2xl text-lg leading-relaxed">Quick answers about who we are, how we teach, and what to expect at Upward Knoxville.</p>
+      </div>
     </section>
 
-    <section class="mx-auto mt-12 max-w-[960px] faq-list md:mt-16">
+    <section class="site-container mt-stack-gap faq-list">
       <div class="faq-item" data-faq-item>
         <button type="button" class="faq-question" data-faq-question aria-expanded="false" aria-controls="faq-1">
           <span class="faq-question-text">What is Upward Knoxville?</span>
@@ -181,8 +183,8 @@
     </section>
   </main>
 
-  <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
-    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+  <footer class="footer-surface site-footer border-t border-[var(--border)]" data-site-footer>
+    <div class="site-container grid gap-10 md:grid-cols-3 md:gap-12">
       <div>
         <div class="flex items-center gap-3 font-semibold text-[var(--text)]">
           <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo brand-logo--sm" />
@@ -213,7 +215,7 @@
         <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path.", Psalm 119:105</p>
       </div>
     </div>
-    <div class="mx-auto mt-8 max-w-6xl border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
+    <div class="site-footer-rule text-sm text-[var(--muted)]">
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>

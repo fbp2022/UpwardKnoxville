@@ -18,14 +18,14 @@
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+    <div class="site-header-inner">
       <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
         <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
         <span>Upward Knoxville</span>
       </a>
       <button type="button" id="menuButton" aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] lg:hidden">Menu</button>
       <nav id="menu" class="site-nav lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none" aria-label="Primary">
-        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-8 lg:text-sm">
           <li><a class="nav-link" href="index.html">Home</a></li>
           <li><a class="nav-link" href="teachings.html">Teachings</a></li>
           <li><a class="nav-link" href="updates.html">Updates</a></li>
@@ -50,14 +50,14 @@
       </nav>
     </div>
   </header>
-  <main class="px-5 py-14 md:py-16 lg:py-20">
-    <section class="mx-auto max-w-prose">
-      <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">Stay Connected</h1>
+  <main class="site-main">
+    <section class="site-content page-intro">
+      <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-[2.65rem] sm:leading-tight">Stay Connected</h1>
       <p class="content-text mt-6 text-lg leading-relaxed">Questions about the teachings? Prayer requests? We'd love to hear from you and walk alongside you in the Word.</p>
     </section>
-    <section class="mx-auto mt-10 max-w-2xl soft-card p-7 md:mt-12 md:p-8">
+    <section class="site-content mt-stack-gap connect-form-card soft-card soft-card--pad">
       <!-- No action: submissions are JS-only (see js/connect-form.js). Inline preventDefault blocks accidental native POST if scripts fail to load. -->
-      <form id="connectForm" class="space-y-4" novalidate method="post" onsubmit="event.preventDefault();">
+      <form id="connectForm" novalidate method="post" onsubmit="event.preventDefault();">
         <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <label class="block" for="connectName">
           <span class="mb-2 block text-sm font-medium text-[var(--text)]">Name <span class="font-normal text-[var(--muted)]">(optional)</span></span>
@@ -80,7 +80,7 @@
         <div class="form-switch-row">
           <div class="form-switch-label min-w-0 flex-1">
             <span id="connectUpdateListLabel">Add me to the update email list</span>
-            <p id="connectUpdateListHelper" class="content-text mt-1 text-xs leading-relaxed text-[var(--muted)]">
+            <p id="connectUpdateListHelper" class="content-text mt-1 text-sm leading-relaxed text-[var(--muted)]">
               Receive occasional Upward Knoxville updates. You can ask to be removed anytime.
             </p>
           </div>
@@ -88,11 +88,11 @@
             <span class="a11y-switch-thumb" aria-hidden="true"></span>
           </button>
         </div>
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+        <div class="flex flex-col gap-4 pt-1 sm:flex-row sm:items-center sm:gap-5">
           <button
             id="connectSubmitButton"
             type="submit"
-            class="order-2 w-full shrink-0 rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70 sm:order-none sm:w-auto"
+            class="order-2 w-full shrink-0 rounded-lg bg-[var(--accent)] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70 sm:order-none sm:w-auto"
           >
             Stay Connected
           </button>
@@ -104,13 +104,13 @@
         <p id="connectStatus" class="text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
       </form>
     </section>
-    <section class="mx-auto mt-8 max-w-2xl soft-card p-7 md:mt-10 md:p-8">
-      <h2 class="text-2xl font-semibold text-[var(--text)]">Questions or Prayer Requests</h2>
-      <p class="content-text mt-5 text-base leading-relaxed">Email us at <a class="font-medium text-[var(--accent)] underline decoration-[var(--accent)]/30 underline-offset-2 hover:text-[var(--accent-hover)]" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>. We read every message and are grateful to hear from you.</p>
+    <section class="site-content mt-stack-gap soft-card soft-card--pad">
+      <h2 class="section-heading">Questions or Prayer Requests</h2>
+      <p class="content-text mt-6 text-base leading-relaxed">Email us at <a class="font-medium text-[var(--accent)] underline decoration-[var(--accent)]/30 underline-offset-2 hover:text-[var(--accent-hover)]" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>. We read every message and are grateful to hear from you.</p>
     </section>
   </main>
-  <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
-    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+  <footer class="footer-surface site-footer border-t border-[var(--border)]" data-site-footer>
+    <div class="site-container grid gap-10 md:grid-cols-3 md:gap-12">
       <div>
         <div class="flex items-center gap-3 font-semibold text-[var(--text)]">
           <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo brand-logo--sm" />
@@ -141,7 +141,7 @@
         <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path.", Psalm 119:105</p>
       </div>
     </div>
-    <div class="mx-auto mt-8 max-w-6xl border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
+    <div class="site-footer-rule text-sm text-[var(--muted)]">
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>

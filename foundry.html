@@ -19,14 +19,14 @@
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+    <div class="site-header-inner">
       <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
         <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
         <span>Upward Knoxville</span>
       </a>
       <button type="button" id="menuButton" aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] lg:hidden">Menu</button>
       <nav id="menu" class="site-nav lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none" aria-label="Primary">
-        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-8 lg:text-sm">
           <li><a class="nav-link" href="index.html">Home</a></li>
           <li><a class="nav-link" href="teachings.html">Teachings</a></li>
           <li><a class="nav-link" href="updates.html">Updates</a></li>
@@ -52,46 +52,47 @@
     </div>
   </header>
 
-  <main class="px-5 py-14 md:py-16 lg:py-20">
-    <section class="mx-auto max-w-prose">
-      <p class="text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Women&rsquo;s discipleship</p>
-      <div class="mt-3 flex flex-wrap items-baseline justify-between gap-3">
-        <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">The Foundry</h1>
-        <span class="inline-flex rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Not yet live</span>
+  <main class="site-main">
+    <section class="layout-bleed-x hero-backdrop border-b border-[var(--border)] page-intro">
+      <div class="site-content">
+        <p class="page-eyebrow">Women&rsquo;s discipleship</p>
+        <div class="mt-3 flex flex-wrap items-baseline justify-between gap-3">
+          <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-[2.65rem] sm:leading-tight">The Foundry</h1>
+          <span class="inline-flex rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Not yet live</span>
+        </div>
+        <p class="content-text mt-6 text-lg leading-relaxed"><strong class="font-semibold text-[var(--text)]">The Foundry is not yet live.</strong> It is intended to become Upward Knoxville&rsquo;s women&rsquo;s discipleship space, supporting biblical growth, encouragement, prayer, fellowship, and spiritual formation among women, but we are not meeting under this name and there is no weekly rhythm or Discord server for it yet.</p>
+        <p class="content-text mt-5 text-lg leading-relaxed">We are <strong class="font-semibold text-[var(--text)]">actively and prayerfully looking for leadership</strong>, women who love Christ, honor His Word, and could help shepherd this space faithfully when the time is right. Until the right leadership is in place, we will not pretend The Foundry is something it is not.</p>
       </div>
-      <p class="content-text mt-6 text-lg leading-relaxed"><strong class="font-semibold text-[var(--text)]">The Foundry is not yet live.</strong> It is intended to become Upward Knoxville&rsquo;s women&rsquo;s discipleship space, supporting biblical growth, encouragement, prayer, fellowship, and spiritual formation among women, but we are not meeting under this name and there is no weekly rhythm or Discord server for it yet.</p>
-      <p class="content-text mt-4 text-lg leading-relaxed">We are <strong class="font-semibold text-[var(--text)]">actively and prayerfully looking for leadership</strong>, women who love Christ, honor His Word, and could help shepherd this space faithfully when the time is right. Until the right leadership is in place, we will not pretend The Foundry is something it is not.</p>
     </section>
 
-    <section class="mx-auto mt-10 max-w-prose md:mt-12">
-      <div class="soft-card p-8 md:p-10">
-        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Leadership</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p>Like The Forge, which is live today and meeting men online, The Foundry should not be a program created for appearances. It should develop carefully, prayerfully, and with the right leadership and participation as Upward Knoxville grows.</p>
-          <p>The goal is not performance or pressure, but faithful discipleship, honest fellowship, and growth in Christ. If you sense the Lord may be calling you to help lead in this area, or you wish to ask questions in good faith, please reach out through <a href="connect.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">Stay Connected</a> or email <a href="mailto:connect@upwardknoxville.org" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">connect@upwardknoxville.org</a>.</p>
+    <section class="site-container mt-stack-gap">
+      <div class="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
+        <div class="soft-card soft-card--pad min-w-0">
+          <h2 class="section-heading">Leadership</h2>
+          <div class="content-text mt-8 space-y-6 text-base leading-relaxed">
+            <p>Like The Forge, which is live today and meeting men online, The Foundry should not be a program created for appearances. It should develop carefully, prayerfully, and with the right leadership and participation as Upward Knoxville grows.</p>
+            <p>The goal is not performance or pressure, but faithful discipleship, honest fellowship, and growth in Christ. If you sense the Lord may be calling you to help lead in this area, or you wish to ask questions in good faith, please reach out through <a href="connect.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">Stay Connected</a> or email <a href="mailto:connect@upwardknoxville.org" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">connect@upwardknoxville.org</a>.</p>
+          </div>
+        </div>
+        <div class="soft-card soft-card--pad min-w-0">
+          <h2 class="section-heading">Staying connected</h2>
+          <div class="content-text mt-8 space-y-6 text-base leading-relaxed">
+            <p class="text-sm text-[var(--muted)]">The Foundry is not meeting yet, so there is no dedicated Discord or schedule under this name. The paragraphs below describe how we generally hope active groups stay connected across Upward, as context for when The Foundry is ready to begin.</p>
+            <p>Most group interaction and participation currently takes place through Discord. This helps reduce unnecessary travel, allows people with different schedules to participate more consistently, and makes it easier for individuals both inside and outside the Knoxville area to stay connected and involved.</p>
+            <p>While there may occasionally be planned in-person gatherings, fellowship events, or meetups connected to these groups, those would typically be scheduled well in advance with clear communication beforehand.</p>
+            <p>Our goal is not to replace real fellowship, but to create practical and accessible ways for believers to stay connected, encouraged, sharpened by Scripture, and involved in discipleship throughout the week.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="mx-auto mt-10 max-w-prose md:mt-12">
-      <div class="soft-card p-8 md:p-10">
-        <h2 class="text-xl font-semibold tracking-tight text-[var(--text)] sm:text-2xl">Staying connected</h2>
-        <div class="content-text mt-5 space-y-4 text-base leading-relaxed">
-          <p class="text-sm text-[var(--muted)]">The Foundry is not meeting yet, so there is no dedicated Discord or schedule under this name. The paragraphs below describe how we generally hope active groups stay connected across Upward, as context for when The Foundry is ready to begin.</p>
-          <p>Most group interaction and participation currently takes place through Discord. This helps reduce unnecessary travel, allows people with different schedules to participate more consistently, and makes it easier for individuals both inside and outside the Knoxville area to stay connected and involved.</p>
-          <p>While there may occasionally be planned in-person gatherings, fellowship events, or meetups connected to these groups, those would typically be scheduled well in advance with clear communication beforehand.</p>
-          <p>Our goal is not to replace real fellowship, but to create practical and accessible ways for believers to stay connected, encouraged, sharpened by Scripture, and involved in discipleship throughout the week.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="mx-auto mt-10 max-w-prose md:mt-12">
+    <section class="site-content mt-stack-gap">
       <p class="content-text text-sm text-[var(--muted)]"><a href="groups.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Groups overview</a> · <a href="forge.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">The Forge</a></p>
     </section>
   </main>
 
-  <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
-    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+  <footer class="footer-surface site-footer border-t border-[var(--border)]" data-site-footer>
+    <div class="site-container grid gap-10 md:grid-cols-3 md:gap-12">
       <div>
         <div class="flex items-center gap-3 font-semibold text-[var(--text)]">
           <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo brand-logo--sm" />
@@ -122,7 +123,7 @@
         <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path.", Psalm 119:105</p>
       </div>
     </div>
-    <div class="mx-auto mt-8 max-w-6xl border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
+    <div class="site-footer-rule text-sm text-[var(--muted)]">
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>

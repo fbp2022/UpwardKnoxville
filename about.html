@@ -18,14 +18,14 @@
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
-    <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+    <div class="site-header-inner">
       <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
         <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
         <span>Upward Knoxville</span>
       </a>
       <button type="button" id="menuButton" aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] lg:hidden">Menu</button>
       <nav id="menu" class="site-nav lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none" aria-label="Primary">
-        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-8 lg:text-sm">
           <li><a class="nav-link" href="index.html">Home</a></li>
           <li><a class="nav-link" href="teachings.html">Teachings</a></li>
           <li><a class="nav-link" href="updates.html">Updates</a></li>
@@ -50,15 +50,15 @@
       </nav>
     </div>
   </header>
-  <main class="px-5 py-14 md:py-16 lg:py-20">
-    <section class="mx-auto max-w-prose">
-      <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">The vision for Upward Knoxville</h1>
+  <main class="site-main">
+    <section class="site-content page-intro">
+      <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-[2.65rem] sm:leading-tight">The vision for Upward Knoxville</h1>
     </section>
 
-    <section class="-mx-5 mt-12 border-y border-[var(--border)] bg-[var(--surface)] px-5 py-14 md:mt-16 md:py-16 lg:py-20">
-      <div class="mx-auto max-w-prose">
-        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)] sm:text-3xl">Why Upward Exists</h2>
-        <div class="content-text mt-8 space-y-5 text-base leading-relaxed">
+    <section class="layout-bleed-x site-band border-y border-[var(--border)] bg-[var(--surface)] mt-stack-gap">
+      <div class="site-content">
+        <h2 class="section-heading">Why Upward Exists</h2>
+        <div class="content-text mt-10 space-y-6 text-base leading-relaxed">
           <p>Upward Knoxville is a Bible-centered fellowship in Knoxville where ordinary believers gather to study the Scriptures together.</p>
           <p>We teach the Bible verse by verse, chapter by chapter, so that God&rsquo;s Word can speak clearly into our lives. Our desire is to grow in simple faithfulness, praying together, asking honest questions, and encouraging one another in Christ.</p>
           <p>Everyone is welcome. Whether you are new to the Bible or have walked with Jesus for years, there is a place for you here to listen, learn, and grow.</p>
@@ -66,27 +66,27 @@
       </div>
     </section>
 
-    <section class="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2 md:gap-8 md:mt-16">
-      <article class="soft-card p-7 md:p-8">
+    <section class="site-container mt-stack-gap site-grid-2">
+      <article class="soft-card soft-card--pad">
         <h2 class="text-xl font-semibold text-[var(--text)]">Mission</h2>
-        <p class="content-text mt-5 max-w-prose text-base leading-relaxed">To open the Bible faithfully, verse by verse, and encourage believers to walk with Christ in everyday life.</p>
+        <p class="content-text mt-6 text-base leading-relaxed">To open the Bible faithfully, verse by verse, and encourage believers to walk with Christ in everyday life.</p>
       </article>
-      <article class="soft-card p-7 md:p-8">
+      <article class="soft-card soft-card--pad">
         <h2 class="text-xl font-semibold text-[var(--text)]">Scripture first</h2>
-        <p class="content-text mt-5 max-w-prose text-base leading-relaxed">Teaching and conversation stay tethered to the text, with context, clarity, and humility before the Lord.</p>
+        <p class="content-text mt-6 text-base leading-relaxed">Teaching and conversation stay tethered to the text, with context, clarity, and humility before the Lord.</p>
       </article>
-      <article class="soft-card p-7 md:p-8">
+      <article class="soft-card soft-card--pad">
         <h2 class="text-xl font-semibold text-[var(--text)]">Fellowship</h2>
-        <p class="content-text mt-5 max-w-prose text-base leading-relaxed">Real encouragement, prayer, and patience with one another as we grow, not hype, not pressure.</p>
+        <p class="content-text mt-6 text-base leading-relaxed">Real encouragement, prayer, and patience with one another as we grow, not hype, not pressure.</p>
       </article>
-      <article class="soft-card p-7 md:p-8">
+      <article class="soft-card soft-card--pad">
         <h2 class="text-xl font-semibold text-[var(--text)]">Simplicity</h2>
-        <p class="content-text mt-5 max-w-prose text-base leading-relaxed">A calm rhythm: ordinary people, an open Bible, and room for the Spirit to work over time in Knoxville.</p>
+        <p class="content-text mt-6 text-base leading-relaxed">A calm rhythm: ordinary people, an open Bible, and room for the Spirit to work over time in Knoxville.</p>
       </article>
     </section>
   </main>
-  <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
-    <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+  <footer class="footer-surface site-footer border-t border-[var(--border)]" data-site-footer>
+    <div class="site-container grid gap-10 md:grid-cols-3 md:gap-12">
       <div>
         <div class="flex items-center gap-3 font-semibold text-[var(--text)]">
           <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo brand-logo--sm" />
@@ -117,7 +117,7 @@
         <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path.", Psalm 119:105</p>
       </div>
     </div>
-    <div class="mx-auto mt-8 max-w-6xl border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
+    <div class="site-footer-rule text-sm text-[var(--muted)]">
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>
