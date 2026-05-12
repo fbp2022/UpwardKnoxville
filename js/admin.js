@@ -4,6 +4,12 @@
 (function () {
   'use strict';
 
+  if (typeof window !== 'undefined') {
+    window.__UPWARD_ADMIN_SCRIPT_RAN = true;
+  }
+
+  console.log('Admin controller loaded');
+
   var client = null;
   var currentRowId = null;
   var authSubscribed = false;
@@ -17,11 +23,26 @@
   }
 
   function showView(name) {
+    if (name !== 'loading' && typeof window !== 'undefined' && window.__UPWARD_ADMIN_LOADING_WATCHDOG) {
+      clearTimeout(window.__UPWARD_ADMIN_LOADING_WATCHDOG);
+      window.__UPWARD_ADMIN_LOADING_WATCHDOG = null;
+    }
     var ids = ['state-loading', 'state-error', 'state-config', 'state-login', 'state-dashboard'];
     for (var i = 0; i < ids.length; i++) {
       var el = $(ids[i]);
       if (el) el.hidden = ids[i] !== 'state-' + name;
     }
+  }
+
+  function withTimeout(promise, ms, timeoutMessage) {
+    return Promise.race([
+      promise,
+      new Promise(function (_, reject) {
+        setTimeout(function () {
+          reject(new Error(timeoutMessage || 'That step took too long.'));
+        }, ms);
+      }),
+    ]);
   }
 
   function setErrorMessage(msg) {
@@ -139,7 +160,11 @@
     if (loading) loading.hidden = false;
 
     try {
-      var row = await ensureTeachingRow();
+      var row = await withTimeout(
+        ensureTeachingRow(),
+        20000,
+        'Loading teaching status timed out (20s). Check your connection and Supabase row-level security for teaching_status.'
+      );
       currentRowId = row && row.id != null ? row.id : null;
       if (!currentRowId) throw new Error('Could not load teaching status.');
       fillForm(row);
@@ -248,7 +273,17 @@
     subscribeAuth();
 
     console.log('Checking session');
-    var sessRes = await client.auth.getSession();
+    var sessRes;
+    try {
+      sessRes = await withTimeout(
+        client.auth.getSession(),
+        15000,
+        'Session check timed out (15s). Your network, a browser extension, or a mismatched Supabase key can block auth. In Supabase → Settings → API, try the long "anon" / "public" JWT key if you are using a publishable key that fails here.'
+      );
+    } catch (e) {
+      friendlyShowError(e && e.message ? e.message : 'Session check failed.');
+      return;
+    }
     if (sessRes.error) {
       friendlyShowError(sessRes.error.message || 'Could not verify session.');
       return;
