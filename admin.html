@@ -15,10 +15,15 @@
       window.__UPWARD_ADMIN_LOADING_WATCHDOG = setTimeout(function () {
         var b = document.body;
         if (!b || b.getAttribute('data-admin-init') !== 'pending') return;
+        var loading = document.getElementById('state-loading');
         var login = document.getElementById('state-login');
-        var dash = document.getElementById('state-dashboard');
+        var root = document.getElementById('state-dashboard-root');
         var banner = document.getElementById('adminPageBanner');
-        if (dash) dash.hidden = true;
+        if (root) {
+          root.innerHTML = '';
+          root.hidden = true;
+        }
+        if (loading) loading.hidden = true;
         if (login) login.hidden = false;
         if (banner) {
           banner.textContent =
@@ -33,7 +38,11 @@
     <div class="mx-auto max-w-lg p-8 text-center content-text">JavaScript is required to use the admin page.</div>
   </noscript>
 
-  <div id="state-login" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16">
+  <div id="state-loading" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" role="status" aria-live="polite">
+    <p class="content-text text-sm text-[var(--muted)]">Loading…</p>
+  </div>
+
+  <div id="state-login" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" hidden>
     <div class="soft-card w-full max-w-[420px] p-8 md:p-10">
       <p id="adminPageBanner" class="content-text mb-4 rounded-md border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-2 text-center text-sm leading-relaxed" role="alert" hidden></p>
       <div class="flex flex-col items-center text-center">
@@ -59,100 +68,27 @@
     </div>
   </div>
 
-  <div id="state-dashboard" class="flex min-h-[70vh] flex-col items-center justify-center gap-8 px-5 py-14 md:py-16" hidden>
-    <div class="soft-card w-full max-w-xl p-8 md:p-10">
-      <h2 class="text-xl font-semibold text-[var(--text)]">Teaching status</h2>
-      <p id="adminLastUpdated" class="content-text mt-2 text-sm leading-relaxed"></p>
-      <p id="adminEditorLoading" class="content-text mt-4 text-sm text-[var(--muted)]" hidden role="status">Loading…</p>
-
-      <form id="adminTeachingForm" class="mt-8 space-y-5">
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current Book</span>
-          <input id="field-current-book" name="current_book" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current Chapter</span>
-          <input id="field-current-chapter" name="current_chapter" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current Verses</span>
-          <input id="field-current-verses" name="current_verses" type="text" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Where We Left Off</span>
-          <textarea id="field-where-we-left-off" name="where_we_left_off" rows="3" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
-        </label>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Current Focus</span>
-          <textarea id="field-current-focus" name="current_focus" rows="3" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
-        </label>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Public Note</span>
-          <textarea id="field-public-note" name="public_note" rows="4" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
-        </label>
-
-        <div class="flex flex-col gap-3 border-t border-[var(--border)] pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <div class="flex flex-wrap items-center gap-3">
-            <button type="submit" id="adminSaveBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Save changes</button>
-            <button type="button" id="adminLogoutBtn" class="rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)]">Log out</button>
-          </div>
-          <p id="adminEditorStatus" class="min-h-[1.25rem] text-sm text-[var(--muted)] sm:text-right" role="status" aria-live="polite"></p>
-        </div>
-      </form>
-    </div>
-
-    <div class="soft-card w-full max-w-xl p-8 md:p-10">
-      <h2 class="text-xl font-semibold text-[var(--text)]">Announcements</h2>
-      <p class="content-text mt-2 text-sm leading-relaxed">Published posts appear on the site (order, then date). Drafts stay hidden until published.</p>
-      <p id="adminAnnouncementsLoading" class="content-text mt-4 text-sm text-[var(--muted)]" hidden role="status">Loading announcements…</p>
-      <p id="adminAnnouncementsStatus" class="content-text mt-3 min-h-[1.25rem] text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
-
-      <form id="adminAnnouncementForm" class="mt-6 space-y-4 border-t border-[var(--border)] pt-6">
-        <input type="hidden" id="adminAnnouncementEditingId" value="" autocomplete="off" />
-        <h3 id="adminAnnouncementFormHeading" class="text-sm font-semibold text-[var(--text)]">New announcement</h3>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Title</span>
-          <input id="adminAnnouncementTitle" type="text" name="title" required maxlength="500" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Body</span>
-          <textarea id="adminAnnouncementBody" name="body" rows="5" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2"></textarea>
-        </label>
-        <label class="flex cursor-pointer items-center gap-3">
-          <input id="adminAnnouncementPublished" type="checkbox" class="h-4 w-4 rounded border-[var(--border)] text-[var(--accent)] focus:ring-[var(--accent)]" />
-          <span class="text-sm font-medium text-[var(--text)]">Published (visible on the public site)</span>
-        </label>
-        <label class="block">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Display order</span>
-          <input id="adminAnnouncementDisplayOrder" type="number" name="display_order" value="0" step="1" class="w-full max-w-[12rem] rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-[var(--text)] outline-none ring-[var(--accent)] focus:ring-2" />
-          <span class="mt-1 block text-xs text-[var(--muted)]">Lower numbers appear first.</span>
-        </label>
-        <div class="flex flex-wrap items-center gap-3">
-          <button type="submit" id="adminAnnouncementPostBtn" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Save</button>
-          <button type="button" id="adminAnnouncementClearBtn" class="rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)]">New announcement</button>
-        </div>
-      </form>
-
-      <div class="mt-8 border-t border-[var(--border)] pt-6">
-        <h3 class="text-sm font-semibold text-[var(--text)]">All announcements</h3>
-        <ul id="adminAnnouncementsList" class="mt-4 list-none space-y-4 p-0"></ul>
-      </div>
-    </div>
-  </div>
+  <div id="state-dashboard-root" class="flex min-h-[70vh] flex-col items-center justify-center gap-8 px-5 py-14 md:py-16" hidden></div>
 
   <!-- Supabase v2 UMD (explicit path so jsDelivr always serves the browser bundle). -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/supabase-client.js"></script>
+  <script src="js/admin-dashboard-html.js"></script>
   <script src="js/admin.js"></script>
   <script>
     (function () {
       setTimeout(function () {
         if (typeof window.__UPWARD_ADMIN_SCRIPT_RAN !== 'undefined') return;
+        var loading = document.getElementById('state-loading');
         var login = document.getElementById('state-login');
-        var dash = document.getElementById('state-dashboard');
+        var root = document.getElementById('state-dashboard-root');
         var banner = document.getElementById('adminPageBanner');
-        if (dash) dash.hidden = true;
+        if (root) {
+          root.innerHTML = '';
+          root.hidden = true;
+        }
+        if (loading) loading.hidden = true;
         if (login) login.hidden = false;
         if (banner) {
           banner.textContent =

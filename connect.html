@@ -48,9 +48,9 @@
       <p class="content-text mt-6 text-lg leading-relaxed">Questions about the teachings? Prayer requests? We'd love to hear from you and walk alongside you in the Word.</p>
     </section>
     <section class="mx-auto mt-10 max-w-2xl soft-card p-7 md:mt-12 md:p-8">
-      <form id="connectForm" class="space-y-4" novalidate>
+      <!-- No action: submissions are JS-only (see js/connect-form.js). Inline preventDefault blocks accidental native POST if scripts fail to load. -->
+      <form id="connectForm" class="space-y-4" novalidate method="post" onsubmit="event.preventDefault();">
         <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <input type="hidden" name="_subject" value="New Stay Connected message from upwardknoxville.org" />
         <label class="block" for="connectName">
           <span class="mb-2 block text-sm font-medium text-[var(--text)]">Name <span class="font-normal text-[var(--muted)]">(optional)</span></span>
           <input id="connectName" name="name" type="text" placeholder="Your name" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
@@ -69,7 +69,19 @@
             <span class="a11y-switch-thumb" aria-hidden="true"></span>
           </button>
         </div>
-        <button id="connectSubmitButton" type="submit" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Stay Connected</button>
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <button
+            id="connectSubmitButton"
+            type="submit"
+            class="order-2 w-full shrink-0 rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70 sm:order-none sm:w-auto"
+          >
+            Stay Connected
+          </button>
+          <div
+            id="connectTurnstile"
+            class="order-1 flex min-h-[52px] w-full items-center justify-start sm:order-none sm:min-h-0 sm:flex-1 sm:justify-end"
+          ></div>
+        </div>
         <p id="connectStatus" class="text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
       </form>
     </section>
@@ -114,7 +126,11 @@
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>
-  <script src="script.js"></script>
+  <!-- defer: guaranteed order; Turnstile before connect-form (no race on window.turnstile). -->
+  <script src="script.js" defer></script>
+  <script src="js/supabase-config.js" defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
+  <script src="js/connect-form.js" defer></script>
 </body>
 </html>
 
