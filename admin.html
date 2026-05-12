@@ -13,8 +13,9 @@
   <script>
     (function () {
       window.__UPWARD_ADMIN_LOADING_WATCHDOG = setTimeout(function () {
+        var b = document.body;
+        if (!b || b.getAttribute('data-admin-init') !== 'pending') return;
         var loading = document.getElementById('state-loading');
-        if (!loading || loading.hidden) return;
         var cfg = document.getElementById('state-config');
         var login = document.getElementById('state-login');
         var dash = document.getElementById('state-dashboard');
@@ -29,14 +30,15 @@
         if (login) login.hidden = true;
         if (dash) dash.hidden = true;
         if (err) err.hidden = false;
-      }, 12000);
+        b.setAttribute('data-admin-init', 'done');
+      }, 18000);
     })();
   </script>
   <noscript>
     <div class="mx-auto max-w-lg p-8 text-center content-text">JavaScript is required to use the admin page.</div>
   </noscript>
 
-  <div id="state-loading" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16">
+  <div id="state-loading" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-16" hidden>
     <div class="soft-card max-w-md p-10 text-center">
       <p class="text-sm font-medium text-[var(--text)]">Loading admin…</p>
       <p class="content-text mt-3 text-sm leading-relaxed">One moment please.</p>
@@ -62,13 +64,14 @@
     </div>
   </div>
 
-  <div id="state-login" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16" hidden>
+  <div id="state-login" class="flex min-h-[70vh] flex-col items-center justify-center px-5 py-14 md:py-16">
     <div class="soft-card w-full max-w-[420px] p-8 md:p-10">
       <div class="flex flex-col items-center text-center">
         <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" width="48" height="48" class="brand-logo h-12 w-12" />
         <h1 class="mt-5 text-xl font-semibold text-[var(--text)]">Teaching steward</h1>
         <p class="content-text mt-3 text-sm leading-relaxed">Sign in to update where we are in Scripture.</p>
       </div>
+      <p id="adminSessionCheckNote" class="content-text mt-4 text-center text-sm text-[var(--muted)]" hidden role="status">Checking session…</p>
       <form id="adminLoginForm" class="mt-8 space-y-4 text-left">
         <label class="block">
           <span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>
