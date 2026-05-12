@@ -1,5 +1,6 @@
 /**
  * Admin controller, vanilla JS. Expects Supabase UMD + window.UpwardSupabase (from supabase-client.js).
+ * Dashboard markup is injected only after authentication (see js/admin-dashboard-html.js).
  */
 (function () {
   'use strict';
@@ -14,6 +15,7 @@
   var currentRowId = null;
   var authSubscribed = false;
   var adminAnnouncementsCache = [];
+  var dashboardMounted = false;
 
   function $(id) {
     return document.getElementById(id);
@@ -23,16 +25,48 @@
     return typeof window !== 'undefined' && window.UpwardSupabase ? window.UpwardSupabase : {};
   }
 
-  function showView(name) {
+  function assetPrefix() {
+    var p = typeof window !== 'undefined' && window.location && window.location.pathname ? window.location.pathname : '';
+    return p.indexOf('/admin/') !== -1 ? '../' : '';
+  }
+
+  function showShell(phase) {
     if (typeof window !== 'undefined' && window.__UPWARD_ADMIN_LOADING_WATCHDOG) {
       clearTimeout(window.__UPWARD_ADMIN_LOADING_WATCHDOG);
       window.__UPWARD_ADMIN_LOADING_WATCHDOG = null;
     }
-    var ids = ['state-login', 'state-dashboard'];
-    for (var i = 0; i < ids.length; i++) {
-      var el = $(ids[i]);
-      if (el) el.hidden = ids[i] !== 'state-' + name;
+    var loading = $('state-loading');
+    var login = $('state-login');
+    var root = $('state-dashboard-root');
+    if (loading) loading.hidden = phase !== 'loading';
+    if (login) login.hidden = phase !== 'login';
+    if (root) {
+      root.hidden = phase !== 'dashboard';
+      if (phase !== 'dashboard' && !dashboardMounted) root.innerHTML = '';
     }
+  }
+
+  function unmountDashboard() {
+    var root = $('state-dashboard-root');
+    if (root) root.innerHTML = '';
+    dashboardMounted = false;
+    currentRowId = null;
+    adminAnnouncementsCache = [];
+  }
+
+  function mountDashboardMarkup() {
+    var root = $('state-dashboard-root');
+    if (!root) return;
+    var fn =
+      typeof window !== 'undefined' && typeof window.__UPWARD_GET_ADMIN_DASHBOARD_HTML__ === 'function'
+        ? window.__UPWARD_GET_ADMIN_DASHBOARD_HTML__
+        : null;
+    if (!fn) {
+      console.error('Missing __UPWARD_GET_ADMIN_DASHBOARD_HTML__ (load js/admin-dashboard-html.js before admin.js).');
+      return;
+    }
+    root.innerHTML = fn(assetPrefix());
+    dashboardMounted = true;
   }
 
   function clearPageBanner() {
@@ -55,12 +89,13 @@
   }
 
   function friendlyShowError(msg) {
+    unmountDashboard();
     var b = $('adminPageBanner');
     if (b) {
       b.textContent = msg || 'Please try again in a moment.';
       b.hidden = false;
     }
-    showView('login');
+    showShell('login');
   }
 
   function bindLogout() {
@@ -382,6 +417,207 @@
     }
   }
 
+  function setBccStatus(msg) {
+    var el = $('adminBccStatus');
+    if (el) el.textContent = msg != null ? String(msg) : '';
+  }
+
+  function renderBccList(rows) {
+    var ul = $('adminBccList');
+    if (!ul) return;
+    ul.innerHTML = '';
+    if (!rows || !rows.length) {
+      var li = document.createElement('li');
+      li.className = 'content-text text-sm text-[var(--muted)]';
+      li.textContent = 'No BCC addresses yet.';
+      ul.appendChild(li);
+      return;
+    }
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var id = r && r.id != null ? String(r.id) : '';
+      var em = r && r.email != null ? String(r.email) : '';
+      var item = document.createElement('li');
+      item.className =
+        'flex flex-wrap items-center justify-between gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2';
+      item.innerHTML =
+        '<span class="min-w-0 break-all text-sm text-[var(--text)]">' +
+        escapeHtml(em) +
+        '</span>' +
+        '<button type="button" class="shrink-0 rounded border border-[var(--border)] px-2 py-1 text-xs font-medium text-[var(--text)] hover:bg-[var(--surface-hover)]" data-bcc-delete="' +
+        escapeHtml(id) +
+        '">Remove</button>';
+      ul.appendChild(item);
+    }
+  }
+
+  async function loadBccList() {
+    setBccStatus('');
+    if (!client) {
+      setBccStatus('Not connected.');
+      renderBccList([]);
+      return;
+    }
+    try {
+      var sel = await client.from('admin_update_bcc_emails').select('id,email').order('email', { ascending: true });
+      if (sel.error) throw sel.error;
+      renderBccList(sel.data || []);
+    } catch (e) {
+      var msg = e && e.message ? e.message : 'Could not load BCC list.';
+      setBccStatus(msg);
+      renderBccList([]);
+    }
+  }
+
+  function bindBccForm() {
+    var form = $('adminBccForm');
+    if (form && !form.dataset.bound) {
+      form.dataset.bound = '1';
+      form.addEventListener('submit', async function (ev) {
+        ev.preventDefault();
+        var input = $('adminBccEmail');
+        var btn = $('adminBccAddBtn');
+        var email = input && input.value != null ? String(input.value).trim().toLowerCase() : '';
+        setBccStatus('');
+        if (!email) {
+          setBccStatus('Enter an email address.');
+          return;
+        }
+        if (!client) {
+          setBccStatus('Not connected.');
+          return;
+        }
+        if (btn) btn.disabled = true;
+        try {
+          var ins = await client.from('admin_update_bcc_emails').insert([{ email: email }]).select('id');
+          if (ins.error) throw ins.error;
+          if (input) input.value = '';
+          setBccStatus('Added.');
+          await loadBccList();
+        } catch (e) {
+          var msg = e && e.message ? e.message : 'Could not add address.';
+          setBccStatus(msg);
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+      });
+    }
+  }
+
+  function bindBccList() {
+    var ul = $('adminBccList');
+    if (ul && !ul.dataset.bound) {
+      ul.dataset.bound = '1';
+      ul.addEventListener('click', async function (ev) {
+        var t = ev.target;
+        var btn = t && t.closest ? t.closest('[data-bcc-delete]') : null;
+        if (!btn || !btn.getAttribute) return;
+        var id = btn.getAttribute('data-bcc-delete');
+        if (!id) return;
+        if (!client) {
+          setBccStatus('Not connected.');
+          return;
+        }
+        btn.disabled = true;
+        setBccStatus('');
+        try {
+          var res = await client.from('admin_update_bcc_emails').delete().eq('id', id);
+          if (res.error) throw res.error;
+          setBccStatus('Removed.');
+          await loadBccList();
+        } catch (e) {
+          var msg = e && e.message ? e.message : 'Remove failed.';
+          setBccStatus(msg);
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    }
+  }
+
+  function setContactStatus(msg) {
+    var el = $('adminContactStatus');
+    if (el) el.textContent = msg != null ? String(msg) : '';
+  }
+
+  function renderContactMessages(rows) {
+    var wrap = $('adminContactTableWrap');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    if (!rows || !rows.length) {
+      wrap.innerHTML = '<p class="content-text text-sm text-[var(--muted)]">No messages yet.</p>';
+      return;
+    }
+    var table = document.createElement('table');
+    table.className = 'w-full min-w-[32rem] border-collapse text-left text-sm';
+    var thead = document.createElement('thead');
+    thead.innerHTML =
+      '<tr class="border-b border-[var(--border)] text-[var(--muted)]">' +
+      '<th class="py-2 pr-3 font-medium">Date</th>' +
+      '<th class="py-2 pr-3 font-medium">From</th>' +
+      '<th class="py-2 pr-3 font-medium">Email</th>' +
+      '<th class="py-2 font-medium">Message</th>' +
+      '</tr>';
+    table.appendChild(thead);
+    var tbody = document.createElement('tbody');
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var created = r && r.created_at ? new Date(r.created_at) : null;
+      var dateStr =
+        created && !isNaN(created.getTime())
+          ? created.toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })
+          : '';
+      var name = r && r.name != null ? String(r.name) : '';
+      var email = r && r.email != null ? String(r.email) : '';
+      var msg = r && r.message != null ? String(r.message) : '';
+      var tr = document.createElement('tr');
+      tr.className = 'border-b border-[var(--border)] align-top';
+      tr.innerHTML =
+        '<td class="py-2 pr-3 text-[var(--muted)] whitespace-nowrap">' +
+        escapeHtml(dateStr) +
+        '</td>' +
+        '<td class="py-2 pr-3">' +
+        escapeHtml(name || '—') +
+        '</td>' +
+        '<td class="py-2 pr-3 break-all">' +
+        escapeHtml(email) +
+        '</td>' +
+        '<td class="py-2 max-w-md"><div class="max-h-32 overflow-y-auto whitespace-pre-wrap">' +
+        escapeHtml(msg) +
+        '</div></td>';
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    wrap.appendChild(table);
+  }
+
+  async function loadContactMessages() {
+    var loading = $('adminContactLoading');
+    if (loading) loading.hidden = false;
+    setContactStatus('');
+    if (!client) {
+      setContactStatus('Not connected.');
+      if (loading) loading.hidden = true;
+      renderContactMessages([]);
+      return;
+    }
+    try {
+      var sel = await client
+        .from('contact_messages')
+        .select('id,name,email,message,created_at')
+        .order('created_at', { ascending: false })
+        .limit(100);
+      if (sel.error) throw sel.error;
+      renderContactMessages(sel.data || []);
+    } catch (e) {
+      var msg = e && e.message ? e.message : 'Could not load messages.';
+      setContactStatus(msg);
+      renderContactMessages([]);
+    } finally {
+      if (loading) loading.hidden = true;
+    }
+  }
+
   function fillForm(row) {
     var book = $('field-current-book');
     var ch = $('field-current-chapter');
@@ -484,16 +720,33 @@
     }
   }
 
-  async function openDashboard() {
-    console.log('Rendering dashboard');
-    clearPageBanner();
-    showView('dashboard');
+  function bindDashboardOnce() {
     bindLogout();
     bindTeachingForm();
     bindAnnouncementForm();
     bindAnnouncementClear();
     bindAnnouncementList();
-    await Promise.all([loadTeachingEditor(), loadAnnouncementsAdmin()]);
+    bindBccForm();
+    bindBccList();
+  }
+
+  async function openDashboard() {
+    console.log('Rendering dashboard');
+    clearPageBanner();
+    unmountDashboard();
+    mountDashboardMarkup();
+    if (!dashboardMounted) {
+      friendlyShowError('Could not build admin dashboard.');
+      return;
+    }
+    showShell('dashboard');
+    bindDashboardOnce();
+    await Promise.all([
+      loadTeachingEditor(),
+      loadAnnouncementsAdmin(),
+      loadBccList(),
+      loadContactMessages(),
+    ]);
   }
 
   function subscribeAuth() {
@@ -502,12 +755,14 @@
     client.auth.onAuthStateChange(function (event, session) {
       if (event === 'INITIAL_SESSION') return;
       if (session) {
-        openDashboard();
+        openDashboard().catch(function (e) {
+          friendlyShowError(e && e.message ? e.message : 'Could not open dashboard.');
+        });
       } else {
         console.log('Rendering login');
-        currentRowId = null;
+        unmountDashboard();
         clearPageBanner();
-        showView('login');
+        showShell('login');
       }
     });
   }
@@ -515,6 +770,7 @@
   async function init() {
     var body = document.body;
     if (body) body.setAttribute('data-admin-init', 'pending');
+    showShell('loading');
     try {
       if (
         !window.UpwardSupabase ||
@@ -576,7 +832,8 @@
       } else {
         console.log('Rendering login');
         clearPageBanner();
-        showView('login');
+        unmountDashboard();
+        showShell('login');
       }
     } finally {
       if (body) body.setAttribute('data-admin-init', 'done');
