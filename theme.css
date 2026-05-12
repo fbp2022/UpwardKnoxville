@@ -304,11 +304,15 @@ body {
   margin: 0.75rem 0 0;
 }
 
-.updates-page .announcements-feed {
+/* Feed: no “card” chrome — layout + readable measure only (works with or without .updates-page on body). */
+.updates-page .announcements-feed,
+.updates-announcements-section .announcements-feed {
   display: flex;
   flex-direction: column;
   gap: clamp(1.25rem, 3vw, 1.5rem);
-  margin: 0;
+  max-width: min(100%, 48rem);
+  margin-inline: auto;
+  margin-block: 0;
   padding: 0;
   background: none;
   border: none;
@@ -316,49 +320,74 @@ body {
 }
 
 @media (min-width: 1024px) {
-  .updates-page .announcements-feed {
-    gap: clamp(1.75rem, 2.5vw, 2.25rem);
+  .updates-page .announcements-feed,
+  .updates-announcements-section .announcements-feed {
+    gap: clamp(1.75rem, 3vw, 2.25rem);
   }
 }
 
-.updates-page .announcement-card {
+.updates-page .announcement-card,
+.updates-announcements-section .announcement-card {
   margin: 0;
-  padding: clamp(1.25rem, 3vw, 1.5rem);
-  background: var(--surface);
+  box-sizing: border-box;
+  padding: clamp(1.25rem, 3.2vw, 1.5rem);
+  background: var(--surface, #fff);
   border: 1px solid var(--border);
   border-radius: clamp(20px, 2vw, 24px);
   box-shadow: var(--shadow);
 }
 
 @media (min-width: 1024px) {
-  .updates-page .announcement-card {
-    padding: clamp(1.5rem, 2.5vw, 2rem);
+  .updates-page .announcement-card,
+  .updates-announcements-section .announcement-card {
+    padding: clamp(1.5rem, 2.8vw, 2rem);
   }
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .updates-page .announcement-card:not(.announcement-card--empty) {
+  .updates-page .announcement-card:not(.announcement-card--empty):not(.announcement-card--loading),
+  .updates-announcements-section
+    .announcement-card:not(.announcement-card--empty):not(.announcement-card--loading) {
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease;
   }
 
-  .updates-page .announcement-card:not(.announcement-card--empty):hover {
+  .updates-page .announcement-card:not(.announcement-card--empty):not(.announcement-card--loading):hover,
+  .updates-announcements-section
+    .announcement-card:not(.announcement-card--empty):not(.announcement-card--loading):hover {
     border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
     box-shadow: var(--shadow-md);
   }
 }
 
-.updates-page .announcement-card--empty {
+.updates-page .announcement-card--empty,
+.updates-page .announcement-card--loading,
+.updates-announcements-section .announcement-card--empty,
+.updates-announcements-section .announcement-card--loading {
   box-shadow: var(--shadow);
 }
 
-.updates-page .announcement-card--empty .content-text {
+.updates-page .announcement-card__inner,
+.updates-announcements-section .announcement-card__inner {
+  min-width: 0;
+}
+
+.updates-page .announcement-card__empty-message,
+.updates-announcements-section .announcement-card__empty-message {
   margin: 0;
   color: var(--muted);
 }
 
-.updates-page .announcement-card__title {
+.updates-page .announcement-card__loading-status,
+.updates-announcements-section .announcement-card__loading-status {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.updates-page .announcement-card__title,
+.updates-announcements-section .announcement-card__title {
   margin: 0;
   font-size: 1.125rem;
   font-weight: 600;
@@ -366,7 +395,8 @@ body {
   line-height: 1.35;
 }
 
-.updates-page .announcement-card__meta {
+.updates-page .announcement-card__meta,
+.updates-announcements-section .announcement-card__meta {
   margin: 0.45rem 0 0;
   font-size: 0.8125rem;
   font-weight: 500;
@@ -374,10 +404,12 @@ body {
   color: var(--muted);
 }
 
-.updates-page .announcement-card__body {
+.updates-page .announcement-card__body,
+.updates-announcements-section .announcement-card__body {
   margin: 1rem 0 0;
   font-size: 1rem;
   line-height: 1.78;
+  color: var(--text-readable, var(--text));
   white-space: pre-wrap;
 }
 
