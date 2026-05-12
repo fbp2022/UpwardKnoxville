@@ -17,7 +17,7 @@
   <title>Updates | Upward Knoxville</title>
   <meta name="description" content="Where we are in Scripture and announcements from Upward Knoxville." />
 </head>
-<body class="antialiased">
+<body class="antialiased updates-page">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
     <div class="site-header-inner">
       <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
@@ -62,18 +62,21 @@
     </section>
 
     <section class="site-container mt-stack-gap">
-      <div class="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-10 xl:gap-12">
-        <div class="soft-card soft-card--pad min-w-0">
-          <h2 class="section-heading">Where We Are in Scripture</h2>
-          <div data-teaching-status-root class="mt-8">
-            <p class="content-text leading-relaxed">Current teaching details will be posted here soon.</p>
-          </div>
-        </div>
-        <div class="soft-card soft-card--pad min-w-0">
-          <h2 class="section-heading">Announcements</h2>
-          <div data-announcements-root class="mt-8"></div>
+      <div class="updates-scripture-feature">
+        <h2 class="section-heading">Where We Are in Scripture</h2>
+        <div data-teaching-status-root class="mt-8">
+          <p class="content-text leading-relaxed">Current teaching details will be posted here soon.</p>
         </div>
       </div>
+    </section>
+
+    <section class="updates-announcements-section site-container mt-stack-gap" aria-labelledby="updates-announcements-heading">
+      <div class="updates-section-header">
+        <p class="page-eyebrow">Latest announcements</p>
+        <h2 id="updates-announcements-heading" class="section-heading">Latest Announcements</h2>
+        <p class="content-text mt-4 max-w-2xl text-lg leading-relaxed">Recent gathering notes and updates from Upward Knoxville.</p>
+      </div>
+      <div data-announcements-root class="announcements-feed mt-10"></div>
     </section>
   </main>
 

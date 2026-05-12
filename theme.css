@@ -255,30 +255,110 @@ body {
   border-radius: var(--radius-lg);
 }
 
-.announcement-list {
-  list-style: none;
+/* -----------------------------------------------------------------
+   Updates page (updates.html): scripture feature + announcements feed
+   ----------------------------------------------------------------- */
+
+.updates-page .updates-scripture-feature {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
   margin: 0;
-  padding: 0;
+  padding: clamp(1.85rem, 4.2vw, 2.85rem);
+  padding-top: calc(0.35rem + clamp(1.85rem, 4.2vw, 2.85rem));
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.updates-page .updates-scripture-feature::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    color-mix(in srgb, var(--accent) 42%, var(--border))
+  );
+}
+
+.updates-page .updates-scripture-feature .section-heading {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.updates-page .updates-announcements-section {
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.updates-page .updates-section-header .section-heading {
+  margin: 0.75rem 0 0;
+}
+
+.updates-page .announcements-feed {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: clamp(1.25rem, 3vw, 1.5rem);
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
 }
 
-.announcement-item {
-  padding: var(--card-padding) 0;
-  border-bottom: 1px solid var(--border);
+@media (min-width: 1024px) {
+  .updates-page .announcements-feed {
+    gap: clamp(1.75rem, 2.5vw, 2.25rem);
+  }
 }
 
-.announcement-item:first-child {
-  padding-top: 0;
+.updates-page .announcement-card {
+  margin: 0;
+  padding: clamp(1.25rem, 3vw, 1.5rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: clamp(20px, 2vw, 24px);
+  box-shadow: var(--shadow);
 }
 
-.announcement-item:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
+@media (min-width: 1024px) {
+  .updates-page .announcement-card {
+    padding: clamp(1.5rem, 2.5vw, 2rem);
+  }
 }
 
-.announcement-item__title {
+@media (hover: hover) and (pointer: fine) {
+  .updates-page .announcement-card:not(.announcement-card--empty) {
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .updates-page .announcement-card:not(.announcement-card--empty):hover {
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.updates-page .announcement-card--empty {
+  box-shadow: var(--shadow);
+}
+
+.updates-page .announcement-card--empty .content-text {
+  margin: 0;
+  color: var(--muted);
+}
+
+.updates-page .announcement-card__title {
   margin: 0;
   font-size: 1.125rem;
   font-weight: 600;
@@ -286,15 +366,15 @@ body {
   line-height: 1.35;
 }
 
-.announcement-item__meta {
-  margin: 0.4rem 0 0;
+.updates-page .announcement-card__meta {
+  margin: 0.45rem 0 0;
   font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--muted);
 }
 
-.announcement-item__body {
+.updates-page .announcement-card__body {
   margin: 1rem 0 0;
   font-size: 1rem;
   line-height: 1.78;
