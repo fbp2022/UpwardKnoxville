@@ -23,14 +23,22 @@
   }
 
   function showView(name) {
-    if (name !== 'loading' && typeof window !== 'undefined' && window.__UPWARD_ADMIN_LOADING_WATCHDOG) {
+    if (typeof window !== 'undefined' && window.__UPWARD_ADMIN_LOADING_WATCHDOG) {
       clearTimeout(window.__UPWARD_ADMIN_LOADING_WATCHDOG);
       window.__UPWARD_ADMIN_LOADING_WATCHDOG = null;
     }
-    var ids = ['state-loading', 'state-error', 'state-config', 'state-login', 'state-dashboard'];
+    var ids = ['state-login', 'state-dashboard'];
     for (var i = 0; i < ids.length; i++) {
       var el = $(ids[i]);
       if (el) el.hidden = ids[i] !== 'state-' + name;
+    }
+  }
+
+  function clearPageBanner() {
+    var b = $('adminPageBanner');
+    if (b) {
+      b.textContent = '';
+      b.hidden = true;
     }
   }
 
@@ -45,14 +53,13 @@
     ]);
   }
 
-  function setErrorMessage(msg) {
-    var t = $('state-error-text');
-    if (t) t.textContent = msg || 'Please try again in a moment.';
-  }
-
   function friendlyShowError(msg) {
-    setErrorMessage(msg);
-    showView('error');
+    var b = $('adminPageBanner');
+    if (b) {
+      b.textContent = msg || 'Please try again in a moment.';
+      b.hidden = false;
+    }
+    showView('login');
   }
 
   function bindLogout() {
@@ -71,6 +78,7 @@
       form.dataset.bound = '1';
       form.addEventListener('submit', async function (ev) {
         ev.preventDefault();
+        clearPageBanner();
         var emailEl = $('adminLoginEmail');
         var passEl = $('adminLoginPassword');
         var errEl = $('adminLoginError');
@@ -107,6 +115,170 @@
   function fieldVal(id) {
     var el = $(id);
     return el && el.value != null ? String(el.value) : '';
+  }
+
+  function escapeHtml(str) {
+    if (str == null || str === '') return '';
+    var div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
+  }
+
+  function previewBody(body, maxLen) {
+    var s = body != null ? String(body).replace(/\s+/g, ' ').trim() : '';
+    if (!s) return '';
+    var n = maxLen != null ? maxLen : 120;
+    if (s.length <= n) return s;
+    return s.slice(0, n - 1) + '…';
+  }
+
+  function setAnnouncementsStatus(msg) {
+    var el = $('adminAnnouncementsStatus');
+    if (el) el.textContent = msg != null ? String(msg) : '';
+  }
+
+  function renderAnnouncementRows(rows) {
+    var list = $('adminAnnouncementsList');
+    if (!list) return;
+    list.innerHTML = '';
+    if (!rows || !rows.length) {
+      var empty = document.createElement('li');
+      empty.className = 'content-text text-sm text-[var(--muted)]';
+      empty.textContent = 'No announcements yet.';
+      list.appendChild(empty);
+      return;
+    }
+    for (var i = 0; i < rows.length; i++) {
+      var row = rows[i];
+      var id = row && row.id != null ? String(row.id) : '';
+      var title = row && row.title != null ? String(row.title) : '';
+      var body = row && row.body != null ? String(row.body) : '';
+      var created = row && row.created_at ? new Date(row.created_at) : null;
+      var dateStr =
+        created && !isNaN(created.getTime())
+          ? created.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
+          : '';
+
+      var li = document.createElement('li');
+      li.className = 'rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4';
+      li.innerHTML =
+        '<div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">' +
+        '<div class="min-w-0 flex-1">' +
+        '<p class="font-semibold text-[var(--text)]">' +
+        escapeHtml(title) +
+        '</p>' +
+        '<p class="mt-1 text-xs text-[var(--muted)]">' +
+        escapeHtml(dateStr) +
+        '</p>' +
+        '<p class="content-text mt-2 text-sm leading-relaxed">' +
+        escapeHtml(previewBody(body, 140)) +
+        '</p>' +
+        '</div>' +
+        '<div class="shrink-0 sm:ml-3">' +
+        '<button type="button" class="rounded-md border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-1.5 text-xs font-medium text-[var(--text)] transition hover:bg-[var(--surface)]" data-announcement-delete="' +
+        escapeHtml(id) +
+        '">Delete</button>' +
+        '</div>' +
+        '</div>';
+      list.appendChild(li);
+    }
+  }
+
+  async function loadAnnouncementsAdmin() {
+    var loading = $('adminAnnouncementsLoading');
+    if (loading) loading.hidden = false;
+    setAnnouncementsStatus('');
+    if (!client) {
+      setAnnouncementsStatus('Not connected.');
+      if (loading) loading.hidden = true;
+      return;
+    }
+    try {
+      var sel = await client
+        .from('site_announcements')
+        .select('id,title,body,created_at')
+        .order('created_at', { ascending: false })
+        .limit(10);
+      if (sel.error) throw sel.error;
+      renderAnnouncementRows(sel.data || []);
+    } catch (e) {
+      var msg = e && e.message ? e.message : 'Could not load announcements.';
+      setAnnouncementsStatus(msg);
+      renderAnnouncementRows([]);
+    } finally {
+      if (loading) loading.hidden = true;
+    }
+  }
+
+  function bindAnnouncementForm() {
+    var form = $('adminAnnouncementForm');
+    if (form && !form.dataset.bound) {
+      form.dataset.bound = '1';
+      form.addEventListener('submit', async function (ev) {
+        ev.preventDefault();
+        var btn = $('adminAnnouncementPostBtn');
+        var titleEl = $('adminAnnouncementTitle');
+        var bodyEl = $('adminAnnouncementBody');
+        var title = titleEl && titleEl.value != null ? String(titleEl.value).trim() : '';
+        var body = bodyEl && bodyEl.value != null ? String(bodyEl.value).trim() : '';
+        setAnnouncementsStatus('');
+        if (!client) {
+          setAnnouncementsStatus('Not connected.');
+          return;
+        }
+        if (!title || !body) {
+          setAnnouncementsStatus('Title and body are required.');
+          return;
+        }
+        if (btn) btn.disabled = true;
+        try {
+          var ins = await client.from('site_announcements').insert([{ title: title, body: body }]).select('id');
+          if (ins.error) throw ins.error;
+          if (titleEl) titleEl.value = '';
+          if (bodyEl) bodyEl.value = '';
+          setAnnouncementsStatus('Posted.');
+          await loadAnnouncementsAdmin();
+        } catch (e) {
+          var msg = e && e.message ? e.message : 'Post failed.';
+          setAnnouncementsStatus(msg);
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+      });
+    }
+  }
+
+  function bindAnnouncementList() {
+    var list = $('adminAnnouncementsList');
+    if (list && !list.dataset.bound) {
+      list.dataset.bound = '1';
+      list.addEventListener('click', async function (ev) {
+        var raw = ev.target;
+        var t = raw && raw.closest ? raw.closest('[data-announcement-delete]') : null;
+        if (!t || !t.getAttribute) return;
+        var delId = t.getAttribute('data-announcement-delete');
+        if (!delId) return;
+        ev.preventDefault();
+        if (!client) {
+          setAnnouncementsStatus('Not connected.');
+          return;
+        }
+        if (!window.confirm('Delete this announcement?')) return;
+        setAnnouncementsStatus('');
+        t.disabled = true;
+        try {
+          var res = await client.from('site_announcements').delete().eq('id', delId);
+          if (res.error) throw res.error;
+          setAnnouncementsStatus('Deleted.');
+          await loadAnnouncementsAdmin();
+        } catch (e) {
+          var msg = e && e.message ? e.message : 'Delete failed.';
+          setAnnouncementsStatus(msg);
+        } finally {
+          t.disabled = false;
+        }
+      });
+    }
   }
 
   function fillForm(row) {
@@ -172,7 +344,6 @@
     } catch (e) {
       var msg = e && e.message ? e.message : 'Could not load teaching status.';
       if (status) status.textContent = msg;
-      friendlyShowError(msg);
     } finally {
       if (loading) loading.hidden = true;
     }
@@ -214,10 +385,13 @@
 
   async function openDashboard() {
     console.log('Rendering dashboard');
+    clearPageBanner();
     showView('dashboard');
     bindLogout();
     bindTeachingForm();
-    await loadTeachingEditor();
+    bindAnnouncementForm();
+    bindAnnouncementList();
+    await Promise.all([loadTeachingEditor(), loadAnnouncementsAdmin()]);
   }
 
   function subscribeAuth() {
@@ -230,6 +404,7 @@
       } else {
         console.log('Rendering login');
         currentRowId = null;
+        clearPageBanner();
         showView('login');
       }
     });
@@ -252,13 +427,16 @@
 
       var a = api();
       if (!a.isSupabaseConfigured || !a.isSupabaseConfigured()) {
-        showView('config');
+        friendlyShowError(
+          'Open js/supabase-config.js and set SUPABASE_ANON_KEY to your publishable anon key (see js/supabase-config.example.js).'
+        );
         return;
       }
 
       if (!window.supabase || typeof window.supabase.createClient !== 'function') {
-        setErrorMessage('The Supabase library did not load. Check your network or try again later.');
-        showView('error');
+        friendlyShowError(
+          'The Supabase library did not load. Check your network or try again later.'
+        );
         return;
       }
 
@@ -295,6 +473,7 @@
         await openDashboard();
       } else {
         console.log('Rendering login');
+        clearPageBanner();
         showView('login');
       }
     } finally {
