@@ -25,20 +25,20 @@ function renderList(rows) {
     const when = escapeHtml(formatDate(row.created_at));
     const bodyHtml = escapeHtml(row.body != null ? String(row.body) : '');
     return (
-      '<li class="border-b border-[var(--border)] pb-8 last:border-0 last:pb-0">' +
-      '<h3 class="text-lg font-semibold text-[var(--text)]">' +
+      '<li class="announcement-item">' +
+      '<h3 class="announcement-item__title">' +
       title +
       '</h3>' +
-      '<p class="mt-1 text-xs text-[var(--muted)]">' +
+      '<p class="announcement-item__meta">' +
       when +
       '</p>' +
-      '<div class="content-text mt-4 text-base leading-relaxed whitespace-pre-wrap">' +
+      '<div class="announcement-item__body content-text">' +
       bodyHtml +
       '</div>' +
       '</li>'
     );
   });
-  return '<ul class="m-0 list-none space-y-8 p-0">' + items.join('') + '</ul>';
+  return '<ul class="announcement-list">' + items.join('') + '</ul>';
 }
 
 async function run() {

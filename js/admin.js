@@ -530,12 +530,12 @@
       var em = r && r.email != null ? String(r.email) : '';
       var item = document.createElement('li');
       item.className =
-        'flex flex-wrap items-center justify-between gap-2 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2';
+        'flex items-center justify-between gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface-hover)] px-4 py-2.5';
       item.innerHTML =
-        '<span class="min-w-0 break-all text-sm text-[var(--text)]">' +
+        '<span class="admin-bcc-chip min-w-0 flex-1 truncate rounded-md bg-[var(--surface)] px-3 py-1 font-mono text-sm text-[var(--text)] ring-1 ring-inset ring-[var(--border)]">' +
         escapeHtml(em) +
         '</span>' +
-        '<button type="button" class="shrink-0 rounded border border-[var(--border)] px-2 py-1 text-xs font-medium text-[var(--text)] hover:bg-[var(--surface-hover)]" data-bcc-delete="' +
+        '<button type="button" class="shrink-0 text-xs font-medium text-[var(--muted)] underline decoration-[var(--border)] underline-offset-2 hover:text-[var(--text)]" data-bcc-delete="' +
         escapeHtml(id) +
         '">Remove</button>';
       ul.appendChild(item);
@@ -632,65 +632,65 @@
   }
 
   function renderContactMessages(rows) {
-    var wrap = $('adminContactTableWrap');
+    var wrap = $('adminContactList');
     if (!wrap) return;
     wrap.innerHTML = '';
     if (!rows || !rows.length) {
       wrap.innerHTML = '<p class="content-text text-sm text-[var(--muted)]">No messages yet.</p>';
       return;
     }
-    var table = document.createElement('table');
-    table.className = 'w-full min-w-[36rem] border-collapse text-left text-sm';
-    var thead = document.createElement('thead');
-    thead.innerHTML =
-      '<tr class="border-b border-[var(--border)] text-[var(--muted)]">' +
-      '<th class="py-2 pr-3 font-medium">Date</th>' +
-      '<th class="py-2 pr-3 font-medium">From</th>' +
-      '<th class="py-2 pr-3 font-medium">Email</th>' +
-      '<th class="py-2 pr-3 font-medium">Message</th>' +
-      '<th class="py-2 pl-2 text-right font-medium w-24">Actions</th>' +
-      '</tr>';
-    table.appendChild(thead);
-    var tbody = document.createElement('tbody');
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i];
       var rowId = r && r.id != null ? String(r.id) : '';
       var created = r && r.created_at ? new Date(r.created_at) : null;
       var dateStr =
         created && !isNaN(created.getTime())
-          ? created.toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })
+          ? created.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
           : '';
       var name = r && r.name != null ? String(r.name) : '';
       var email = r && r.email != null ? String(r.email) : '';
       var msg = r && r.message != null ? String(r.message) : '';
-      var tr = document.createElement('tr');
-      tr.className = 'border-b border-[var(--border)] align-top';
-      tr.innerHTML =
-        '<td class="py-2 pr-3 text-[var(--muted)] whitespace-nowrap">' +
+      var prayer = r && r.prayer_request === true;
+      var badge = prayer
+        ? '<span class="inline-flex items-center rounded-full bg-[var(--accent-soft)] px-2.5 py-0.5 text-xs font-medium text-[var(--accent)]">Prayer request</span>'
+        : '';
+      var emailHtml = email
+        ? '<a class="break-all text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]" href="mailto:' +
+          escapeHtml(email) +
+          '">' +
+          escapeHtml(email) +
+          '</a>'
+        : '<span class="text-sm text-[var(--muted)]">—</span>';
+
+      var card = document.createElement('article');
+      card.className =
+        'rounded-lg border border-[var(--border)] bg-[var(--surface-hover)] p-4 sm:p-5';
+      card.innerHTML =
+        '<div class="flex flex-wrap items-start justify-between gap-3 border-b border-[var(--border)] pb-3">' +
+        '<p class="text-xs font-medium text-[var(--muted)]">' +
         escapeHtml(dateStr) +
-        '</td>' +
-        '<td class="py-2 pr-3">' +
-        escapeHtml(name || '—') +
-        '</td>' +
-        '<td class="py-2 pr-3 break-all">' +
-        escapeHtml(email) +
-        '</td>' +
-        '<td class="py-2 max-w-md pr-3"><div class="max-h-32 overflow-y-auto whitespace-pre-wrap">' +
-        escapeHtml(msg) +
-        '</div></td>' +
-        '<td class="py-2 pl-2 text-right align-top">' +
+        '</p>' +
+        '<div class="flex flex-wrap items-center justify-end gap-2">' +
+        badge +
         '<button type="button" class="text-xs font-medium text-[var(--muted)] underline decoration-[var(--border)] underline-offset-2 hover:text-[var(--text)]" data-contact-delete="' +
         escapeHtml(rowId) +
         '">Delete</button>' +
-        '</td>';
-      tbody.appendChild(tr);
+        '</div></div>' +
+        '<p class="mt-3 text-base font-semibold text-[var(--text)]">' +
+        escapeHtml(name || '—') +
+        '</p>' +
+        '<div class="mt-1">' +
+        emailHtml +
+        '</div>' +
+        '<div class="content-text mt-3 text-sm leading-relaxed text-[var(--text-readable)] whitespace-pre-wrap">' +
+        escapeHtml(msg) +
+        '</div>';
+      wrap.appendChild(card);
     }
-    table.appendChild(tbody);
-    wrap.appendChild(table);
   }
 
   function bindContactMessagesList() {
-    var wrap = $('adminContactTableWrap');
+    var wrap = $('adminContactList');
     if (!wrap || wrap.dataset.contactDeleteBound === '1') return;
     wrap.dataset.contactDeleteBound = '1';
     wrap.addEventListener('click', async function (ev) {
@@ -733,7 +733,7 @@
     try {
       var sel = await client
         .from('contact_messages')
-        .select('id,name,email,message,created_at')
+        .select('id,name,email,message,prayer_request,created_at')
         .order('created_at', { ascending: false })
         .limit(100);
       if (sel.error) throw sel.error;

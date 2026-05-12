@@ -1,5 +1,5 @@
 const FALLBACK =
-  '<p class="content-text leading-relaxed">Current teaching details will be posted here soon.</p>';
+  '<div class="teaching-status-stack"><p class="content-text leading-relaxed">Current teaching details will be posted here soon.</p></div>';
 
 function escapeHtml(str) {
   if (str == null || str === '') return '';
@@ -28,34 +28,34 @@ function renderRow(row) {
   const blocks = [];
 
   blocks.push(
-    `<div class="teaching-status-field mt-6 first:mt-0">
-      <h3 class="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">Current Study</h3>
-      <p class="content-text mt-2 text-base leading-relaxed">${study || 'Not yet posted'}</p>
+    `<div class="teaching-status-field">
+      <h3>Current Study</h3>
+      <p class="content-text">${study || 'Not yet posted'}</p>
     </div>`
   );
 
   blocks.push(
-    `<div class="teaching-status-field mt-6">
-      <h3 class="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">Where We Left Off</h3>
-      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${where ? escapeHtml(where) : 'Not yet posted'}</p>
+    `<div class="teaching-status-field">
+      <h3>Where We Left Off</h3>
+      <p class="content-text whitespace-pre-wrap">${where ? escapeHtml(where) : 'Not yet posted'}</p>
     </div>`
   );
 
   blocks.push(
-    `<div class="teaching-status-field mt-6">
-      <h3 class="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">Current Focus</h3>
-      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${focus ? escapeHtml(focus) : 'Not yet posted'}</p>
+    `<div class="teaching-status-field">
+      <h3>Current Focus</h3>
+      <p class="content-text whitespace-pre-wrap">${focus ? escapeHtml(focus) : 'Not yet posted'}</p>
     </div>`
   );
 
   blocks.push(
-    `<div class="teaching-status-field mt-6">
-      <h3 class="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">Note</h3>
-      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${note ? escapeHtml(note) : 'Not yet posted'}</p>
+    `<div class="teaching-status-field">
+      <h3>Note</h3>
+      <p class="content-text whitespace-pre-wrap">${note ? escapeHtml(note) : 'Not yet posted'}</p>
     </div>`
   );
 
-  return blocks.join('');
+  return '<div class="teaching-status-stack">' + blocks.join('') + '</div>';
 }
 
 function upwardApi() {
