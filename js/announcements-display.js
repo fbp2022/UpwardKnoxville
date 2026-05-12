@@ -15,14 +15,6 @@ function formatDate(iso) {
   return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
 }
 
-function previewBody(body, maxLen) {
-  const s = body != null ? String(body).replace(/\s+/g, ' ').trim() : '';
-  if (!s) return '';
-  const n = maxLen != null ? maxLen : 200;
-  if (s.length <= n) return s;
-  return s.slice(0, n - 1) + '…';
-}
-
 function upwardApi() {
   return typeof window !== 'undefined' && window.UpwardSupabase ? window.UpwardSupabase : {};
 }
@@ -31,22 +23,22 @@ function renderList(rows) {
   const items = rows.map((row) => {
     const title = escapeHtml(row.title);
     const when = escapeHtml(formatDate(row.created_at));
-    const preview = escapeHtml(previewBody(row.body, 220));
+    const bodyHtml = escapeHtml(row.body != null ? String(row.body) : '');
     return (
-      '<li class="border-b border-[var(--border)] pb-6 last:border-0 last:pb-0">' +
+      '<li class="border-b border-[var(--border)] pb-8 last:border-0 last:pb-0">' +
       '<h3 class="text-lg font-semibold text-[var(--text)]">' +
       title +
       '</h3>' +
       '<p class="mt-1 text-xs text-[var(--muted)]">' +
       when +
       '</p>' +
-      '<p class="content-text mt-3 text-sm leading-relaxed">' +
-      preview +
-      '</p>' +
+      '<div class="content-text mt-4 text-base leading-relaxed whitespace-pre-wrap">' +
+      bodyHtml +
+      '</div>' +
       '</li>'
     );
   });
-  return '<ul class="m-0 list-none space-y-6 p-0">' + items.join('') + '</ul>';
+  return '<ul class="m-0 list-none space-y-8 p-0">' + items.join('') + '</ul>';
 }
 
 async function run() {
@@ -70,10 +62,12 @@ async function run() {
 
   try {
     const { data, error } = await supabase
-      .from('site_announcements')
-      .select('id,title,body,created_at')
+      .from('announcements')
+      .select('id,title,body,created_at,is_published,display_order')
+      .eq('is_published', true)
+      .order('display_order', { ascending: true })
       .order('created_at', { ascending: false })
-      .limit(10);
+      .limit(100);
 
     if (error) throw error;
     if (!data || !data.length) {

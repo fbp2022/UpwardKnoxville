@@ -13,6 +13,7 @@
   var client = null;
   var currentRowId = null;
   var authSubscribed = false;
+  var adminAnnouncementsCache = [];
 
   function $(id) {
     return document.getElementById(id);
@@ -153,28 +154,42 @@
       var id = row && row.id != null ? String(row.id) : '';
       var title = row && row.title != null ? String(row.title) : '';
       var body = row && row.body != null ? String(row.body) : '';
+      var published = row && row.is_published === true;
+      var ord = row && row.display_order != null ? String(row.display_order) : '0';
       var created = row && row.created_at ? new Date(row.created_at) : null;
       var dateStr =
         created && !isNaN(created.getTime())
           ? created.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
           : '';
+      var badge = published
+        ? '<span class="rounded bg-[var(--surface-hover)] px-2 py-0.5 text-xs font-medium text-[var(--text)]">Published</span>'
+        : '<span class="rounded border border-[var(--border)] px-2 py-0.5 text-xs font-medium text-[var(--muted)]">Draft</span>';
 
       var li = document.createElement('li');
       li.className = 'rounded-lg border border-[var(--border)] bg-[var(--surface)] p-4';
       li.innerHTML =
-        '<div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">' +
+        '<div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">' +
         '<div class="min-w-0 flex-1">' +
+        '<div class="flex flex-wrap items-center gap-2">' +
         '<p class="font-semibold text-[var(--text)]">' +
         escapeHtml(title) +
         '</p>' +
+        badge +
+        '<span class="text-xs text-[var(--muted)]">Order ' +
+        escapeHtml(ord) +
+        '</span>' +
+        '</div>' +
         '<p class="mt-1 text-xs text-[var(--muted)]">' +
         escapeHtml(dateStr) +
         '</p>' +
         '<p class="content-text mt-2 text-sm leading-relaxed">' +
-        escapeHtml(previewBody(body, 140)) +
+        escapeHtml(previewBody(body, 160)) +
         '</p>' +
         '</div>' +
-        '<div class="shrink-0 sm:ml-3">' +
+        '<div class="flex shrink-0 flex-wrap gap-2 sm:ml-3">' +
+        '<button type="button" class="rounded-md border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-1.5 text-xs font-medium text-[var(--text)] transition hover:bg-[var(--surface)]" data-announcement-edit="' +
+        escapeHtml(id) +
+        '">Edit</button>' +
         '<button type="button" class="rounded-md border border-[var(--border)] bg-[var(--surface-hover)] px-3 py-1.5 text-xs font-medium text-[var(--text)] transition hover:bg-[var(--surface)]" data-announcement-delete="' +
         escapeHtml(id) +
         '">Delete</button>' +
@@ -182,6 +197,37 @@
         '</div>';
       list.appendChild(li);
     }
+  }
+
+  function clearAnnouncementForm() {
+    var hid = $('adminAnnouncementEditingId');
+    var titleEl = $('adminAnnouncementTitle');
+    var bodyEl = $('adminAnnouncementBody');
+    var pub = $('adminAnnouncementPublished');
+    var ord = $('adminAnnouncementDisplayOrder');
+    var head = $('adminAnnouncementFormHeading');
+    if (hid) hid.value = '';
+    if (titleEl) titleEl.value = '';
+    if (bodyEl) bodyEl.value = '';
+    if (pub) pub.checked = false;
+    if (ord) ord.value = '0';
+    if (head) head.textContent = 'New announcement';
+  }
+
+  function fillAnnouncementFormFromRow(row) {
+    if (!row) return;
+    var hid = $('adminAnnouncementEditingId');
+    var titleEl = $('adminAnnouncementTitle');
+    var bodyEl = $('adminAnnouncementBody');
+    var pub = $('adminAnnouncementPublished');
+    var ord = $('adminAnnouncementDisplayOrder');
+    var head = $('adminAnnouncementFormHeading');
+    if (hid) hid.value = row.id != null ? String(row.id) : '';
+    if (titleEl) titleEl.value = row.title != null ? String(row.title) : '';
+    if (bodyEl) bodyEl.value = row.body != null ? String(row.body) : '';
+    if (pub) pub.checked = row.is_published === true;
+    if (ord) ord.value = row.display_order != null ? String(row.display_order) : '0';
+    if (head) head.textContent = 'Edit announcement';
   }
 
   async function loadAnnouncementsAdmin() {
@@ -195,15 +241,18 @@
     }
     try {
       var sel = await client
-        .from('site_announcements')
-        .select('id,title,body,created_at')
+        .from('announcements')
+        .select('id,title,body,created_at,updated_at,is_published,display_order')
+        .order('display_order', { ascending: true })
         .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(200);
       if (sel.error) throw sel.error;
-      renderAnnouncementRows(sel.data || []);
+      adminAnnouncementsCache = sel.data || [];
+      renderAnnouncementRows(adminAnnouncementsCache);
     } catch (e) {
       var msg = e && e.message ? e.message : 'Could not load announcements.';
       setAnnouncementsStatus(msg);
+      adminAnnouncementsCache = [];
       renderAnnouncementRows([]);
     } finally {
       if (loading) loading.hidden = true;
@@ -219,8 +268,17 @@
         var btn = $('adminAnnouncementPostBtn');
         var titleEl = $('adminAnnouncementTitle');
         var bodyEl = $('adminAnnouncementBody');
+        var pubEl = $('adminAnnouncementPublished');
+        var ordEl = $('adminAnnouncementDisplayOrder');
+        var editIdEl = $('adminAnnouncementEditingId');
         var title = titleEl && titleEl.value != null ? String(titleEl.value).trim() : '';
         var body = bodyEl && bodyEl.value != null ? String(bodyEl.value).trim() : '';
+        var orderRaw = ordEl && ordEl.value != null ? String(ordEl.value).trim() : '0';
+        var orderNum = parseInt(orderRaw, 10);
+        if (isNaN(orderNum)) orderNum = 0;
+        var isPublished = pubEl ? !!pubEl.checked : false;
+        var editId = editIdEl && editIdEl.value != null ? String(editIdEl.value).trim() : '';
+
         setAnnouncementsStatus('');
         if (!client) {
           setAnnouncementsStatus('Not connected.');
@@ -232,18 +290,40 @@
         }
         if (btn) btn.disabled = true;
         try {
-          var ins = await client.from('site_announcements').insert([{ title: title, body: body }]).select('id');
-          if (ins.error) throw ins.error;
-          if (titleEl) titleEl.value = '';
-          if (bodyEl) bodyEl.value = '';
-          setAnnouncementsStatus('Posted.');
+          var payload = {
+            title: title,
+            body: body,
+            is_published: isPublished,
+            display_order: orderNum,
+          };
+          if (editId) {
+            var upd = await client.from('announcements').update(payload).eq('id', editId).select('id');
+            if (upd.error) throw upd.error;
+            setAnnouncementsStatus('Saved.');
+          } else {
+            var ins = await client.from('announcements').insert([payload]).select('id');
+            if (ins.error) throw ins.error;
+            setAnnouncementsStatus('Created.');
+          }
+          clearAnnouncementForm();
           await loadAnnouncementsAdmin();
         } catch (e) {
-          var msg = e && e.message ? e.message : 'Post failed.';
+          var msg = e && e.message ? e.message : 'Save failed.';
           setAnnouncementsStatus(msg);
         } finally {
           if (btn) btn.disabled = false;
         }
+      });
+    }
+  }
+
+  function bindAnnouncementClear() {
+    var btn = $('adminAnnouncementClearBtn');
+    if (btn && !btn.dataset.bound) {
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', function () {
+        clearAnnouncementForm();
+        setAnnouncementsStatus('');
       });
     }
   }
@@ -254,28 +334,49 @@
       list.dataset.bound = '1';
       list.addEventListener('click', async function (ev) {
         var raw = ev.target;
-        var t = raw && raw.closest ? raw.closest('[data-announcement-delete]') : null;
-        if (!t || !t.getAttribute) return;
-        var delId = t.getAttribute('data-announcement-delete');
+        var editBtn = raw && raw.closest ? raw.closest('[data-announcement-edit]') : null;
+        var delBtn = raw && raw.closest ? raw.closest('[data-announcement-delete]') : null;
+
+        if (editBtn && editBtn.getAttribute) {
+          var eid = editBtn.getAttribute('data-announcement-edit');
+          if (!eid) return;
+          var found = null;
+          for (var j = 0; j < adminAnnouncementsCache.length; j++) {
+            if (String(adminAnnouncementsCache[j].id) === eid) {
+              found = adminAnnouncementsCache[j];
+              break;
+            }
+          }
+          if (found) {
+            fillAnnouncementFormFromRow(found);
+            setAnnouncementsStatus('');
+          }
+          return;
+        }
+
+        if (!delBtn || !delBtn.getAttribute) return;
+        var delId = delBtn.getAttribute('data-announcement-delete');
         if (!delId) return;
         ev.preventDefault();
         if (!client) {
           setAnnouncementsStatus('Not connected.');
           return;
         }
-        if (!window.confirm('Delete this announcement?')) return;
+        if (!window.confirm('Delete this announcement? This cannot be undone.')) return;
         setAnnouncementsStatus('');
-        t.disabled = true;
+        delBtn.disabled = true;
         try {
-          var res = await client.from('site_announcements').delete().eq('id', delId);
+          var res = await client.from('announcements').delete().eq('id', delId);
           if (res.error) throw res.error;
+          var hid = $('adminAnnouncementEditingId');
+          if (hid && String(hid.value).trim() === delId) clearAnnouncementForm();
           setAnnouncementsStatus('Deleted.');
           await loadAnnouncementsAdmin();
         } catch (e) {
           var msg = e && e.message ? e.message : 'Delete failed.';
           setAnnouncementsStatus(msg);
         } finally {
-          t.disabled = false;
+          delBtn.disabled = false;
         }
       });
     }
@@ -390,6 +491,7 @@
     bindLogout();
     bindTeachingForm();
     bindAnnouncementForm();
+    bindAnnouncementClear();
     bindAnnouncementList();
     await Promise.all([loadTeachingEditor(), loadAnnouncementsAdmin()]);
   }
