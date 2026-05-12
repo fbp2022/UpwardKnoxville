@@ -291,3 +291,29 @@ function wireConnectPrayerSwitch() {
 }
 
 wireConnectPrayerSwitch();
+
+/* =========================
+   CONNECT FORM: UPDATE EMAIL LIST OPT-IN (separate from prayer request)
+========================= */
+function setConnectUpdateListSwitchState(sw, on) {
+  sw.setAttribute('aria-checked', on ? 'true' : 'false');
+  sw.setAttribute('data-update-list', on ? 'true' : 'false');
+}
+
+function readConnectUpdateListOn() {
+  const sw = document.getElementById('connectUpdateListSwitch');
+  if (!sw) return false;
+  if (sw.getAttribute('aria-checked') === 'true') return true;
+  return sw.getAttribute('data-update-list') === 'true';
+}
+
+function wireConnectUpdateListSwitch() {
+  const sw = document.getElementById('connectUpdateListSwitch');
+  if (!sw) return;
+  setConnectUpdateListSwitchState(sw, sw.getAttribute('aria-checked') === 'true');
+  sw.addEventListener('click', () => {
+    setConnectUpdateListSwitchState(sw, !readConnectUpdateListOn());
+  });
+}
+
+wireConnectUpdateListSwitch();
