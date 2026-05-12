@@ -6,7 +6,8 @@
   <link rel="stylesheet" href="theme.css" />
   <script src="theme-init.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Connect | Upward Knoxville</title>
+  <title>Updates | Upward Knoxville</title>
+  <meta name="description" content="Where we are in Scripture and announcements from Upward Knoxville." />
 </head>
 <body class="antialiased">
   <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
@@ -20,50 +21,37 @@
         <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
           <li><a class="nav-link" href="index.html">Home</a></li>
           <li><a class="nav-link" href="teachings.html">Teachings</a></li>
-          <li><a class="nav-link" href="updates.html">Updates</a></li>
+          <li><a class="nav-link" aria-current="page" href="updates.html">Updates</a></li>
           <li><a class="nav-link" href="faq.html">FAQ</a></li>
           <li><a class="nav-link" href="about.html">About</a></li>
-          <li><a class="nav-link" aria-current="page" href="connect.html">Stay Connected</a></li>
+          <li><a class="nav-link" href="connect.html">Stay Connected</a></li>
         </ul>
       </nav>
     </div>
   </header>
+
   <main class="px-5 py-14 md:py-16 lg:py-20">
     <section class="mx-auto max-w-prose">
-      <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">Stay Connected</h1>
-      <p class="content-text mt-6 text-lg leading-relaxed">Questions about the teachings? Prayer requests? We'd love to hear from you and walk alongside you in the Word.</p>
+      <p class="text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">Fellowship news</p>
+      <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-5xl">Updates</h1>
+      <p class="content-text mt-6 text-lg leading-relaxed">Where we are in Scripture and recent announcements—everything in one place.</p>
     </section>
-    <section class="mx-auto mt-10 max-w-2xl soft-card p-7 md:mt-12 md:p-8">
-      <form id="connectForm" class="space-y-4" novalidate>
-        <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <input type="hidden" name="_subject" value="New Stay Connected message from upwardknoxville.org" />
-        <label class="block" for="connectName">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Name <span class="font-normal text-[var(--muted)]">(optional)</span></span>
-          <input id="connectName" name="name" type="text" placeholder="Your name" class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block" for="connectEmail">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Email</span>
-          <input id="connectEmail" name="email" type="email" placeholder="you@example.com" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2" />
-        </label>
-        <label class="block" for="connectMessage">
-          <span class="mb-2 block text-sm font-medium text-[var(--text)]">Message</span>
-          <textarea id="connectMessage" name="message" rows="5" required class="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3 outline-none ring-[var(--accent)] focus:ring-2"></textarea>
-        </label>
-        <div class="form-switch-row">
-          <span id="connectPrayerLabel" class="form-switch-label">This is a prayer request</span>
-          <button type="button" id="connectPrayerSwitch" class="a11y-switch" role="switch" aria-checked="false" aria-labelledby="connectPrayerLabel">
-            <span class="a11y-switch-thumb" aria-hidden="true"></span>
-          </button>
+
+    <section class="mx-auto mt-12 max-w-prose space-y-10 md:mt-16 md:space-y-12">
+      <div class="soft-card p-8 md:p-10">
+        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)]">Where We Are in Scripture</h2>
+        <div data-teaching-status-root class="mt-6">
+          <p class="content-text leading-relaxed">Current teaching details will be posted here soon.</p>
         </div>
-        <button id="connectSubmitButton" type="submit" class="rounded-md bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-70">Stay Connected</button>
-        <p id="connectStatus" class="text-sm text-[var(--muted)]" role="status" aria-live="polite"></p>
-      </form>
-    </section>
-    <section class="mx-auto mt-8 max-w-2xl soft-card p-7 md:mt-10 md:p-8">
-      <h2 class="text-2xl font-semibold text-[var(--text)]">Questions or Prayer Requests</h2>
-      <p class="content-text mt-5 text-base leading-relaxed">Email us at <a class="font-medium text-[var(--accent)] underline decoration-[var(--accent)]/30 underline-offset-2 hover:text-[var(--accent-hover)]" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>. We read every message and are grateful to hear from you.</p>
+      </div>
+
+      <div class="soft-card p-8 md:p-10">
+        <h2 class="text-2xl font-semibold tracking-tight text-[var(--text)]">Announcements</h2>
+        <div data-announcements-root class="mt-6"></div>
+      </div>
     </section>
   </main>
+
   <footer class="footer-surface border-t border-[var(--border)] px-5 py-14 md:py-16" data-site-footer>
     <div class="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
       <div>
@@ -96,7 +84,11 @@
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>
+  <script src="js/supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+  <script src="js/supabase-client.js"></script>
+  <script type="module" src="js/teaching-status-display.js"></script>
+  <script type="module" src="js/announcements-display.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
