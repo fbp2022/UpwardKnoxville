@@ -11,6 +11,10 @@ const MIN_MESSAGE_LENGTH = 10;
 const UPDATE_LIST_EMAIL_ERROR = 'Please enter a valid email address to join the update list.';
 const BCC_WARNING =
   'Your message was saved, but we could not add you to the update email list. You can try again later or contact us.';
+const EMAIL_NOTIFICATION_WARNING = 'Message saved, but email notification failed.';
+
+const NOTIFY_TO = 'connect@upwardknoxville.org';
+const DEFAULT_RESEND_FROM = 'Upward Knoxville <notifications@upwardknoxville.org>';
 
 function jsonResponse(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -23,6 +27,99 @@ function isValidEmail(email: string): boolean {
   const t = email.trim();
   if (!t || t.length > 254) return false;
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t);
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function yn(v: boolean): string {
+  return v ? 'yes' : 'no';
+}
+
+async function sendContactNotificationEmail(params: {
+  name: string;
+  email: string | null;
+  message: string;
+  isPrayerRequest: boolean;
+  addToUpdateList: boolean;
+  submittedAtIso: string;
+}): Promise<{ ok: true } | { ok: false; reason: string }> {
+  const apiKey = Deno.env.get('RESEND_API_KEY');
+  if (!apiKey || !apiKey.trim()) {
+    console.error('RESEND_API_KEY is not set; skipping Resend notification');
+    return { ok: false, reason: 'RESEND_API_KEY not set' };
+  }
+
+  const from = (Deno.env.get('RESEND_FROM') || '').trim() || DEFAULT_RESEND_FROM;
+  const replyTo =
+    params.email && isValidEmail(params.email) ? params.email.trim() : undefined;
+
+  const textLines = [
+    'New contact form submission',
+    '',
+    `Name: ${params.name || '(not provided)'}`,
+    `Email: ${params.email || '(not provided)'}`,
+    '',
+    'Message:',
+    params.message,
+    '',
+    `Prayer request: ${yn(params.isPrayerRequest)}`,
+    `Add to update list: ${yn(params.addToUpdateList)}`,
+    '',
+    `Submitted (UTC): ${params.submittedAtIso}`,
+    'Source: upwardknoxville.org',
+  ];
+  const textBody = textLines.join('\n');
+
+  const htmlBody =
+    '<pre style="font-family:system-ui,sans-serif;font-size:14px;line-height:1.5;white-space:pre-wrap">' +
+    escapeHtml(textBody) +
+    '</pre>';
+
+  const payload: Record<string, unknown> = {
+    from,
+    to: [NOTIFY_TO],
+    subject: 'New Upward Knoxville contact form message',
+    text: textBody,
+    html: htmlBody,
+  };
+  if (replyTo) {
+    payload.reply_to = [replyTo];
+  }
+
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey.trim()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const raw = await res.text();
+    let parsed: Record<string, unknown> = {};
+    try {
+      parsed = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
+    } catch {
+      parsed = {};
+    }
+
+    if (!res.ok) {
+      console.error('Resend API error', res.status, raw);
+      return { ok: false, reason: typeof parsed.message === 'string' ? parsed.message : res.statusText };
+    }
+
+    return { ok: true };
+  } catch (e) {
+    console.error('Resend request failed', e);
+    return { ok: false, reason: e instanceof Error ? e.message : 'network error' };
+  }
 }
 
 /**
@@ -179,16 +276,32 @@ Deno.serve(async (req) => {
     return jsonResponse({ ok: false, error: 'Could not save your message. Please try again later.' }, 500);
   }
 
-  let warning: string | undefined;
+  const submittedAtIso = new Date().toISOString();
+
+  const warnings: string[] = [];
+
   if (addToUpdateList && storedContactEmail) {
     const bcc = await upsertBccOptIn(supabase, storedContactEmail, name || null);
     if (!bcc.ok) {
       console.warn('BCC opt-in failed', bcc.reason);
-      warning = BCC_WARNING;
+      warnings.push(BCC_WARNING);
     }
   }
 
+  const emailResult = await sendContactNotificationEmail({
+    name,
+    email: storedContactEmail,
+    message,
+    isPrayerRequest,
+    addToUpdateList,
+    submittedAtIso,
+  });
+  if (!emailResult.ok) {
+    console.error('Contact notification email failed', emailResult.reason);
+    warnings.push(EMAIL_NOTIFICATION_WARNING);
+  }
+
   const body: Record<string, unknown> = { ok: true };
-  if (warning) body.warning = warning;
+  if (warnings.length) body.warning = warnings.join(' ');
   return jsonResponse(body);
 });
