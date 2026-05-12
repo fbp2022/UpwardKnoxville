@@ -1,5 +1,5 @@
 /**
- * Admin controller — vanilla JS. Expects Supabase UMD + window.UpwardSupabase (from supabase-client.js).
+ * Admin controller, vanilla JS. Expects Supabase UMD + window.UpwardSupabase (from supabase-client.js).
  */
 (function () {
   'use strict';

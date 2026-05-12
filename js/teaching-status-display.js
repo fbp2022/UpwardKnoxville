@@ -30,28 +30,28 @@ function renderRow(row) {
   blocks.push(
     `<div class="teaching-status-field mt-6 first:mt-0">
       <h3 class="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">Current Study</h3>
-      <p class="content-text mt-2 text-base leading-relaxed">${study || '—'}</p>
+      <p class="content-text mt-2 text-base leading-relaxed">${study || 'Not yet posted'}</p>
     </div>`
   );
 
   blocks.push(
     `<div class="teaching-status-field mt-6">
       <h3 class="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">Where We Left Off</h3>
-      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${where ? escapeHtml(where) : '—'}</p>
+      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${where ? escapeHtml(where) : 'Not yet posted'}</p>
     </div>`
   );
 
   blocks.push(
     `<div class="teaching-status-field mt-6">
       <h3 class="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">Current Focus</h3>
-      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${focus ? escapeHtml(focus) : '—'}</p>
+      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${focus ? escapeHtml(focus) : 'Not yet posted'}</p>
     </div>`
   );
 
   blocks.push(
     `<div class="teaching-status-field mt-6">
       <h3 class="text-sm font-semibold uppercase tracking-wide text-[var(--muted)]">Note</h3>
-      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${note ? escapeHtml(note) : '—'}</p>
+      <p class="content-text mt-2 text-base leading-relaxed whitespace-pre-wrap">${note ? escapeHtml(note) : 'Not yet posted'}</p>
     </div>`
   );
 

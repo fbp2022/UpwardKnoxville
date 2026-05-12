@@ -1,5 +1,5 @@
 /**
- * Plain script — sets globals for js/supabase-client.js and js/admin.js.
+ * Plain script, sets globals for js/supabase-client.js and js/admin.js.
  * Paste your Supabase anon (publishable) key into SUPABASE_ANON_KEY before deploy.
  * Never commit the service role key.
  */
