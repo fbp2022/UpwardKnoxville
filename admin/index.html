@@ -10,6 +10,28 @@
   <title>Admin | Upward Knoxville</title>
 </head>
 <body class="min-h-screen antialiased">
+  <script>
+    (function () {
+      window.__UPWARD_ADMIN_LOADING_WATCHDOG = setTimeout(function () {
+        var loading = document.getElementById('state-loading');
+        if (!loading || loading.hidden) return;
+        var cfg = document.getElementById('state-config');
+        var login = document.getElementById('state-login');
+        var dash = document.getElementById('state-dashboard');
+        var err = document.getElementById('state-error');
+        var msg = document.getElementById('state-error-text');
+        if (msg) {
+          msg.textContent =
+            'Admin did not finish starting. Common causes: (1) ../js/admin.js or another script returned 404 — confirm the latest repo is deployed. (2) The Supabase CDN script was blocked. (3) The session check never completed. Open DevTools → Network, hard refresh (Ctrl+Shift+R), and look for failed requests.';
+        }
+        if (loading) loading.hidden = true;
+        if (cfg) cfg.hidden = true;
+        if (login) login.hidden = true;
+        if (dash) dash.hidden = true;
+        if (err) err.hidden = false;
+      }, 12000);
+    })();
+  </script>
   <noscript>
     <div class="mx-auto max-w-lg p-8 text-center content-text">JavaScript is required to use the admin page.</div>
   </noscript>
@@ -25,7 +47,7 @@
     <div class="soft-card max-w-md p-10 text-center">
       <h1 class="text-lg font-semibold text-[var(--text)]">Something went wrong</h1>
       <p id="state-error-text" class="content-text mt-4 text-sm leading-relaxed"></p>
-      <a href="index.html" class="mt-6 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">Try again</a>
+      <a href="./" class="mt-6 inline-block text-sm font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]">Try again</a>
     </div>
   </div>
 
@@ -115,10 +137,33 @@
     </div>
   </div>
 
-  <!-- Same stack as root admin.html; paths use ../js/ because this file lives in /admin/. -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" crossorigin="anonymous"></script>
+  <!-- Supabase v2 UMD (explicit path so jsDelivr always serves the browser bundle). -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
   <script src="../js/supabase-config.js"></script>
   <script src="../js/supabase-client.js"></script>
-  <script src="../js/admin.js" defer></script>
+  <script src="../js/admin.js"></script>
+  <script>
+    (function () {
+      setTimeout(function () {
+        if (typeof window.__UPWARD_ADMIN_SCRIPT_RAN !== 'undefined') return;
+        var loading = document.getElementById('state-loading');
+        if (!loading || loading.hidden) return;
+        var cfg = document.getElementById('state-config');
+        var login = document.getElementById('state-login');
+        var dash = document.getElementById('state-dashboard');
+        var err = document.getElementById('state-error');
+        var msg = document.getElementById('state-error-text');
+        if (msg) {
+          msg.textContent =
+            '../js/admin.js did not run. In DevTools → Network, check for 404 on admin.js. Deploy the js/ folder and hard-refresh.';
+        }
+        if (loading) loading.hidden = true;
+        if (cfg) cfg.hidden = true;
+        if (login) login.hidden = true;
+        if (dash) dash.hidden = true;
+        if (err) err.hidden = false;
+      }, 2500);
+    })();
+  </script>
 </body>
 </html>
