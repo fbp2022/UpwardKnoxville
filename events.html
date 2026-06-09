@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <meta name="theme-color" content="#1f2937">
+  <meta name="msapplication-TileColor" content="#1f2937">
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme-init.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Events | Upward Knoxville</title>
+  <meta name="description" content="Upcoming and recent public events at Upward Knoxville." />
+</head>
+<body class="antialiased">
+  <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
+    <div class="site-header-inner">
+      <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
+        <span>Upward Knoxville</span>
+      </a>
+      <button type="button" id="menuButton" aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] lg:hidden">Menu</button>
+      <nav id="menu" class="site-nav lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none" aria-label="Primary">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-8 lg:text-sm">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="teachings.html">Teachings</a></li>
+          <li><a class="nav-link" href="team.html">Team</a></li>
+          <li><a class="nav-link" aria-current="page" href="events.html">Events</a></li>
+          <li><a class="nav-link" href="updates.html">Updates</a></li>
+          <li><a class="nav-link" href="beliefs.html">Beliefs</a></li>
+          <li class="nav-dropdown" data-nav-dropdown>
+            <div class="nav-dropdown__row">
+              <a class="nav-link nav-dropdown__parent" href="groups.html">Groups</a>
+              <button type="button" class="nav-dropdown__toggle" aria-expanded="false" aria-controls="nav-groups-submenu-events" aria-label="Show or hide Groups pages">
+                <svg class="nav-dropdown__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </div>
+            <ul id="nav-groups-submenu-events" class="nav-dropdown__list" role="list">
+              <li><a class="nav-link nav-dropdown__link" href="groups.html">Groups Overview</a></li>
+              <li><a class="nav-link nav-dropdown__link" href="forge.html">The Forge</a></li>
+              <li><a class="nav-link nav-dropdown__link" href="foundry.html">The Foundry</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" href="connect.html">Stay Connected</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <section class="layout-bleed-x hero-backdrop border-b border-[var(--border)] page-intro">
+      <div class="site-content">
+        <p class="page-eyebrow">Gatherings</p>
+        <h1 class="mt-3 text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-[2.65rem] sm:leading-tight">Events</h1>
+        <p class="content-text mt-6 text-lg leading-relaxed">Public events from Upward Knoxville. Upcoming first, then recent highlights.</p>
+      </div>
+    </section>
+
+    <section class="site-container mt-stack-gap space-y-12">
+      <div>
+        <h2 class="section-heading">Upcoming</h2>
+        <div id="events-upcoming" class="mt-6 flex flex-col gap-4"></div>
+      </div>
+      <div>
+        <h2 class="section-heading">Past</h2>
+        <div id="events-past" class="mt-6 flex flex-col gap-4"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-surface site-footer border-t border-[var(--border)]" data-site-footer>
+    <div class="site-container grid gap-10 md:grid-cols-3 md:gap-12">
+      <div>
+        <div class="flex items-center gap-3 font-semibold text-[var(--text)]">
+          <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo brand-logo--sm" />
+          <span>Upward Knoxville</span>
+        </div>
+        <p class="content-text mt-3 text-sm leading-relaxed">Verse-by-verse Bible teaching and simple fellowship in Knoxville.</p>
+        <p class="mt-2 text-sm text-[var(--muted)]">5930 Lyons View Pike, Knoxville, TN 37919</p>
+      </div>
+      <nav class="space-y-2 text-sm" aria-label="Quick links">
+        <a class="block nav-link" href="index.html">Home</a>
+        <a class="block nav-link" href="teachings.html">Teachings</a>
+        <a class="block nav-link" href="team.html">Team</a>
+        <a class="block nav-link" href="events.html">Events</a>
+        <a class="block nav-link" href="updates.html">Updates</a>
+        <a class="block nav-link" href="connect.html">Stay Connected</a>
+      </nav>
+      <div class="space-y-2 text-sm">
+        <a class="footer-youtube nav-link" href="https://youtube.com/@upwardknoxville" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a class="block nav-link" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>
+      </div>
+    </div>
+    <div class="site-footer-rule text-sm text-[var(--muted)]">
+      <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="js/supabase-config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      function esc(s) {
+        if (s == null) return '';
+        var d = document.createElement('div');
+        d.textContent = String(s);
+        return d.innerHTML;
+      }
+      function rowHtml(ev) {
+        var start = ev.starts_at ? new Date(ev.starts_at) : null;
+        var end = ev.ends_at ? new Date(ev.ends_at) : null;
+        var ds =
+          start && !isNaN(start.getTime())
+            ? start.toLocaleString(undefined, { dateStyle: 'full', timeStyle: ev.all_day ? undefined : 'short' })
+            : '';
+        var range =
+          end && !isNaN(end.getTime()) && !ev.all_day
+            ? ' · ends ' + end.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
+            : '';
+        return (
+          '<article class="soft-card soft-card--pad">' +
+          '<p class="text-xs font-medium uppercase tracking-wide text-[var(--muted)]">' +
+          esc(ds) +
+          esc(range) +
+          (ev.all_day ? ' · All day' : '') +
+          '</p>' +
+          '<h3 class="mt-2 text-lg font-semibold text-[var(--text)]">' +
+          esc(ev.title) +
+          '</h3>' +
+          (ev.location ? '<p class="content-text mt-1 text-sm">' + esc(ev.location) + '</p>' : '') +
+          (ev.description
+            ? '<p class="content-text mt-3 text-sm leading-relaxed">' + esc(ev.description) + '</p>'
+            : '') +
+          '</article>'
+        );
+      }
+      async function run() {
+        var up = document.getElementById('events-upcoming');
+        var past = document.getElementById('events-past');
+        if (!up || !past || !window.UpwardSupabase || !window.UpwardSupabase.isSupabaseConfigured()) {
+          if (up) up.innerHTML = '<p class="content-text text-sm">Configuration unavailable.</p>';
+          return;
+        }
+        var client = window.UpwardSupabase.getSupabase();
+        var sel = await client
+          .from('events')
+          .select('*')
+          .eq('show_publicly', true)
+          .order('starts_at', { ascending: true });
+        if (sel.error) {
+          up.innerHTML = '<p class="content-text text-sm">' + esc(sel.error.message) + '</p>';
+          return;
+        }
+        var now = new Date();
+        var rows = sel.data || [];
+        var fut = [];
+        var prev = [];
+        rows.forEach(function (ev) {
+          var t = ev.starts_at ? new Date(ev.starts_at) : null;
+          if (!t || isNaN(t.getTime())) return;
+          if (t >= now) fut.push(ev);
+          else prev.push(ev);
+        });
+        prev.sort(function (a, b) {
+          return new Date(b.starts_at) - new Date(a.starts_at);
+        });
+        prev = prev.slice(0, 12);
+        up.innerHTML = fut.length ? fut.map(rowHtml).join('') : '<p class="content-text text-sm text-[var(--muted)]">No upcoming public events.</p>';
+        past.innerHTML = prev.length ? prev.map(rowHtml).join('') : '<p class="content-text text-sm text-[var(--muted)]">No past public events yet.</p>';
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+      else run();
+    })();
+  </script>
+</body>
+</html>

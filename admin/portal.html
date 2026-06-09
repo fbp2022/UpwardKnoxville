@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" class="min-h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="../theme.css" />
+  <script src="../theme-init.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Full portal | Admin</title>
+</head>
+<body class="min-h-screen antialiased" data-admin-init="pending" data-admin-mode="portal">
+  <script>
+    (function () {
+      window.__UPWARD_ADMIN_LOADING_WATCHDOG = setTimeout(function () {
+        var b = document.body;
+        if (!b || b.getAttribute('data-admin-init') !== 'pending') return;
+        var app = document.getElementById('admin-app');
+        if (app) {
+          app.innerHTML =
+            '<div class="flex min-h-screen flex-col items-center justify-center px-5">' +
+            '<div class="soft-card max-w-md p-6 text-center content-text text-sm leading-relaxed">' +
+            '<p>Admin did not finish starting. Check Network for 404s on js files.</p>' +
+            '<p class="mt-4"><a href="../index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a></p>' +
+            '</div></div>';
+        }
+        b.setAttribute('data-admin-init', 'done');
+      }, 18000);
+    })();
+  </script>
+  <div id="admin-app" class="min-h-screen"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script src="../js/admin-app.js"></script>
+  <script src="../js/admin-dashboard-html.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

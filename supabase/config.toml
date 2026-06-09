@@ -1,0 +1,7 @@
+# https://supabase.com/docs/guides/cli/config
+
+[functions.submit-contact-message]
+# Public contact form calls this with the anon key only (no user JWT).
+# If deploy used JWT verification anyway and you see "Missing authorization header",
+# redeploy with: npx supabase functions deploy submit-contact-message --no-verify-jwt
+verify_jwt = false

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+
+  <meta name="theme-color" content="#1f2937">
+  <meta name="msapplication-TileColor" content="#1f2937">
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme-init.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>About | Upward Knoxville</title>
+</head>
+<body class="antialiased">
+  <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]" role="banner">
+    <div class="site-header-inner">
+      <a href="index.html" class="flex min-w-0 items-center gap-3 font-semibold text-[var(--text)]">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
+        <span>Upward Knoxville</span>
+      </a>
+      <button type="button" id="menuButton" aria-controls="menu" aria-expanded="false" aria-label="Open menu" class="shrink-0 rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--text)] transition hover:bg-[var(--surface-hover)] lg:hidden">Menu</button>
+      <nav id="menu" class="site-nav lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none" aria-label="Primary">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-8 lg:text-sm">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="teachings.html">Teachings</a></li>
+          <li><a class="nav-link" href="updates.html">Updates</a></li>
+          <li><a class="nav-link" href="beliefs.html">Beliefs</a></li>
+          <li class="nav-dropdown" data-nav-dropdown>
+            <div class="nav-dropdown__row">
+              <a class="nav-link nav-dropdown__parent" href="groups.html">Groups</a>
+              <button type="button" class="nav-dropdown__toggle" aria-expanded="false" aria-controls="nav-groups-submenu" aria-label="Show or hide Groups pages">
+                <svg class="nav-dropdown__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </div>
+            <ul id="nav-groups-submenu" class="nav-dropdown__list" role="list">
+              <li><a class="nav-link nav-dropdown__link" href="groups.html">Groups Overview</a></li>
+              <li><a class="nav-link nav-dropdown__link" href="forge.html">The Forge</a></li>
+              <li><a class="nav-link nav-dropdown__link" href="foundry.html">The Foundry</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li><a class="nav-link" aria-current="page" href="about.html">About</a></li>
+          <li><a class="nav-link" href="connect.html">Stay Connected</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="site-main">
+    <section class="site-content page-intro">
+      <h1 class="text-4xl font-semibold tracking-tight text-[var(--text)] sm:text-[2.65rem] sm:leading-tight">The vision for Upward Knoxville</h1>
+    </section>
+
+    <section class="layout-bleed-x site-band border-y border-[var(--border)] bg-[var(--surface)] mt-stack-gap">
+      <div class="site-content">
+        <h2 class="section-heading">Why Upward Exists</h2>
+        <div class="content-text mt-10 space-y-6 text-base leading-relaxed">
+          <p>Upward Knoxville is a Bible-centered fellowship in Knoxville where ordinary believers gather to study the Scriptures together.</p>
+          <p>We teach the Bible verse by verse, chapter by chapter, so that God&rsquo;s Word can speak clearly into our lives. Our desire is to grow in simple faithfulness, praying together, asking honest questions, and encouraging one another in Christ.</p>
+          <p>Everyone is welcome. Whether you are new to the Bible or have walked with Jesus for years, there is a place for you here to listen, learn, and grow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="site-container mt-stack-gap site-grid-2">
+      <article class="soft-card soft-card--pad">
+        <h2 class="text-xl font-semibold text-[var(--text)]">Mission</h2>
+        <p class="content-text mt-6 text-base leading-relaxed">To open the Bible faithfully, verse by verse, and encourage believers to walk with Christ in everyday life.</p>
+      </article>
+      <article class="soft-card soft-card--pad">
+        <h2 class="text-xl font-semibold text-[var(--text)]">Scripture first</h2>
+        <p class="content-text mt-6 text-base leading-relaxed">Teaching and conversation stay tethered to the text, with context, clarity, and humility before the Lord.</p>
+      </article>
+      <article class="soft-card soft-card--pad">
+        <h2 class="text-xl font-semibold text-[var(--text)]">Fellowship</h2>
+        <p class="content-text mt-6 text-base leading-relaxed">Real encouragement, prayer, and patience with one another as we grow, not hype, not pressure.</p>
+      </article>
+      <article class="soft-card soft-card--pad">
+        <h2 class="text-xl font-semibold text-[var(--text)]">Simplicity</h2>
+        <p class="content-text mt-6 text-base leading-relaxed">A calm rhythm: ordinary people, an open Bible, and room for the Spirit to work over time in Knoxville.</p>
+      </article>
+    </section>
+  </main>
+  <footer class="footer-surface site-footer border-t border-[var(--border)]" data-site-footer>
+    <div class="site-container grid gap-10 md:grid-cols-3 md:gap-12">
+      <div>
+        <div class="flex items-center gap-3 font-semibold text-[var(--text)]">
+          <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="" class="brand-logo brand-logo--sm" />
+          <span>Upward Knoxville</span>
+        </div>
+        <p class="content-text mt-3 text-sm leading-relaxed">Verse-by-verse Bible teaching and simple fellowship in Knoxville.</p>
+        <p class="mt-2 text-sm text-[var(--muted)]">5930 Lyons View Pike, Knoxville, TN 37919</p>
+      </div>
+      <nav class="space-y-2 text-sm" aria-label="Quick links">
+        <a class="block nav-link" href="index.html">Home</a>
+        <a class="block nav-link" href="teachings.html">Teachings</a>
+        <a class="block nav-link" href="updates.html">Updates</a>
+        <a class="block nav-link" href="beliefs.html">Beliefs</a>
+        <a class="block nav-link" href="groups.html">Groups</a>
+        <a class="block nav-link" href="forge.html">The Forge</a>
+        <a class="block nav-link" href="foundry.html">The Foundry</a>
+        <a class="block nav-link" href="faq.html">FAQ</a>
+        <a class="block nav-link" href="about.html">About</a>
+        <a class="block nav-link" href="connect.html">Stay Connected</a>
+        <a class="block nav-link" href="what-to-expect.html">What to Expect</a>
+      </nav>
+      <div class="space-y-2 text-sm">
+        <a class="footer-youtube nav-link" href="https://youtube.com/@upwardknoxville" target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+        <a class="block nav-link" href="mailto:connect@upwardknoxville.org">connect@upwardknoxville.org</a>
+        <p class="text-sm text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path.", Psalm 119:105</p>
+      </div>
+    </div>
+    <div class="site-footer-rule text-sm text-[var(--muted)]">
+      <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- Canonical admin entry: this file (repo root). /admin/index.html redirects here. -->
+<html lang="en" class="min-h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <link rel="shortcut icon" href="/images/favicon.ico">
+
+  <meta name="theme-color" content="#1f2937">
+  <meta name="msapplication-TileColor" content="#1f2937">
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme-init.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Admin | Upward Knoxville</title>
+</head>
+<body class="min-h-screen antialiased">
+  <script>
+    (function () {
+      window.__UPWARD_ADMIN_LOADING_WATCHDOG = setTimeout(function () {
+        var b = document.body;
+        if (!b || b.getAttribute('data-admin-init') !== 'pending') return;
+        var app = document.getElementById('admin-app');
+        if (app) {
+          app.innerHTML =
+            '<div class="flex min-h-screen flex-col items-center justify-center px-5">' +
+            '<div class="soft-card max-w-md p-6 text-center content-text text-sm leading-relaxed">' +
+            '<p>Admin did not finish starting. Open DevTools → Network, confirm the latest files are deployed, then reload this page.</p>' +
+            '<p class="mt-4"><a href="index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a></p>' +
+            '</div></div>';
+        }
+        b.setAttribute('data-admin-init', 'done');
+      }, 18000);
+    })();
+  </script>
+  <noscript>
+    <div class="mx-auto max-w-lg p-8 text-center content-text">JavaScript is required to use the admin page.</div>
+  </noscript>
+
+  <div id="admin-app" class="min-h-screen"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/admin-app.js"></script>
+  <script src="js/admin-dashboard-html.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    (function () {
+      setTimeout(function () {
+        if (typeof window.__UPWARD_ADMIN_SCRIPT_RAN !== 'undefined') return;
+        var app = document.getElementById('admin-app');
+        if (app) {
+          app.innerHTML =
+            '<div class="flex min-h-screen flex-col items-center justify-center px-5">' +
+            '<div class="soft-card max-w-md p-6 text-center content-text text-sm leading-relaxed">' +
+            '<p>js/admin.js did not run. Check the Network tab for a 404, deploy the <code class="text-xs">js/</code> folder, and reload.</p>' +
+            '<p class="mt-4"><a href="index.html" class="font-medium text-[var(--accent)] hover:text-[var(--accent-hover)]">← Back to site</a></p>' +
+            '</div></div>';
+        }
+      }, 2500);
+    })();
+  </script>
+</body>
+</html>

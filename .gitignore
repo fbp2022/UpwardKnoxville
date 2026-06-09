@@ -1,0 +1,14 @@
+# Local / secrets
+.env
+.env.*
+!.env.example
+
+# Supabase CLI temp
+supabase/.temp/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
