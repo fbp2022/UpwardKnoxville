@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="theme.css" />
+  <script src="theme-init.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>What to Expect | Upward Knoxville</title>
+</head>
+<body class="antialiased">
+  <header class="header-surface sticky top-0 z-50 border-b border-[var(--border)]">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+      <a href="index.html" class="flex items-center gap-3 font-semibold text-[var(--text)]">
+        <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo" />
+        <span>Upward Knoxville</span>
+      </a>
+      <button id="menuButton" aria-expanded="false" class="rounded-md border border-[var(--border)] px-3 py-2 text-sm font-medium lg:hidden">Menu</button>
+      <nav id="menu" class="lg:static lg:block lg:h-auto lg:w-auto lg:border-0 lg:bg-transparent lg:p-0 lg:opacity-100 lg:visible lg:transform-none">
+        <ul class="flex flex-col gap-4 text-base lg:flex-row lg:items-center lg:gap-7 lg:text-sm">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="about.html">About</a></li>
+          <li><a class="nav-link" href="teachings.html">Teachings</a></li>
+          <li><a class="nav-link" aria-current="page" href="expect.html">What to Expect</a></li>
+          <li><a class="nav-link" href="faq.html">FAQ</a></li>
+          <li><a class="nav-link" href="connect.html">Connect</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main class="px-5 py-14">
+    <section class="mx-auto max-w-4xl">
+      <h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">What to Expect</h1>
+      <p class="mt-5 text-lg leading-8 text-[var(--muted)]">A relaxed and welcoming fellowship centered on Scripture.</p>
+    </section>
+    <section class="mx-auto mt-8 grid max-w-5xl gap-4 md:grid-cols-2">
+      <div class="soft-card p-5 content-text">Bring your Bible, and bring something to take notes with if desired.</div>
+      <div class="soft-card p-5 content-text">Bibles are not provided yet because Upward is new and starting simple.</div>
+      <div class="soft-card p-5 content-text">Verse-by-verse teaching is central, and context is emphasized.</div>
+      <div class="soft-card p-5 content-text">Children and families are welcome.</div>
+      <div class="soft-card p-5 content-text">Childcare is not currently provided, and parents remain responsible for their children.</div>
+      <div class="soft-card p-5 content-text">Mature topics may occasionally be taught; advance communication will be shared when appropriate.</div>
+      <div class="soft-card p-5 content-text">No one is pressured to speak. Questions are welcome.</div>
+      <div class="soft-card p-5 content-text">Teachings will be posted online afterward.</div>
+    </section>
+  </main>
+  <footer class="footer-surface border-t border-[var(--border)] px-5 py-10">
+    <div class="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
+      <div>
+        <div class="flex items-center gap-3 font-semibold">
+          <img src="images/16A3F74D-DB7D-4341-AFA6-CCE3795C512A.png" alt="Upward Knoxville logo" class="brand-logo brand-logo--sm" />
+          <span>Upward Knoxville</span>
+        </div>
+        <p class="content-text mt-3 text-sm">A Scripture-centered fellowship helping people grow in Christ through faithful Bible teaching.</p>
+        <p class="mt-2 text-sm text-[var(--muted)]">Knoxville, Tennessee</p>
+      </div>
+      <div class="space-y-2 text-sm">
+        <a class="block nav-link" href="index.html">Home</a>
+        <a class="block nav-link" href="about.html">About</a>
+        <a class="block nav-link" href="teachings.html">Teachings</a>
+        <a class="block nav-link" href="faq.html">FAQ</a>
+      </div>
+      <div class="space-y-2 text-sm">
+        <a class="block nav-link" href="https://youtube.com/@upwardknoxville" target="_blank" rel="noopener noreferrer">YouTube Channel</a>
+        <p class="text-[var(--muted)]">"Your word is a lamp to my feet and a light to my path." - Psalm 119:105</p>
+      </div>
+    </div>
+    <div class="mx-auto mt-6 max-w-6xl border-t border-[var(--border)] pt-4 text-sm text-[var(--muted)]">&copy; <span id="year"></span> Upward Knoxville</div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
