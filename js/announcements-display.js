@@ -12,9 +12,6 @@ function formatDate(iso) {
   return d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
 }
 
-function upwardApi() {
-  return typeof window !== 'undefined' && window.UpwardSupabase ? window.UpwardSupabase : {};
-}
 
 /**
  * Numeric display_order (never string sort). null/NaN/blank → null bucket
@@ -289,14 +286,8 @@ async function run() {
   const root = document.querySelector('[data-announcements-root]');
   if (!root) return;
 
-  const { getSupabase, isSupabaseConfigured } = upwardApi();
-  if (!isSupabaseConfigured || !isSupabaseConfigured()) {
-    root.innerHTML = renderQuietArticle();
-    return;
-  }
-
-  const supabase = getSupabase ? getSupabase() : null;
-  if (!supabase) {
+  const api = typeof window !== 'undefined' ? window.UpwardApi : null;
+  if (!api) {
     root.innerHTML = renderQuietArticle();
     return;
   }
@@ -304,15 +295,7 @@ async function run() {
   root.innerHTML = renderLoadingArticle();
 
   try {
-    const { data, error } = await supabase
-      .from('announcements')
-      .select('id,title,body,created_at,is_published,display_order')
-      .eq('is_published', true)
-      .order('display_order', { ascending: true })
-      .order('created_at', { ascending: false })
-      .limit(100);
-
-    if (error) throw error;
+    const data = (await api.get('/api/public/announcements')).announcements;
     if (!data || !data.length) {
       root.innerHTML = renderQuietArticle();
       return;

@@ -1,19 +1,14 @@
 /**
- * Stay Connected form: Cloudflare Turnstile + Supabase Edge Function only.
- * No Formspree, no native form POST, no direct Supabase inserts from the browser.
- *
- * If the function returns "Missing authorization header", redeploy with JWT verification off:
- *   npx supabase functions deploy submit-contact-message --no-verify-jwt
- * (Project config should also set verify_jwt = false for this function.)
+ * Stay Connected form: Cloudflare Turnstile + the Upward Worker (/api/connect).
+ * The Worker checks Turnstile, saves the message in D1 and emails connect@upwardknoxville.org.
  */
 (function () {
   'use strict';
 
-  var CONNECT_FORM_BUILD = 'edge-v4';
+  var CONNECT_FORM_BUILD = 'worker-v1';
 
-  /** Pinned so production works even if __UPWARD_SUPABASE_URL__ is missing on a host. */
   var CONTACT_FUNCTION_URL =
-    'https://okgsccnnmocvoddkspoj.supabase.co/functions/v1/submit-contact-message';
+    (typeof window !== 'undefined' && window.UpwardApi ? window.UpwardApi.base : 'https://upward.aviationministries.workers.dev') + '/api/connect';
 
   var TURNSTILE_SITE_KEY = '0x4AAAAAADN7OcqDWcOH1TRM';
   var MIN_MESSAGE_LEN = 10;
@@ -21,12 +16,6 @@
 
   function $(id) {
     return document.getElementById(id);
-  }
-
-  function anonKey() {
-    return typeof window !== 'undefined' && window.__UPWARD_SUPABASE_ANON_KEY__
-      ? String(window.__UPWARD_SUPABASE_ANON_KEY__).trim()
-      : '';
   }
 
   function resetTurnstile() {
@@ -110,17 +99,6 @@
           return;
         }
 
-        var key = anonKey();
-        if (!key) {
-          setStatus(
-            statusEl,
-            'This form is not configured yet. Please try email instead.',
-            true
-          );
-          console.warn('[connect-form] Missing __UPWARD_SUPABASE_ANON_KEY__ (js/supabase-config.js)');
-          return;
-        }
-
         var nameEl = $('connectName');
         var emailEl = $('connectEmail');
         var messageEl = $('connectMessage');
@@ -186,15 +164,11 @@
         try {
           var res = await fetch(CONTACT_FUNCTION_URL, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              apikey: key,
-              Authorization: 'Bearer ' + key,
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyObj),
           });
 
-          console.log('Edge Function response status', res.status);
+          console.log('[connect-form] response status', res.status);
 
           var data = {};
           try {
@@ -204,17 +178,13 @@
             console.warn('[connect-form] Response was not JSON', parseErr);
           }
 
-          console.log('Edge Function JSON response', data);
+          console.log('[connect-form] response', data);
 
           if (!res.ok || !data || data.ok !== true) {
             var errMsg =
               data && typeof data.error === 'string' && data.error
                 ? data.error
                 : 'Something went wrong. Please try again.';
-            if (res.status === 401 && typeof errMsg === 'string' && errMsg.toLowerCase().indexOf('authorization') !== -1) {
-              errMsg +=
-                ' If this persists, redeploy the function with: npx supabase functions deploy submit-contact-message --no-verify-jwt';
-            }
             throw new Error(errMsg);
           }
 

@@ -58,22 +58,12 @@ function renderRow(row) {
   return '<div class="teaching-status-stack">' + blocks.join('') + '</div>';
 }
 
-function upwardApi() {
-  return typeof window !== 'undefined' && window.UpwardSupabase ? window.UpwardSupabase : {};
-}
-
 async function run() {
   const root = document.querySelector('[data-teaching-status-root]');
   if (!root) return;
 
-  const { getSupabase, isSupabaseConfigured } = upwardApi();
-  if (!isSupabaseConfigured || !isSupabaseConfigured()) {
-    root.innerHTML = FALLBACK;
-    return;
-  }
-
-  const supabase = getSupabase ? getSupabase() : null;
-  if (!supabase) {
+  const api = typeof window !== 'undefined' ? window.UpwardApi : null;
+  if (!api) {
     root.innerHTML = FALLBACK;
     return;
   }
@@ -81,14 +71,7 @@ async function run() {
     '<p class="content-text text-sm text-[var(--muted)]" role="status">Loading…</p>';
 
   try {
-    const { data, error } = await supabase
-      .from('teaching_status')
-      .select('*')
-      .order('updated_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (error) throw error;
+    const data = (await api.get('/api/public/teaching-status')).status;
     root.innerHTML = data ? renderRow(data) : FALLBACK;
   } catch {
     root.innerHTML = FALLBACK;
