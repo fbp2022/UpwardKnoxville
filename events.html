@@ -101,9 +101,7 @@
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>
-  <script src="js/supabase-config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
-  <script src="js/supabase-client.js"></script>
+  <script src="js/upward-api.js"></script>
   <script src="script.js"></script>
   <script>
     (function () {
@@ -144,22 +142,19 @@
       async function run() {
         var up = document.getElementById('events-upcoming');
         var past = document.getElementById('events-past');
-        if (!up || !past || !window.UpwardSupabase || !window.UpwardSupabase.isSupabaseConfigured()) {
+        if (!up || !past || !window.UpwardApi) {
           if (up) up.innerHTML = '<p class="content-text text-sm">Configuration unavailable.</p>';
           return;
         }
-        var client = window.UpwardSupabase.getSupabase();
-        var sel = await client
-          .from('events')
-          .select('*')
-          .eq('show_publicly', true)
-          .order('starts_at', { ascending: true });
-        if (sel.error) {
-          up.innerHTML = '<p class="content-text text-sm">' + esc(sel.error.message) + '</p>';
+        var rows;
+        try {
+          rows = (await window.UpwardApi.get('/api/public/events')).events || [];
+        } catch (e) {
+          up.innerHTML = '<p class="content-text text-sm text-[var(--muted)]">Events could not be loaded right now.</p>';
+          past.innerHTML = '';
           return;
         }
         var now = new Date();
-        var rows = sel.data || [];
         var fut = [];
         var prev = [];
         rows.forEach(function (ev) {

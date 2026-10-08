@@ -98,9 +98,7 @@
       <p>&copy; 2026 Upward Knoxville. All rights reserved.</p>
     </div>
   </footer>
-  <script src="js/supabase-config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
-  <script src="js/supabase-client.js"></script>
+  <script src="js/upward-api.js"></script>
   <script src="script.js"></script>
   <script>
     (function () {
@@ -110,12 +108,8 @@
         d.textContent = String(s);
         return d.innerHTML;
       }
-      function card(m, client) {
-        var url = '';
-        if (m.photo_path && client) {
-          var r = client.storage.from('team-photos').getPublicUrl(m.photo_path);
-          url = r && r.data && r.data.publicUrl ? r.data.publicUrl : '';
-        }
+      function card(m) {
+        var url = m.photo_url && /^https:\/\//.test(m.photo_url) ? m.photo_url : '';
         var img = url
           ? '<img src="' + esc(url) + '" alt="" class="mb-4 h-28 w-28 rounded-full object-cover ring-1 ring-[var(--border)]" loading="lazy" />'
           : '';
@@ -134,29 +128,23 @@
       }
       async function run() {
         var root = document.getElementById('public-team-root');
-        if (!root || !window.UpwardSupabase || !window.UpwardSupabase.isSupabaseConfigured()) {
-          if (root) root.innerHTML = '<p class="content-text text-sm">Supabase is not configured for this page.</p>';
+        if (!root || !window.UpwardApi) {
+          if (root) root.innerHTML = '<p class="content-text text-sm">Configuration unavailable.</p>';
           return;
         }
-        var client = window.UpwardSupabase.getSupabase();
-        var sel = await client
-          .from('team_members')
-          .select('id,full_name,public_title,bio,photo_path,visibility_level')
-          .eq('is_active', true)
-          .eq('show_publicly', true)
-          .in('visibility_level', ['leader', 'primary_leader'])
-          .order('full_name', { ascending: true });
-        if (sel.error) {
-          root.innerHTML = '<p class="content-text text-sm text-[var(--muted)]">' + esc(sel.error.message) + '</p>';
+        var rows;
+        try {
+          rows = (await window.UpwardApi.get('/api/public/team')).team || [];
+        } catch (e) {
+          root.innerHTML = '<p class="content-text text-sm text-[var(--muted)]">The team list could not be loaded right now.</p>';
           return;
         }
-        var rows = sel.data || [];
         if (!rows.length) {
           root.innerHTML = '<p class="content-text text-sm text-[var(--muted)]">No public team profiles yet.</p>';
           return;
         }
         root.innerHTML = rows.map(function (m) {
-          return card(m, client);
+          return card(m);
         }).join('');
       }
       if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
