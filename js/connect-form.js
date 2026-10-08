@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  var CONNECT_FORM_BUILD = 'worker-v1';
+  var CONNECT_FORM_BUILD = 'worker-v2';
 
   var CONTACT_FUNCTION_URL =
     (typeof window !== 'undefined' && window.UpwardApi ? window.UpwardApi.base : 'https://upward.aviationministries.workers.dev') + '/api/connect';
@@ -13,6 +13,48 @@
   var TURNSTILE_SITE_KEY = '0x4AAAAAADN7OcqDWcOH1TRM';
   var MIN_MESSAGE_LEN = 10;
   var turnstileWidgetId = null;
+
+  function renderGroups() {
+    var box = $('connectGroups');
+    var list = $('connectGroupsList');
+    if (!box || !list || typeof window === 'undefined' || !window.UpwardApi) return;
+    window.UpwardApi.get('/api/public/groups').then(function (data) {
+      var groups = (data && data.groups) || [];
+      list.textContent = '';
+      if (!groups.length) { box.hidden = true; return; }
+      groups.forEach(function (g) {
+        var label = document.createElement('label');
+        label.className = 'flex cursor-pointer items-start gap-3 rounded-md border border-[var(--border)] bg-[var(--surface)] px-4 py-3';
+        var input = document.createElement('input');
+        input.type = 'checkbox';
+        input.name = 'groupIds';
+        input.value = String(g.id);
+        input.className = 'mt-1 h-4 w-4 shrink-0 accent-[var(--accent)]';
+        var text = document.createElement('span');
+        text.className = 'min-w-0';
+        var title = document.createElement('span');
+        title.className = 'block text-sm font-medium text-[var(--text)]';
+        title.textContent = g.name + (g.kind === 'team' ? ' (team)' : '');
+        text.appendChild(title);
+        if (g.description) {
+          var d = document.createElement('span');
+          d.className = 'mt-0.5 block text-sm leading-relaxed text-[var(--muted)]';
+          d.textContent = g.description;
+          text.appendChild(d);
+        }
+        label.appendChild(input);
+        label.appendChild(text);
+        list.appendChild(label);
+      });
+      box.hidden = false;
+    }).catch(function () { box.hidden = true; });
+  }
+
+  function selectedGroupIds() {
+    return Array.prototype.slice.call(document.querySelectorAll('#connectGroupsList input[name="groupIds"]:checked'))
+      .map(function (el) { return Number(el.value); })
+      .filter(function (n) { return n > 0; });
+  }
 
   function $(id) {
     return document.getElementById(id);
@@ -57,6 +99,8 @@
     var statusEl = $('connectStatus');
     var submitBtn = $('connectSubmitButton');
     if (!form || !statusEl || !submitBtn) return;
+
+    renderGroups();
 
     console.log('[connect-form] Module loaded', CONNECT_FORM_BUILD);
 
@@ -127,6 +171,12 @@
           return;
         }
 
+        var groupIds = selectedGroupIds();
+        if (groupIds.length && !isValidEmail(email)) {
+          setStatus(statusEl, 'Please enter a valid email address to join a group.', true);
+          return;
+        }
+
         if (!addToUpdateList && email && !isValidEmail(email)) {
           setStatus(statusEl, 'Please enter a valid email address.', true);
           return;
@@ -158,6 +208,7 @@
           message: message,
           isPrayerRequest: isPrayerRequest,
           addToUpdateList: addToUpdateList,
+          groupIds: groupIds,
           turnstileToken: token,
         };
 
