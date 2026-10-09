@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t">
+  <title id="t">The Forge — Proverbs 27:17</title>
+  <defs>
+    <path id="top" d="M 28 100 A 72 72 0 0 1 172 100" />
+    <path id="bottom" d="M 18 100 A 82 82 0 0 0 182 100" />
+  </defs>
+  <g fill="none" stroke="#A9834E">
+    <circle cx="100" cy="100" r="96" stroke-width="3" />
+    <circle cx="100" cy="100" r="90" stroke-width="1" />
+    <circle cx="100" cy="100" r="64" stroke-width="1" />
+  </g>
+  <g fill="#A9834E" font-family="Georgia, 'Times New Roman', serif" font-weight="700" text-anchor="middle">
+    <text font-size="15" letter-spacing="4"><textPath href="#top" startOffset="50%">THE FORGE</textPath></text>
+    <text font-size="10.5" letter-spacing="3"><textPath href="#bottom" startOffset="50%">PROVERBS 27:17</textPath></text>
+    <circle cx="23" cy="100" r="2.2" />
+    <circle cx="177" cy="100" r="2.2" />
+  </g>
+  <g transform="translate(100 102)" fill="#A9834E">
+    <path d="M-50 2 C-40 -3 -32 -4 -24 -4 L46 -4 L46 8 L36 8 C30 8 26 12 26 18 L26 24 L38 32 L38 37 L-22 37 L-22 32 L-10 24 L-10 18 C-10 12 -14 9 -20 9 C-32 9 -42 7 -50 2 Z" />
+    <line x1="14" y1="-17" x2="40" y2="-41" stroke="#A9834E" stroke-width="5.5" stroke-linecap="round" />
+    <rect x="-3" y="-22" width="28" height="12" rx="1.5" transform="rotate(48 11 -16)" />
+    <g stroke="#A9834E" stroke-width="2.4" stroke-linecap="round">
+      <line x1="-2" y1="-10" x2="-12" y2="-18" />
+      <line x1="-4" y1="-5" x2="-17" y2="-6" />
+      <line x1="2" y1="-13" x2="-1" y2="-25" />
+    </g>
+  </g>
+</svg>
